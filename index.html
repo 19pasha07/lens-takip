@@ -3,38 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KAMERA LENS SİPARİŞ</title>
+    <title>İPHONE KAMERA LENS</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 0; margin: 0; padding-top: 90px; }
         .container { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
-        h2 { text-align: center; color: #007aff; border-bottom: 2px solid #007aff; padding-bottom: 10px; margin-top: 0; font-size: 20px; }
+        
+        .main-title { text-align: center; color: #007aff; border-bottom: 3px solid #007aff; padding-bottom: 10px; margin-top: 0; font-size: 22px; font-weight: 900; text-transform: uppercase; }
+        .date-subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 15px; font-weight: bold; }
+
         .btn-group { display: flex; gap: 10px; position: fixed; top: 0; left: 0; right: 0; background: rgba(255, 255, 255, 0.95); padding: 15px; border-bottom: 2px solid #007aff; backdrop-filter: blur(10px); z-index: 9999; }
         button { flex: 1; padding: 14px; border: none; border-radius: 10px; font-weight: bold; font-size: 14px; color: white; cursor: pointer; }
         .save-btn { background: #34c759; }
         .reset-btn { background: #ff3b30; }
-        .model-group { margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background: white; }
-        .model-header { background: #007aff; color: white; padding: 12px; font-weight: bold; font-size: 16px; text-align: center; }
+
+        .model-group { margin-bottom: 15px; border: 2px solid #007aff; border-radius: 12px; overflow: hidden; background: white; }
+        .model-header { background: #007aff; color: white; padding: 12px; font-weight: bold; font-size: 18px; text-align: center; }
         .color-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #eee; }
-        input { width: 60px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 16px; }
-        .result-item { background: #e5f9e0; padding: 10px 15px; display: flex; justify-content: space-between; font-weight: bold; color: #1a7e33; }
+        input { width: 65px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; }
+        
+        .result-item { background: #e5f9e0; padding: 12px 15px; display: flex; justify-content: space-between; font-weight: 900; color: #1a7e33; font-size: 18px; border-bottom: 1px solid #c8e6c9; }
+
+        /* Seçim Ekranı (Modal) */
+        .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 30px; border-radius: 20px; text-align: center; width: 80%; max-width: 400px; }
+        .modal-btn { display: block; width: 100%; padding: 20px; margin: 10px 0; border-radius: 15px; font-size: 20px; font-weight: bold; color: white; border: none; }
     </style>
 </head>
 <body>
 
+<div id="selectionModal" class="modal">
+    <div class="modal-content">
+        <h2 style="color:#333; margin-top:0;">LENS TÜRÜ SEÇİN</h2>
+        <button class="modal-btn" style="background:#f39c12;" onclick="finishProcess('TAŞLI')">TAŞLI LENS</button>
+        <button class="modal-btn" style="background:#3498db;" onclick="finishProcess('TAŞSIZ')">TAŞSIZ LENS</button>
+        <button style="background:none; color:#666; border:none; margin-top:10px;" onclick="document.getElementById('selectionModal').style.display='none'">İptal</button>
+    </div>
+</div>
+
 <div class="btn-group" id="controls">
-    <button class="reset-btn" onclick="window.location.reload()">Temizle</button>
-    <button class="save-btn" onclick="generateFinalList()">FOTOĞRAFA DÖNÜŞTÜR</button>
+    <button class="reset-btn" onclick="window.location.reload()">TEMİZLE</button>
+    <button class="save-btn" onclick="showSelection()">RESMİ OLUŞTUR</button>
 </div>
 
 <div class="container" id="app">
-    <div id="captureArea">
-        <h2 id="title">İPHONE KAMERA LENS</h2>
+    <div id="captureArea" style="padding: 15px; background: white;">
+        <h1 class="main-title" id="mainHeader">İPHONE KAMERA LENS</h1>
+        <div class="date-subtitle" id="dateDisplay"></div>
         <div id="list"></div>
     </div>
 </div>
 
 <script>
+    document.getElementById('dateDisplay').innerText = "Tarih: " + new Date().toLocaleDateString('tr-TR');
+
     const models = [
         { m: "iPhone 11", c: ["Beyaz", "Mor", "Sarı", "Siyah", "Yeşil", "Kırmızı"] },
         { m: "iPhone 12 / 12 Mini", c: ["Beyaz", "Mavi", "Siyah", "Yeşil", "Kırmızı"] },
@@ -48,7 +70,7 @@
     ];
 
     const listDiv = document.getElementById('list');
-    models.forEach((item, index) => {
+    models.forEach((item) => {
         let groupDiv = document.createElement('div');
         groupDiv.className = 'model-group';
         let html = `<div class="model-header">${item.m}</div>`;
@@ -59,11 +81,23 @@
         listDiv.appendChild(groupDiv);
     });
 
-    async function generateFinalList() {
+    function showSelection() {
+        const inputs = document.querySelectorAll('.lens-count');
+        let hasOrder = false;
+        inputs.forEach(input => { if (parseInt(input.value) > 0) hasOrder = true; });
+
+        if (!hasOrder) { alert("Lütfen adet girin!"); return; }
+        document.getElementById('selectionModal').style.display = 'flex';
+    }
+
+    async function finishProcess(type) {
+        document.getElementById('selectionModal').style.display = 'none';
+        
+        // Başlığı güncelle
+        document.getElementById('mainHeader').innerText = "İPHONE " + type + " KAMERA LENS";
+
         const inputs = document.querySelectorAll('.lens-count');
         let orders = {};
-        let hasOrder = false;
-
         inputs.forEach(input => {
             const val = parseInt(input.value);
             if (val > 0) {
@@ -71,17 +105,14 @@
                 const color = input.getAttribute('data-color');
                 if (!orders[model]) orders[model] = [];
                 orders[model].push({ color: color, count: val });
-                hasOrder = true;
             }
         });
-
-        if (!hasOrder) { alert("Lütfen adet girin!"); return; }
 
         listDiv.innerHTML = "";
         for (let model in orders) {
             let gDiv = document.createElement('div');
             gDiv.className = 'model-group';
-            let gHtml = `<div class="model-header">${model}</div>`;
+            let gHtml = `<div class="model-header" style="background:#1a7e33; border:none;">${model}</div>`;
             orders[model].forEach(item => {
                 gHtml += `<div class="result-item"><span>${item.color}</span><span>${item.count} ADET</span></div>`;
             });
@@ -90,18 +121,22 @@
         }
 
         document.getElementById('controls').style.display = "none";
-        document.getElementById('title').innerText = "SİPARİŞ LİSTESİ (" + new Date().toLocaleDateString('tr-TR') + ")";
-        document.body.style.paddingTop = "20px";
+        document.body.style.paddingTop = "10px";
 
-        // GÖRÜNTÜYÜ OLUŞTUR
-        const canvas = await html2canvas(document.querySelector("#captureArea"), { backgroundColor: "#f4f4f7", scale: 3 });
+        const canvas = await html2canvas(document.querySelector("#captureArea"), { backgroundColor: "#ffffff", scale: 3 });
         const imgData = canvas.toDataURL("image/png");
         
-        // Yeni bir pencerede görüntüyü aç (İPhone'da üzerine basılı tutup kaydetmek için en garantisi)
         const newWin = window.open("");
-        newWin.document.write(`<img src="${imgData}" style="width:100%; border-radius:10px;">`);
-        newWin.document.write(`<h2 style="text-align:center; font-family:sans-serif;">Resmin üzerine basılı tutup "Fotoğraflara Kaydet" deyin.</h2>`);
-        newWin.document.write(`<button onclick="window.location.reload()" style="width:100%; padding:20px; background:#007aff; color:white; border:none; border-radius:10px; font-weight:bold;">YENİ LİSTE İÇİN GERİ DÖN</button>`);
+        newWin.document.write(`
+            <div style="text-align:center; font-family:sans-serif; padding:10px;">
+                <h2 style="color:#007aff">RESİM HAZIR</h2>
+                <p>Üzerine basılı tutun ve <b>"Fotoğraflara Kaydet"</b> deyin.</p>
+                <img src="${imgData}" style="width:100%; border:2px solid #007aff; border-radius:15px; margin-bottom:20px;">
+                <button onclick="window.location.reload()" style="width:100%; padding:20px; background:#6c5ce7; color:white; border:none; border-radius:15px; font-weight:bold; font-size:20px; display:flex; align-items:center; justify-content:center; gap:10px;">
+                    <span>⬅️</span> YENİ LİSTE İÇİN GERİ DÖN
+                </button>
+            </div>
+        `);
     }
 </script>
 </body>
