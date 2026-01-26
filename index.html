@@ -3,55 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>İPHONE KAMERA LENS</title>
+    <title>İPHONE LENS SİPARİŞ</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f4f4f7; padding: 0; margin: 0; padding-top: 95px; }
+        body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 0; margin: 0; padding-top: 90px; }
         .container { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
-        
-        .main-title { text-align: center; color: #007aff; border-bottom: 3px solid #007aff; padding-bottom: 10px; margin-top: 0; font-size: 22px; font-weight: 900; text-transform: uppercase; }
+        .main-title { text-align: center; color: #007aff; border-bottom: 3px solid #007aff; padding-bottom: 10px; margin: 0 0 10px 0; font-size: 22px; font-weight: 900; }
         .date-subtitle { text-align: center; color: #000; font-size: 16px; margin-bottom: 15px; font-weight: bold; }
-
-        .btn-group { display: flex; gap: 10px; position: fixed; top: 0; left: 0; right: 0; background: rgba(255, 255, 255, 0.98); padding: 15px; border-bottom: 2px solid #007aff; z-index: 9999; }
+        .btn-group { display: flex; gap: 10px; position: fixed; top: 0; left: 0; right: 0; background: white; padding: 15px; border-bottom: 2px solid #007aff; z-index: 9999; }
         button { flex: 1; padding: 14px; border: none; border-radius: 10px; font-weight: bold; font-size: 14px; color: white; cursor: pointer; }
-        .save-btn { background: #007aff; }
+        .save-btn { background: #28a745; } /* Tam Yeşil */
         .reset-btn { background: #ff3b30; }
-
         .model-group { margin-bottom: 15px; border: 2px solid #007aff; border-radius: 12px; overflow: hidden; background: white; }
-        .model-header { background: #007aff; color: white; padding: 12px; font-weight: bold; font-size: 18px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .model-header { background: #007aff; color: white; padding: 12px; font-weight: bold; font-size: 17px; text-align: center; }
         .color-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #eee; }
-        input { width: 65px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; }
-        
-        .result-item { background: #fdfdfd; padding: 12px 15px; display: flex; justify-content: space-between; font-weight: 900; font-size: 19px; border-bottom: 1px solid #eee; }
-
-        /* Seçim Modalı */
-        .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 30px; border-radius: 25px; text-align: center; width: 85%; max-width: 400px; }
-        .modal-btn { display: block; width: 100%; padding: 22px; margin: 15px 0; border-radius: 18px; font-size: 22px; font-weight: bold; border: none; }
-        .btn-tasli { background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #d9d9d9 100%); color: #000; border: 1px solid #ddd; box-shadow: 0 0 15px rgba(255,255,255,1); animation: parilti 1.5s infinite; }
-        @keyframes parilti { 0% { box-shadow: 0 0 5px rgba(255,255,255,1); } 50% { box-shadow: 0 0 20px rgba(255,255,255,1); } 100% { box-shadow: 0 0 5px rgba(255,255,255,1); } }
-        .btn-tassiz { background: #1c1c1e; color: white; }
+        .color-info { display: flex; align-items: center; gap: 10px; }
+        .color-dot { width: 18px; height: 18px; border-radius: 50%; border: 1px solid #ddd; }
+        .white-dot { background: #ffffff; box-shadow: 0 0 3px #888; } /* Beyaz için belirginleştirme */
+        input { width: 60px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; }
+        .result-item { background: #f9f9f9; padding: 12px 15px; display: flex; justify-content: space-between; font-weight: 900; font-size: 19px; border-bottom: 1px solid #eee; }
+        .save-notice { background: #fff3cd; color: #856404; padding: 10px; border-radius: 10px; margin-bottom: 10px; font-weight: bold; text-align: center; font-size: 14px; }
     </style>
 </head>
 <body>
 
-<div id="selectionModal" class="modal">
-    <div class="modal-content">
-        <h2 style="color:#333; margin-top:0;">LENS MODELİ SEÇİN</h2>
-        <button class="modal-btn btn-tasli" onclick="finishProcess('TAŞLI')">✨ TAŞLI LENS</button>
-        <button class="modal-btn btn-tassiz" onclick="finishProcess('TAŞSIZ')">🌑 TAŞSIZ LENS</button>
-        <button style="background:none; color:#666; border:none; margin-top:10px;" onclick="document.getElementById('selectionModal').style.display='none'">Vazgeç</button>
-    </div>
-</div>
-
 <div class="btn-group" id="controls">
     <button class="reset-btn" onclick="window.location.reload()">TEMİZLE</button>
-    <button class="save-btn" onclick="showSelection()">LİSTELE VE OLUŞTUR</button>
+    <button class="save-btn" onclick="finishProcess()">LİSTELE VE OLUŞTUR</button>
 </div>
 
 <div class="container" id="app">
     <div id="captureArea" style="padding: 15px; background: white;">
-        <h1 class="main-title" id="mainHeader">İPHONE KAMERA LENS</h1>
+        <h1 class="main-title">İPHONE KAMERA LENS</h1>
         <div class="date-subtitle" id="dateDisplay"></div>
         <div id="list"></div>
     </div>
@@ -60,95 +43,96 @@
 <script>
     document.getElementById('dateDisplay').innerText = "Tarih: " + new Date().toLocaleDateString('tr-TR');
 
-    const colorStyles = {
-        "Beyaz": "#f0f0f0", "Mor": "#8e84ad", "Sarı": "#f9d023", "Siyah": "#1c1c1e", "Yeşil": "#2e473b", "Kırmızı": "#a50011",
+    const colorMap = {
+        "Beyaz": "#ffffff", "Siyah": "#1c1c1e", "Mor": "#b2a2d3", "Sarı": "#f9d023", "Yeşil": "#2e473b", "Kırmızı": "#a50011",
         "Mavi": "#2c5d7d", "Gece Yarısı": "#191f28", "Pembe": "#fb9fbc", "Yıldız Işığı": "#faf7f2", "Altın": "#e3d0b1",
         "Gümüş": "#e2e4e1", "Derin Mor": "#594f63", "Beyaz Titanyum": "#f2f1ed", "Mavi Titanyum": "#3b445a",
-        "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b", "Turkuaz": "#43c5cc", "Ultramarin": "#5057d0", "Çöl Titanyumu": "#bba48b", "Uzay Siyahı": "#1c1c1e"
+        "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b", "Turkuaz": "#43c5cc", "Ultramarin": "#5057d0", "Çöl Titanyumu": "#bba48b"
     };
 
     const models = [
-        { m: "iPhone 11", icon: "📱", c: ["Beyaz", "Mor", "Sarı", "Siyah", "Yeşil", "Kırmızı"] },
-        { m: "iPhone 12 / 12 Mini", icon: "📱", c: ["Beyaz", "Mavi", "Siyah", "Yeşil", "Kırmızı"] },
-        { m: "iPhone 13 / 13 Mini", icon: "📱", c: ["Gece Yarısı", "Mavi", "Pembe", "Yıldız Işığı"] },
-        { m: "iPhone 14 / 14 Plus", icon: "📱", c: ["Gece Yarısı", "Mavi", "Mor", "Yıldız Işığı"] },
-        { m: "iPhone 14 Pro / Max", icon: "📸", c: ["Altın", "Derin Mor", "Gümüş", "Uzay Siyahı"] },
-        { m: "iPhone 15 / 15 Plus", icon: "📱", c: ["Siyah", "Mavi", "Yeşil", "Sarı", "Pembe"] },
-        { m: "iPhone 15 Pro / Max", icon: "📸", c: ["Beyaz Titanyum", "Mavi Titanyum", "Natürel Titanyum", "Siyah Titanyum"] },
-        { m: "iPhone 16 / 16 Plus", icon: "📱", c: ["Siyah", "Beyaz", "Pembe", "Turkuaz", "Ultramarin"] },
-        { m: "iPhone 16 Pro / Max", icon: "📸", c: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Çöl Titanyumu"] }
+        { m: "iPhone 11", c: ["Siyah", "Beyaz", "Mor", "Sarı", "Yeşil", "Kırmızı"] },
+        { m: "iPhone 12 / 12 Mini", c: ["Siyah", "Beyaz", "Mavi", "Yeşil", "Kırmızı"] },
+        { m: "iPhone 13 / 13 Mini", c: ["Gece Yarısı", "Yıldız Işığı", "Mavi", "Pembe"] },
+        { m: "iPhone 14 / 14 Plus", c: ["Gece Yarısı", "Yıldız Işığı", "Mavi", "Mor"] },
+        { m: "iPhone 14 Pro / 14 Pro Max", c: ["Uzay Siyahı", "Derin Mor", "Altın", "Gümüş"] },
+        { m: "iPhone 15 / 15 Plus", c: ["Siyah", "Mavi", "Yeşil", "Sarı", "Pembe"] },
+        { m: "iPhone 15 Pro / 15 Pro Max", c: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Mavi Titanyum"] },
+        { m: "iPhone 16 / 16 Plus", c: ["Siyah", "Beyaz", "Pembe", "Turkuaz", "Ultramarin"] },
+        { m: "iPhone 16 Pro / 16 Pro Max", c: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Çöl Titanyumu"] },
+        { m: "iPhone 17 / 17 Plus", c: ["Siyah", "Gümüş", "Titanyum", "Mavi"] },
+        { m: "iPhone 17 Pro / 17 Pro Max", c: ["Koyu Titanyum", "Beyaz Titanyum", "Doğal Titanyum", "Yeni Renk"] }
     ];
 
     const listDiv = document.getElementById('list');
     models.forEach((item) => {
         let groupDiv = document.createElement('div');
         groupDiv.className = 'model-group';
-        let html = `<div class="model-header"><span>${item.icon}</span> ${item.m}</div>`;
+        let html = `<div class="model-header">${item.m}</div>`;
         item.c.forEach(color => {
-            let textColor = colorStyles[color] || "#000";
-            let shadow = (color === "Beyaz" || color === "Yıldız Işığı" || color === "Gümüş") ? "text-shadow: 0 0 2px #ccc;" : "";
-            html += `<div class="color-row"><span style="color:${textColor}; font-weight:bold; ${shadow}">${color}</span><input type="number" class="lens-count" data-model="${item.m}" data-icon="${item.icon}" data-color="${color}" data-style="${textColor}" data-shadow="${shadow}" placeholder="0"></div>`;
+            let code = colorMap[color] || "#555";
+            let dotClass = color === "Beyaz" || color === "Yıldız Işığı" ? "color-dot white-dot" : "color-dot";
+            let textShadow = color === "Beyaz" ? "text-shadow: 0 0 1px #888;" : "";
+            html += `<div class="color-row">
+                <div class="color-info">
+                    <div class="${dotClass}" style="background:${code}"></div>
+                    <span style="color:${code}; font-weight:bold; ${textShadow}">${color}</span>
+                </div>
+                <input type="number" class="lens-count" data-model="${item.m}" data-color="${color}" data-code="${code}" placeholder="0">
+            </div>`;
         });
         groupDiv.innerHTML = html;
         listDiv.appendChild(groupDiv);
     });
 
-    function showSelection() {
-        const inputs = document.querySelectorAll('.lens-count');
-        let hasOrder = false;
-        inputs.forEach(input => { if (parseInt(input.value) > 0) hasOrder = true; });
-        if (!hasOrder) { alert("Adet girmediniz!"); return; }
-        document.getElementById('selectionModal').style.display = 'flex';
-    }
-
-    async function finishProcess(type) {
-        document.getElementById('selectionModal').style.display = 'none';
-        document.getElementById('mainHeader').innerText = "İPHONE " + type + " KAMERA LENS";
-
+    async function finishProcess() {
         const inputs = document.querySelectorAll('.lens-count');
         let orders = {};
+        let hasOrder = false;
+
         inputs.forEach(input => {
             const val = parseInt(input.value);
             if (val > 0) {
                 const model = input.getAttribute('data-model');
-                const icon = input.getAttribute('data-icon');
-                const color = input.getAttribute('data-color');
-                const style = input.getAttribute('data-style');
-                const shadow = input.getAttribute('data-shadow');
-                if (!orders[model]) orders[model] = { icon: icon, items: [] };
-                orders[model].items.push({ color: color, count: val, style: style, shadow: shadow });
+                if (!orders[model]) orders[model] = [];
+                orders[model].push({ color: input.getAttribute('data-color'), count: val, code: input.getAttribute('data-code') });
+                hasOrder = true;
             }
         });
+
+        if (!hasOrder) return alert("Lütfen adet giriniz!");
 
         listDiv.innerHTML = "";
         for (let model in orders) {
             let gDiv = document.createElement('div');
             gDiv.className = 'model-group';
-            gDiv.style.borderColor = "#007aff";
-            let gHtml = `<div class="model-header" style="background:#007aff"><span>${orders[model].icon}</span> ${model}</div>`;
-            orders[model].items.forEach(item => {
-                gHtml += `<div class="result-item"><span style="color:${item.style}; ${item.shadow}">${item.color}</span><span>${item.count} ADET</span></div>`;
+            let gHtml = `<div class="model-header">${model}</div>`;
+            orders[model].forEach(item => {
+                let textShadow = item.color === "Beyaz" ? "text-shadow: 0 0 1px #888;" : "";
+                gHtml += `<div class="result-item">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div class="color-dot" style="background:${item.code}; ${item.color==='Beyaz'?'box-shadow:0 0 3px #888;':''}"></div>
+                        <span style="color:${item.code}; ${textShadow}">${item.color}</span>
+                    </div>
+                    <span>${item.count} ADET</span>
+                </div>`;
             });
             gDiv.innerHTML = gHtml;
             listDiv.appendChild(gDiv);
         }
 
         document.getElementById('controls').style.display = "none";
-        document.body.style.paddingTop = "10px";
-
-        const canvas = await html2canvas(document.querySelector("#captureArea"), { backgroundColor: "#ffffff", scale: 3 });
+        const canvas = await html2canvas(document.querySelector("#captureArea"), { scale: 3 });
         const imgData = canvas.toDataURL("image/png");
         
-        const newWin = window.open("");
-        newWin.document.write(`
-            <div style="text-align:center; font-family:-apple-system, sans-serif; padding:15px; background:#f4f4f7; min-height:100vh;">
-                <h2 style="color:#007aff; font-size:24px;">LİSTE HAZIR!</h2>
-                <img src="${imgData}" style="width:100%; border:3px solid #007aff; border-radius:20px; box-shadow:0 8px 20px rgba(0,0,0,0.15);">
-                <button onclick="window.location.reload()" style="width:100%; margin-top:30px; padding:24px; background:#1c1c1e; color:white; border:none; border-radius:18px; font-weight:900; font-size:26px; display:flex; align-items:center; justify-content:center; gap:15px; box-shadow: 0 5px 20px rgba(0,0,0,0.3);">
-                    <span>⬅️</span> ANA SAYFAYA DÖN
+        document.body.innerHTML = `
+            <div style="text-align:center; padding:15px; background:#f4f4f7; min-height:100vh;">
+                <div class="save-notice">⚠️ Resme basılı tutup "Fotoğraflara Kaydet" deyin.</div>
+                <img src="${imgData}" style="width:100%; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.2);">
+                <button onclick="window.location.reload()" style="width:100%; margin-top:20px; padding:25px; background:#1c1c1e; color:white; border-radius:15px; font-weight:900; font-size:26px;">
+                    ⬅️ ANA SAYFAYA DÖN
                 </button>
-            </div>
-        `);
+            </div>`;
     }
 </script>
 </body>
