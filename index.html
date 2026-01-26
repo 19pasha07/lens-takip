@@ -6,15 +6,30 @@
     <title>LENS SİPARİŞ</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 15px; margin: 0; }
+        body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 15px; margin: 0; padding-bottom: 100px; } /* Butonlar için boşluk */
         .container { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
         h2 { text-align: center; color: #007aff; border-bottom: 2px solid #007aff; padding-bottom: 10px; margin-top: 0; }
         .model-group { margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background: white; }
         .model-header { background: #007aff; color: white; padding: 12px; font-weight: bold; font-size: 16px; text-align: center; }
         .color-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #eee; }
         input { width: 60px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 16px; }
-        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-        button { flex: 1; padding: 16px; border: none; border-radius: 12px; font-weight: bold; font-size: 15px; color: white; cursor: pointer; }
+        
+        /* SABİT BUTONLAR BURADA */
+        .btn-group { 
+            display: flex; 
+            gap: 10px; 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            background: rgba(244, 244, 247, 0.9); 
+            padding: 15px; 
+            border-top: 1px solid #ddd;
+            backdrop-filter: blur(10px); /* iPhone stili hafif şeffaf */
+            z-index: 1000;
+        }
+        
+        button { flex: 1; padding: 16px; border: none; border-radius: 12px; font-weight: bold; font-size: 15px; color: white; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .save-btn { background: #34c759; }
         .reset-btn { background: #ff3b30; }
         .result-item { background: #e5f9e0; padding: 10px 15px; display: flex; justify-content: space-between; font-weight: bold; color: #1a7e33; }
@@ -27,9 +42,10 @@
         <h2 id="title">İPHONE LENS LİSTESİ</h2>
         <div id="list"></div>
     </div>
+    
     <div class="btn-group" id="controls">
-        <button class="save-btn" onclick="generateFinalList()">Resmi Hazırla ve Kaydet</button>
         <button class="reset-btn" onclick="window.location.reload()">Temizle</button>
+        <button class="save-btn" onclick="generateFinalList()">Resmi Hazırla ve Kaydet</button>
     </div>
 </div>
 
@@ -50,7 +66,6 @@
     models.forEach((item, index) => {
         let groupDiv = document.createElement('div');
         groupDiv.className = 'model-group';
-        groupDiv.id = 'group-' + index;
         let html = `<div class="model-header">${item.m}</div>`;
         item.c.forEach(color => {
             html += `<div class="color-row"><span>${color}</span><input type="number" class="lens-count" data-model="${item.m}" data-color="${color}" placeholder="0"></div>`;
@@ -76,11 +91,10 @@
         });
 
         if (!hasOrder) {
-            alert("Lütfen en az bir adet girin!");
+            alert("Lütfen adet girin!");
             return;
         }
 
-        // EKRANI TEMİZLE VE SADECE SEÇİLENLERİ YAZ
         listDiv.innerHTML = "";
         for (let model in orders) {
             let gDiv = document.createElement('div');
@@ -95,15 +109,13 @@
 
         document.getElementById('controls').style.display = "none";
         document.getElementById('title').innerText = "SİPARİŞ LİSTESİ";
+        document.body.style.paddingBottom = "0"; // Resim alırken boşluğu kapat
 
-        // RESME DÖNÜŞTÜR
         const canvas = await html2canvas(document.querySelector("#captureArea"), { backgroundColor: "#f4f4f7", scale: 2 });
         const link = document.createElement('a');
         link.download = 'siparis.png';
         link.href = canvas.toDataURL();
         link.click();
-        
-        alert("Resim hazırlandı! Galeriye inmezse ekran görüntüsü alabilirsiniz.");
     }
 </script>
 </body>
