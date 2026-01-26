@@ -6,58 +6,42 @@
     <title>İPHONE KAMERA LENS</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f0f0f2; padding: 0; margin: 0; padding-top: 100px; }
-        .container { background: white; padding: 15px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+        body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 0; margin: 0; padding-top: 90px; }
+        .container { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
         
-        /* BAŞLIK ALANI - SARI ÇİZGİ YERİNE DAHA ŞIK GRİ/SİYAH */
-        .main-title { text-align: center; color: #1c1c1e; border-bottom: 4px solid #1c1c1e; padding-bottom: 10px; margin-top: 0; font-size: 24px; font-weight: 900; }
-        .date-subtitle { text-align: center; color: #000; font-size: 16px; margin-top: 10px; font-weight: bold; }
+        .main-title { text-align: center; color: #007aff; border-bottom: 3px solid #007aff; padding-bottom: 10px; margin: 0 0 10px 0; font-size: 22px; font-weight: 900; }
+        .date-subtitle { text-align: center; color: #000; font-size: 16px; margin-bottom: 15px; font-weight: bold; }
 
-        .btn-group { display: flex; gap: 10px; position: fixed; top: 0; left: 0; right: 0; background: white; padding: 20px; border-bottom: 1px solid #ddd; z-index: 9999; }
-        button { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: 900; font-size: 14px; cursor: pointer; }
-        .save-btn { background: #007aff; color: white; }
-        .reset-btn { background: #ff3b30; color: white; }
+        .btn-group { display: flex; gap: 10px; position: fixed; top: 0; left: 0; right: 0; background: white; padding: 15px; border-bottom: 2px solid #007aff; z-index: 9999; }
+        button { flex: 1; padding: 14px; border: none; border-radius: 10px; font-weight: bold; font-size: 14px; color: white; cursor: pointer; }
+        
+        /* İstediğin Buton Rengi Değişimi */
+        .save-btn { background: #34c759; } 
+        .reset-btn { background: #ff3b30; }
 
-        /* MODEL GRUPLARI - DAHA PREMİUM KOYU GRİ */
-        .model-group { margin-bottom: 20px; border: 1px solid #d1d1d6; border-radius: 15px; overflow: hidden; background: white; }
-        .model-header { background: #3a3a3c; color: white; padding: 14px; font-weight: bold; font-size: 19px; text-align: center; }
+        .model-group { margin-bottom: 15px; border: 2px solid #007aff; border-radius: 12px; overflow: hidden; background: white; }
+        .model-header { background: #007aff; color: white; padding: 12px; font-weight: bold; font-size: 18px; text-align: center; }
         
-        .color-row { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid #f2f2f7; }
-        .color-info { display: flex; align-items: center; gap: 12px; flex-grow: 1; }
+        .color-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #eee; }
+        .color-info { display: flex; align-items: center; gap: 10px; }
         
-        /* RENK İKONU - TELEFON PNG GİBİ DURAN DAİRELER */
-        .color-circle { width: 24px; height: 24px; border-radius: 50%; border: 1px solid #ddd; box-shadow: inset 0 0 5px rgba(0,0,0,0.1); }
+        /* Renk İkonu */
+        .color-dot { width: 18px; height: 18px; border-radius: 50%; border: 1px solid #ccc; }
         
-        .color-name { font-weight: bold; font-size: 16px; }
-        input { width: 70px; padding: 10px; border: 2px solid #e5e5ea; border-radius: 10px; text-align: center; font-size: 18px; font-weight: 900; }
-        
-        /* SONUÇ EKRANI */
-        .result-item { padding: 15px; display: flex; align-items: center; justify-content: space-between; font-weight: 900; font-size: 20px; border-bottom: 1px solid #eee; }
-
-        /* MODAL */
-        .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 30px; border-radius: 30px; text-align: center; width: 80%; }
-        .modal-btn { display: block; width: 100%; padding: 20px; margin: 15px 0; border-radius: 20px; font-size: 22px; font-weight: bold; border: none; }
+        input { width: 65px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; }
+        .result-item { background: #f9f9f9; padding: 12px 15px; display: flex; justify-content: space-between; font-weight: 900; font-size: 19px; border-bottom: 1px solid #eee; }
     </style>
 </head>
 <body>
 
-<div id="selectionModal" class="modal">
-    <div class="modal-content">
-        <h2 style="margin-top:0;">LENS TİPİ?</h2>
-        <button class="modal-btn" style="background:#f2f2f7; color:#000; border:2px solid #007aff;" onclick="finishProcess('TAŞLI')">✨ TAŞLI LENS</button>
-        <button class="modal-btn" style="background:#1c1c1e; color:#white;" onclick="finishProcess('TAŞSIZ')">🌑 TAŞSIZ LENS</button>
-    </div>
-</div>
-
 <div class="btn-group" id="controls">
     <button class="reset-btn" onclick="window.location.reload()">TEMİZLE</button>
-    <button class="save-btn" onclick="showSelection()">LİSTELE VE OLUŞTUR</button>
+    <button class="save-btn" onclick="finishProcess()">LİSTELE VE OLUŞTUR</button>
 </div>
 
 <div class="container" id="app">
-    <div id="captureArea" style="padding: 20px; background: white;">
-        <h1 class="main-title" id="mainHeader">İPHONE KAMERA LENS</h1>
+    <div id="captureArea" style="padding: 15px; background: white;">
+        <h1 class="main-title">İPHONE KAMERA LENS</h1>
         <div class="date-subtitle" id="dateDisplay"></div>
         <div id="list"></div>
     </div>
@@ -66,11 +50,11 @@
 <script>
     document.getElementById('dateDisplay').innerText = "Tarih: " + new Date().toLocaleDateString('tr-TR');
 
-    const colorData = {
-        "Beyaz": "#ffffff", "Mor": "#b2a2d3", "Sarı": "#f9d023", "Siyah": "#1c1c1e", "Yeşil": "#2e473b", "Kırmızı": "#a50011",
-        "Mavi": "#2c5d7d", "Gece Yarısı": "#191f28", "Pembe": "#fb9fbc", "Yıldız Işığı": "#faf7f2", "Altın": "#e3d0b1",
-        "Gümüş": "#e2e4e1", "Derin Mor": "#594f63", "Beyaz Titanyum": "#f2f1ed", "Mavi Titanyum": "#3b445a",
-        "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b", "Turkuaz": "#43c5cc", "Ultramarin": "#5057d0", "Çöl Titanyumu": "#bba48b", "Uzay Siyahı": "#1c1c1e"
+    const colorMap = {
+        "Beyaz": "#ffffff", "Mor": "#a29bfe", "Sarı": "#f1c40f", "Siyah": "#2d3436", "Yeşil": "#26ae60", "Kırmızı": "#d63031",
+        "Mavi": "#0984e3", "Gece Yarısı": "#2c3e50", "Pembe": "#fd79a8", "Yıldız Işığı": "#f5f5f5", "Altın": "#f1c40f",
+        "Gümüş": "#bdc3c7", "Derin Mor": "#6c5ce7", "Beyaz Titanyum": "#f2f1ed", "Mavi Titanyum": "#3b445a",
+        "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b", "Turkuaz": "#00cec9", "Ultramarin": "#5057d0", "Çöl Titanyumu": "#bba48b"
     };
 
     const models = [
@@ -86,46 +70,45 @@
         groupDiv.className = 'model-group';
         let html = `<div class="model-header">${item.m}</div>`;
         item.c.forEach(color => {
-            let code = colorData[color] || "#000";
-            html += `
-                <div class="color-row">
-                    <div class="color-info">
-                        <div class="color-circle" style="background:${code}"></div>
-                        <span class="color-name" style="color:${code}">${color}</span>
-                    </div>
-                    <input type="number" class="lens-count" data-model="${item.m}" data-color="${color}" data-code="${code}" placeholder="0">
-                </div>`;
+            let code = colorMap[color] || "#000";
+            html += `<div class="color-row">
+                <div class="color-info">
+                    <div class="color-dot" style="background:${code}"></div>
+                    <span style="color:${code}; font-weight:bold;">${color}</span>
+                </div>
+                <input type="number" class="lens-count" data-model="${item.m}" data-color="${color}" data-code="${code}" placeholder="0">
+            </div>`;
         });
         groupDiv.innerHTML = html;
         listDiv.appendChild(groupDiv);
     });
 
-    function showSelection() { document.getElementById('selectionModal').style.display = 'flex'; }
-
-    async function finishProcess(type) {
-        document.getElementById('selectionModal').style.display = 'none';
-        document.getElementById('mainHeader').innerText = "İPHONE " + type + " KAMERA LENS";
-        
+    async function finishProcess() {
         const inputs = document.querySelectorAll('.lens-count');
         let orders = {};
+        let hasOrder = false;
+
         inputs.forEach(input => {
             const val = parseInt(input.value);
             if (val > 0) {
                 const model = input.getAttribute('data-model');
                 if (!orders[model]) orders[model] = [];
                 orders[model].push({ color: input.getAttribute('data-color'), count: val, code: input.getAttribute('data-code') });
+                hasOrder = true;
             }
         });
+
+        if (!hasOrder) return alert("Adet girin!");
 
         listDiv.innerHTML = "";
         for (let model in orders) {
             let gDiv = document.createElement('div');
             gDiv.className = 'model-group';
-            let gHtml = `<div class="model-header" style="background:#1c1c1e">${model}</div>`;
+            let gHtml = `<div class="model-header">${model}</div>`;
             orders[model].forEach(item => {
                 gHtml += `<div class="result-item">
                     <div style="display:flex; align-items:center; gap:10px;">
-                        <div class="color-circle" style="background:${item.code}"></div>
+                        <div class="color-dot" style="background:${item.code}"></div>
                         <span style="color:${item.code}">${item.color}</span>
                     </div>
                     <span>${item.count} ADET</span>
@@ -140,9 +123,11 @@
         const imgData = canvas.toDataURL("image/png");
         
         document.body.innerHTML = `
-            <div style="text-align:center; padding:20px;">
-                <img src="${imgData}" style="width:100%; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.2);">
-                <button onclick="window.location.reload()" style="width:100%; margin-top:20px; padding:25px; background:#1c1c1e; color:white; border-radius:20px; font-size:26px; font-weight:900;">⬅️ ANA SAYFAYA DÖN</button>
+            <div style="text-align:center; padding:15px; background:#f4f4f7; min-height:100vh;">
+                <img src="${imgData}" style="width:100%; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.2);">
+                <button onclick="window.location.reload()" style="width:100%; margin-top:20px; padding:25px; background:#1c1c1e; color:white; border-radius:15px; font-weight:900; font-size:26px;">
+                    ⬅️ ANA SAYFAYA DÖN
+                </button>
             </div>`;
     }
 </script>
