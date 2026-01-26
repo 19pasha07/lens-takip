@@ -8,18 +8,19 @@
     <style>
         body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 15px; margin: 0; }
         .container { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
-        h2 { text-align: center; color: #007aff; border-bottom: 2px solid #007aff; padding-bottom: 10px; }
-        .model-group { margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; }
-        .model-header { background: #007aff; color: white; padding: 10px; font-weight: bold; }
-        .color-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid #eee; }
-        input { width: 50px; padding: 8px; border: 1px solid #ccc; border-radius: 5px; text-align: center; font-size: 16px; }
-        .btn-group { display: flex; gap: 10px; margin-top: 20px; position: sticky; bottom: 15px; }
-        button { flex: 1; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: white; }
+        h2 { text-align: center; color: #007aff; border-bottom: 2px solid #007aff; padding-bottom: 10px; margin-top: 0; }
+        .model-group { margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background: white; }
+        .model-header { background: #007aff; color: white; padding: 12px; font-weight: bold; font-size: 16px; }
+        .color-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #eee; }
+        .color-row:last-child { border-bottom: none; }
+        input { width: 60px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 16px; -webkit-appearance: none; }
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        button { flex: 1; padding: 16px; border: none; border-radius: 12px; font-weight: bold; font-size: 15px; color: white; cursor: pointer; }
         .save-btn { background: #34c759; }
         .reset-btn { background: #ff3b30; }
         .hidden { display: none !important; }
-        #captureArea { background: white; padding: 10px; }
-        .result-row { background: #e5f9e0; font-weight: bold; }
+        .result-row { background: #e5f9e0 !important; font-weight: bold; border: none !important; }
+        .result-text { color: #1a7e33; font-size: 16px; }
     </style>
 </head>
 <body>
@@ -30,61 +31,86 @@
         <div id="list"></div>
     </div>
 
-    <div class="btn-group">
-        <button class="save-btn" onclick="takeSnapshot()">Resmi Galeriye Kaydet</button>
+    <div class="btn-group" id="controls">
+        <button class="save-btn" onclick="takeSnapshot()">Resmi Hazırla ve Kaydet</button>
         <button class="reset-btn" onclick="window.location.reload()">Temizle</button>
     </div>
 </div>
 
 <script>
     const models = [
-        { m: "iPhone 11", c: ["Beyaz", "Mor", "Sarı", "Siyah", "Yeşil"] },
-        { m: "iPhone 12 / 12 Mini", c: ["Beyaz", "Kırmızı", "Mavi", "Siyah", "Yeşil"] },
-        { m: "iPhone 13 / 13 Mini", c: ["Gece Yarısı", "Mavi", "Pembe", "Yıldız Işığı"] },
+        { m: "iPhone 11", c: ["Beyaz", "Mor", "Sarı", "Siyah", "Yeşil", "Kırmızı"] },
+        { m: "iPhone 12 / 12 Mini", c: ["Beyaz", "Mavi", "Siyah", "Yeşil", "Kırmızı", "Mor"] },
+        { m: "iPhone 13 / 13 Mini", c: ["Gece Yarısı", "Mavi", "Pembe", "Yıldız Işığı", "Yeşil"] },
+        { m: "iPhone 14 / 14 Plus", c: ["Gece Yarısı", "Mavi", "Mor", "Yıldız Işığı", "Sarı"] },
         { m: "iPhone 14 Pro / Max", c: ["Altın", "Derin Mor", "Gümüş", "Uzay Siyahı"] },
-        { m: "iPhone 15 Pro / Max", c: ["Beyaz Titanyum", "Natürel Titanyum", "Siyah Titanyum"] },
-        { m: "iPhone 16 Pro / Max", c: ["Beyaz Titanyum", "Çöl Titanyumu", "Natürel Titanyum"] }
+        { m: "iPhone 15 / 15 Plus", c: ["Mavi", "Pembe", "Sarı", "Siyah", "Yeşil"] },
+        { m: "iPhone 15 Pro / Max", c: ["Beyaz Titanyum", "Mavi Titanyum", "Natürel Titanyum", "Siyah Titanyum"] },
+        { m: "iPhone 16 / 16 Plus", c: ["Beyaz", "Pembe", "Siyah", "Turkuaz", "Ultramarin"] },
+        { m: "iPhone 16 Pro / Max", c: ["Beyaz Titanyum", "Çöl Titanyumu", "Natürel Titanyum", "Siyah Titanyum"] }
     ];
 
     const listDiv = document.getElementById('list');
     models.forEach(item => {
-        let div = document.createElement('div');
-        div.className = 'model-group';
+        let groupDiv = document.createElement('div');
+        groupDiv.className = 'model-group';
         let html = `<div class="model-header">${item.m}</div>`;
         item.c.forEach(color => {
-            html += `<div class="color-row"><span>${color}</span><input type="number" placeholder="0"></div>`;
+            html += `<div class="color-row">
+                        <span>${color}</span>
+                        <input type="number" class="lens-input" placeholder="0" min="0">
+                     </div>`;
         });
-        div.innerHTML = html;
-        listDiv.appendChild(div);
+        groupDiv.innerHTML = html;
+        listDiv.appendChild(groupDiv);
     });
 
     async function takeSnapshot() {
-        const rows = document.querySelectorAll('.color-row');
-        let hasData = false;
-        rows.forEach(row => {
-            const val = row.querySelector('input').value;
-            if (val > 0) {
-                hasData = true;
-                row.classList.add('result-row');
-                row.querySelector('input').style.border = "none";
-                row.querySelector('input').style.background = "transparent";
-            } else {
-                row.classList.add('hidden');
+        const groups = document.querySelectorAll('.model-group');
+        let totalItems = 0;
+
+        groups.forEach(group => {
+            const rows = group.querySelectorAll('.color-row');
+            let groupHasValue = false;
+
+            rows.forEach(row => {
+                const input = row.querySelector('input');
+                const val = parseInt(input.value);
+                if (val > 0) {
+                    groupHasValue = true;
+                    totalItems++;
+                    row.classList.add('result-row');
+                    input.parentElement.innerHTML = `<span>${row.querySelector('span').innerText}</span><span class="result-text">${val} ADET</span>`;
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+
+            if (!groupHasValue) {
+                group.classList.add('hidden');
             }
         });
 
-        if (!hasData) return alert("Lütfen adet girin!");
+        if (totalItems === 0) {
+            alert("Lütfen en az bir adet girin!");
+            window.location.reload();
+            return;
+        }
 
-        document.querySelector('.btn-group').classList.add('hidden');
+        document.getElementById('controls').classList.add('hidden');
         document.getElementById('title').innerText = "SİPARİŞ LİSTESİ";
 
-        const canvas = await html2canvas(document.querySelector("#captureArea"));
-        const link = document.createElement('a');
-        link.download = 'siparis-listesi.png';
-        link.href = canvas.toDataURL();
-        link.click();
+        const canvas = await html2canvas(document.querySelector("#captureArea"), {
+            backgroundColor: "#f4f4f7",
+            scale: 2
+        });
         
-        setTimeout(() => window.location.reload(), 3000);
+        const link = document.createElement('a');
+        link.download = 'siparis-' + new Date().getTime() + '.png';
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+
+        alert("Resim oluşturuldu. Eğer otomatik inmezse ekran görüntüsü alabilirsiniz.");
     }
 </script>
 </body>
