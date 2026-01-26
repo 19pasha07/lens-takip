@@ -10,7 +10,7 @@
         .container { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
         
         .main-title { text-align: center; color: #007aff; border-bottom: 3px solid #007aff; padding-bottom: 10px; margin-top: 0; font-size: 22px; font-weight: 900; text-transform: uppercase; }
-        .date-subtitle { text-align: center; color: #000; font-size: 15px; margin-bottom: 15px; font-weight: bold; }
+        .date-subtitle { text-align: center; color: #000; font-size: 16px; margin-bottom: 15px; font-weight: bold; }
 
         .btn-group { display: flex; gap: 10px; position: fixed; top: 0; left: 0; right: 0; background: rgba(255, 255, 255, 0.95); padding: 15px; border-bottom: 2px solid #007aff; backdrop-filter: blur(10px); z-index: 9999; }
         button { flex: 1; padding: 14px; border: none; border-radius: 10px; font-weight: bold; font-size: 14px; color: white; cursor: pointer; }
@@ -22,22 +22,17 @@
         .color-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #eee; }
         input { width: 65px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; }
         
-        .result-item { background: #e5f9e0; padding: 12px 15px; display: flex; justify-content: space-between; font-weight: 900; font-size: 18px; border-bottom: 1px solid #c8e6c9; }
+        /* Liste sonucu öğeleri */
+        .result-item { background: #fdfdfd; padding: 12px 15px; display: flex; justify-content: space-between; font-weight: 900; font-size: 19px; border-bottom: 1px solid #eee; }
+        .result-item:last-child { border-bottom: none; }
 
-        /* Seçim Ekranı */
+        /* Seçim Modalı */
         .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; }
         .modal-content { background: white; padding: 30px; border-radius: 25px; text-align: center; width: 85%; max-width: 400px; }
-        
-        .btn-tasli { 
-            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #d9d9d9 100%);
-            color: #000;
-            border: 2px solid #fff;
-            box-shadow: 0 0 15px rgba(255,255,255,1);
-            animation: parilti 1.5s infinite;
-        }
+        .modal-btn { display: block; width: 100%; padding: 22px; margin: 15px 0; border-radius: 18px; font-size: 22px; font-weight: bold; border: none; }
+        .btn-tasli { background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #d9d9d9 100%); color: #000; border: 2px solid #fff; box-shadow: 0 0 15px rgba(255,255,255,1); animation: parilti 1.5s infinite; }
         @keyframes parilti { 0% { box-shadow: 0 0 5px rgba(255,255,255,1); } 50% { box-shadow: 0 0 25px rgba(255,255,255,1); transform: scale(1.02); } 100% { box-shadow: 0 0 5px rgba(255,255,255,1); } }
         .btn-tassiz { background: #1c1c1e; color: white; }
-        .modal-btn { display: block; width: 100%; padding: 22px; margin: 15px 0; border-radius: 18px; font-size: 22px; font-weight: bold; border: none; }
     </style>
 </head>
 <body>
@@ -67,28 +62,11 @@
 <script>
     document.getElementById('dateDisplay').innerText = "Tarih: " + new Date().toLocaleDateString('tr-TR');
 
-    // Apple'ın Gerçek Renk Kodları (HEX)
     const colorStyles = {
-        "Beyaz": "#FFFFFF", 
-        "Mor": "#7358a5", 
-        "Sarı": "#f9d023", 
-        "Siyah": "#1c1c1e", 
-        "Yeşil": "#304c3c", 
-        "Kırmızı": "#a50011",
-        "Mavi": "#215e7c",
-        "Gece Yarısı": "#191f28",
-        "Pembe": "#fae3e3",
-        "Yıldız Işığı": "#faf7f2",
-        "Altın": "#e3d0b1",
-        "Gümüş": "#e2e4e1",
-        "Derin Mor": "#4e394f",
-        "Beyaz Titanyum": "#f2f1ed",
-        "Mavi Titanyum": "#3b445a",
-        "Natürel Titanyum": "#bcb6ac",
-        "Siyah Titanyum": "#3d3d3b",
-        "Turkuaz": "#43c5cc",
-        "Ultramarin": "#5057d0",
-        "Çöl Titanyumu": "#bba48b"
+        "Beyaz": "#FFFFFF", "Mor": "#7358a5", "Sarı": "#f9d023", "Siyah": "#1c1c1e", "Yeşil": "#304c3c", "Kırmızı": "#a50011",
+        "Mavi": "#215e7c", "Gece Yarısı": "#191f28", "Pembe": "#fb9fbc", "Yıldız Işığı": "#faf7f2", "Altın": "#e3d0b1",
+        "Gümüş": "#e2e4e1", "Derin Mor": "#4e394f", "Beyaz Titanyum": "#f2f1ed", "Mavi Titanyum": "#3b445a",
+        "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b", "Turkuaz": "#43c5cc", "Ultramarin": "#5057d0", "Çöl Titanyumu": "#bba48b"
     };
 
     const models = [
@@ -110,8 +88,7 @@
         let html = `<div class="model-header">${item.m}</div>`;
         item.c.forEach(color => {
             let textColor = colorStyles[color] || "#000";
-            // Beyaz kelimesi için özel gölge (arka planda belli olsun diye)
-            let shadow = (color === "Beyaz" || color === "Yıldız Işığı" || color === "Beyaz Titanyum") ? "text-shadow: 0 0 2px #aaa;" : "";
+            let shadow = (color === "Beyaz" || color === "Yıldız Işığı") ? "text-shadow: 0 0 2px #aaa;" : "";
             html += `<div class="color-row"><span style="color:${textColor}; font-weight:bold; ${shadow}">${color}</span><input type="number" class="lens-count" data-model="${item.m}" data-color="${color}" data-style="${textColor}" data-shadow="${shadow}" placeholder="0"></div>`;
         });
         groupDiv.innerHTML = html;
@@ -148,7 +125,8 @@
         for (let model in orders) {
             let gDiv = document.createElement('div');
             gDiv.className = 'model-group';
-            let gHtml = `<div class="model-header" style="background:#1a7e33">${model}</div>`;
+            gDiv.style.borderColor = "#007aff"; // Artık yeşil değil, mavi
+            let gHtml = `<div class="model-header" style="background:#007aff">${model}</div>`;
             orders[model].forEach(item => {
                 gHtml += `<div class="result-item"><span style="color:${item.style}; ${item.shadow}">${item.color}</span><span>${item.count} ADET</span></div>`;
             });
@@ -164,12 +142,14 @@
         
         const newWin = window.open("");
         newWin.document.write(`
-            <div style="text-align:center; font-family:sans-serif; padding:10px; background:#f4f4f7; min-height:100vh;">
-                <h2 style="color:#007aff">RESİM HAZIR!</h2>
-                <img src="${imgData}" style="width:100%; border:3px solid #007aff; border-radius:20px;">
-                <button onclick="window.location.reload()" style="width:100%; margin-top:20px; padding:22px; background:#2ed573; color:white; border:none; border-radius:18px; font-weight:bold; font-size:20px; display:flex; align-items:center; justify-content:center; gap:15px;">
-                    <span>⬅️</span> ANA SAYFAYA DÖN
+            <div style="text-align:center; font-family:-apple-system, sans-serif; padding:15px; background:#f4f4f7; min-height:100vh;">
+                <h2 style="color:#007aff; font-size:24px;">İŞLEM TAMAM!</h2>
+                <p style="font-size:16px;">Resme basılı tutup <b>"Fotoğraflara Kaydet"</b> deyin.</p>
+                <img src="${imgData}" style="width:100%; border:3px solid #007aff; border-radius:20px; box-shadow:0 8px 20px rgba(0,0,0,0.15);">
+                <button onclick="window.location.reload()" style="width:100%; margin-top:25px; padding:24px; background:#1c1c1e; color:white; border:none; border-radius:18px; font-weight:900; font-size:22px; display:flex; align-items:center; justify-content:center; gap:15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                    <span style="font-size:28px;">⬅️</span> ANA SAYFAYA DÖN
                 </button>
+                <div style="height:50px;"></div>
             </div>
         `);
     }
