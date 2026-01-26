@@ -9,17 +9,16 @@
         body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 15px; margin: 0; }
         .container { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
         h2 { text-align: center; color: #007aff; border-bottom: 2px solid #007aff; padding-bottom: 10px; margin-top: 0; }
-        .model-group { margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background: white; }
+        .model-group { margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background: white; display: block; }
         .model-header { background: #007aff; color: white; padding: 12px; font-weight: bold; font-size: 16px; }
         .color-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #eee; }
-        .color-row:last-child { border-bottom: none; }
-        input { width: 60px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 16px; -webkit-appearance: none; }
+        input { width: 60px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 16px; }
         .btn-group { display: flex; gap: 10px; margin-top: 20px; }
         button { flex: 1; padding: 16px; border: none; border-radius: 12px; font-weight: bold; font-size: 15px; color: white; cursor: pointer; }
         .save-btn { background: #34c759; }
         .reset-btn { background: #ff3b30; }
         .hidden { display: none !important; }
-        .result-row { background: #e5f9e0 !important; font-weight: bold; border: none !important; }
+        .result-row { background: #e5f9e0 !important; font-weight: bold; }
         .result-text { color: #1a7e33; font-size: 16px; }
     </style>
 </head>
@@ -30,7 +29,6 @@
         <h2 id="title">İPHONE LENS LİSTESİ</h2>
         <div id="list"></div>
     </div>
-
     <div class="btn-group" id="controls">
         <button class="save-btn" onclick="takeSnapshot()">Resmi Hazırla ve Kaydet</button>
         <button class="reset-btn" onclick="window.location.reload()">Temizle</button>
@@ -40,13 +38,10 @@
 <script>
     const models = [
         { m: "iPhone 11", c: ["Beyaz", "Mor", "Sarı", "Siyah", "Yeşil", "Kırmızı"] },
-        { m: "iPhone 12 / 12 Mini", c: ["Beyaz", "Mavi", "Siyah", "Yeşil", "Kırmızı", "Mor"] },
-        { m: "iPhone 13 / 13 Mini", c: ["Gece Yarısı", "Mavi", "Pembe", "Yıldız Işığı", "Yeşil"] },
-        { m: "iPhone 14 / 14 Plus", c: ["Gece Yarısı", "Mavi", "Mor", "Yıldız Işığı", "Sarı"] },
+        { m: "iPhone 12 / 12 Mini", c: ["Beyaz", "Mavi", "Siyah", "Yeşil", "Kırmızı"] },
+        { m: "iPhone 13 / 13 Mini", c: ["Gece Yarısı", "Mavi", "Pembe", "Yıldız Işığı"] },
         { m: "iPhone 14 Pro / Max", c: ["Altın", "Derin Mor", "Gümüş", "Uzay Siyahı"] },
-        { m: "iPhone 15 / 15 Plus", c: ["Mavi", "Pembe", "Sarı", "Siyah", "Yeşil"] },
         { m: "iPhone 15 Pro / Max", c: ["Beyaz Titanyum", "Mavi Titanyum", "Natürel Titanyum", "Siyah Titanyum"] },
-        { m: "iPhone 16 / 16 Plus", c: ["Beyaz", "Pembe", "Siyah", "Turkuaz", "Ultramarin"] },
         { m: "iPhone 16 Pro / Max", c: ["Beyaz Titanyum", "Çöl Titanyumu", "Natürel Titanyum", "Siyah Titanyum"] }
     ];
 
@@ -56,10 +51,7 @@
         groupDiv.className = 'model-group';
         let html = `<div class="model-header">${item.m}</div>`;
         item.c.forEach(color => {
-            html += `<div class="color-row">
-                        <span>${color}</span>
-                        <input type="number" class="lens-input" placeholder="0" min="0">
-                     </div>`;
+            html += `<div class="color-row"><span>${color}</span><input type="number" placeholder="0"></div>`;
         });
         groupDiv.innerHTML = html;
         listDiv.appendChild(groupDiv);
@@ -71,28 +63,28 @@
 
         groups.forEach(group => {
             const rows = group.querySelectorAll('.color-row');
-            let groupHasValue = false;
+            let hasValueInGroup = false;
 
             rows.forEach(row => {
-                const input = row.querySelector('input');
-                const val = parseInt(input.value);
+                const val = parseInt(row.querySelector('input').value);
                 if (val > 0) {
-                    groupHasValue = true;
+                    hasValueInGroup = true;
                     totalItems++;
                     row.classList.add('result-row');
-                    input.parentElement.innerHTML = `<span>${row.querySelector('span').innerText}</span><span class="result-text">${val} ADET</span>`;
+                    row.innerHTML = `<span>${row.querySelector('span').innerText}</span><span class="result-text">${val} ADET</span>`;
                 } else {
                     row.classList.add('hidden');
                 }
             });
 
-            if (!groupHasValue) {
+            // EĞER GRUPTA HİÇ ADET YOKSA MAVİ BAŞLIĞI KOMPLE SİL
+            if (!hasValueInGroup) {
                 group.classList.add('hidden');
             }
         });
 
         if (totalItems === 0) {
-            alert("Lütfen en az bir adet girin!");
+            alert("Lütfen adet girin!");
             window.location.reload();
             return;
         }
@@ -100,17 +92,11 @@
         document.getElementById('controls').classList.add('hidden');
         document.getElementById('title').innerText = "SİPARİŞ LİSTESİ";
 
-        const canvas = await html2canvas(document.querySelector("#captureArea"), {
-            backgroundColor: "#f4f4f7",
-            scale: 2
-        });
-        
+        const canvas = await html2canvas(document.querySelector("#captureArea"), { backgroundColor: "#f4f4f7", scale: 2 });
         const link = document.createElement('a');
-        link.download = 'siparis-' + new Date().getTime() + '.png';
-        link.href = canvas.toDataURL("image/png");
+        link.download = 'siparis.png';
+        link.href = canvas.toDataURL();
         link.click();
-
-        alert("Resim oluşturuldu. Eğer otomatik inmezse ekran görüntüsü alabilirsiniz.");
     }
 </script>
 </body>
