@@ -3,49 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LENS SİPARİŞ</title>
+    <title>KAMERA LENS SİPARİŞ</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 15px; margin: 0; padding-bottom: 100px; } /* Butonlar için boşluk */
+        body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 0; margin: 0; padding-top: 90px; } /* Üstteki butonlar için boşluk */
         .container { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
-        h2 { text-align: center; color: #007aff; border-bottom: 2px solid #007aff; padding-bottom: 10px; margin-top: 0; }
-        .model-group { margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background: white; }
-        .model-header { background: #007aff; color: white; padding: 12px; font-weight: bold; font-size: 16px; text-align: center; }
-        .color-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #eee; }
-        input { width: 60px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 16px; }
+        h2 { text-align: center; color: #007aff; border-bottom: 2px solid #007aff; padding-bottom: 10px; margin-top: 0; font-size: 20px; }
         
-        /* SABİT BUTONLAR BURADA */
+        /* BUTONLARI EN ÜSTE SABİTLEME */
         .btn-group { 
             display: flex; 
             gap: 10px; 
             position: fixed; 
-            bottom: 0; 
+            top: 0; 
             left: 0; 
             right: 0; 
-            background: rgba(244, 244, 247, 0.9); 
+            background: rgba(255, 255, 255, 0.95); 
             padding: 15px; 
-            border-top: 1px solid #ddd;
-            backdrop-filter: blur(10px); /* iPhone stili hafif şeffaf */
-            z-index: 1000;
+            border-bottom: 2px solid #007aff;
+            backdrop-filter: blur(10px); 
+            z-index: 9999;
         }
         
-        button { flex: 1; padding: 16px; border: none; border-radius: 12px; font-weight: bold; font-size: 15px; color: white; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        button { flex: 1; padding: 14px; border: none; border-radius: 10px; font-weight: bold; font-size: 14px; color: white; cursor: pointer; }
         .save-btn { background: #34c759; }
         .reset-btn { background: #ff3b30; }
+        
+        .model-group { margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background: white; }
+        .model-header { background: #007aff; color: white; padding: 12px; font-weight: bold; font-size: 16px; text-align: center; }
+        .color-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #eee; }
+        input { width: 60px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 16px; }
         .result-item { background: #e5f9e0; padding: 10px 15px; display: flex; justify-content: space-between; font-weight: bold; color: #1a7e33; }
     </style>
 </head>
 <body>
 
+<div class="btn-group" id="controls">
+    <button class="reset-btn" onclick="window.location.reload()">Temizle</button>
+    <button class="save-btn" onclick="generateFinalList()">Resmi Hazırla ve Kaydet</button>
+</div>
+
 <div class="container" id="app">
     <div id="captureArea">
-        <h2 id="title">İPHONE LENS LİSTESİ</h2>
+        <h2 id="title">İPHONE KAMERA LENS</h2>
         <div id="list"></div>
-    </div>
-    
-    <div class="btn-group" id="controls">
-        <button class="reset-btn" onclick="window.location.reload()">Temizle</button>
-        <button class="save-btn" onclick="generateFinalList()">Resmi Hazırla ve Kaydet</button>
     </div>
 </div>
 
@@ -109,7 +110,7 @@
 
         document.getElementById('controls').style.display = "none";
         document.getElementById('title').innerText = "SİPARİŞ LİSTESİ";
-        document.body.style.paddingBottom = "0"; // Resim alırken boşluğu kapat
+        document.body.style.paddingTop = "20px"; // Resim alırken üst boşluğu düzelt
 
         const canvas = await html2canvas(document.querySelector("#captureArea"), { backgroundColor: "#f4f4f7", scale: 2 });
         const link = document.createElement('a');
