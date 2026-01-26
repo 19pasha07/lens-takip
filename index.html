@@ -3,26 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>İPHONE LENS SİPARİŞ</title>
+    <title>İPHONE LENS SİPARİŞ SİSTEMİ</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 0; margin: 0; padding-top: 90px; }
-        .container { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
-        .main-title { text-align: center; color: #007aff; border-bottom: 3px solid #007aff; padding-bottom: 10px; margin: 0 0 10px 0; font-size: 22px; font-weight: 900; }
-        .date-subtitle { text-align: center; color: #000; font-size: 16px; margin-bottom: 15px; font-weight: bold; }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f4f4f7; padding: 0; margin: 0; padding-top: 90px; }
+        .container { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+        .main-title { text-align: center; color: #007aff; border-bottom: 3px solid #007aff; padding-bottom: 10px; margin: 0 0 10px 0; font-size: 24px; font-weight: 900; }
+        .date-subtitle { text-align: center; color: #333; font-size: 16px; margin-bottom: 15px; font-weight: bold; }
+        
         .btn-group { display: flex; gap: 10px; position: fixed; top: 0; left: 0; right: 0; background: white; padding: 15px; border-bottom: 2px solid #007aff; z-index: 9999; }
-        button { flex: 1; padding: 14px; border: none; border-radius: 10px; font-weight: bold; font-size: 14px; color: white; cursor: pointer; }
-        .save-btn { background: #28a745; } /* Tam Yeşil */
+        button { flex: 1; padding: 16px; border: none; border-radius: 12px; font-weight: 900; font-size: 15px; color: white; cursor: pointer; text-transform: uppercase; }
+        .save-btn { background: #28a745; } 
         .reset-btn { background: #ff3b30; }
+
         .model-group { margin-bottom: 15px; border: 2px solid #007aff; border-radius: 12px; overflow: hidden; background: white; }
-        .model-header { background: #007aff; color: white; padding: 12px; font-weight: bold; font-size: 17px; text-align: center; }
+        .model-header { background: #007aff; color: white; padding: 12px; font-weight: bold; font-size: 18px; text-align: center; }
+        
         .color-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #eee; }
-        .color-info { display: flex; align-items: center; gap: 10px; }
-        .color-dot { width: 18px; height: 18px; border-radius: 50%; border: 1px solid #ddd; }
-        .white-dot { background: #ffffff; box-shadow: 0 0 3px #888; } /* Beyaz için belirginleştirme */
-        input { width: 60px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; }
-        .result-item { background: #f9f9f9; padding: 12px 15px; display: flex; justify-content: space-between; font-weight: 900; font-size: 19px; border-bottom: 1px solid #eee; }
-        .save-notice { background: #fff3cd; color: #856404; padding: 10px; border-radius: 10px; margin-bottom: 10px; font-weight: bold; text-align: center; font-size: 14px; }
+        .color-info { display: flex; align-items: center; gap: 12px; }
+        .color-dot { width: 22px; height: 22px; border-radius: 50%; border: 1px solid #ccc; box-shadow: inset 0 0 2px rgba(0,0,0,0.1); }
+        
+        input { width: 70px; padding: 10px; border: 2px solid #ddd; border-radius: 10px; text-align: center; font-size: 20px; font-weight: 900; color: #333; }
+        
+        /* Sonuç Ekranı Stilleri */
+        .save-notice { background: #1c1c1e; color: #ffffff; padding: 15px; border-radius: 12px; margin-bottom: 15px; font-weight: bold; text-align: center; font-size: 16px; line-height: 1.4; }
+        .result-item { background: #f9f9f9; padding: 15px; display: flex; justify-content: space-between; font-weight: 900; font-size: 20px; border-bottom: 1px solid #eee; }
+        
+        /* Beyaz Rengi Belirginleştirme */
+        .white-text { color: #8e8e93; text-shadow: 0 0 1px #ccc; }
     </style>
 </head>
 <body>
@@ -47,7 +55,7 @@
         "Beyaz": "#ffffff", "Siyah": "#1c1c1e", "Mor": "#b2a2d3", "Sarı": "#f9d023", "Yeşil": "#2e473b", "Kırmızı": "#a50011",
         "Mavi": "#2c5d7d", "Gece Yarısı": "#191f28", "Pembe": "#fb9fbc", "Yıldız Işığı": "#faf7f2", "Altın": "#e3d0b1",
         "Gümüş": "#e2e4e1", "Derin Mor": "#594f63", "Beyaz Titanyum": "#f2f1ed", "Mavi Titanyum": "#3b445a",
-        "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b", "Turkuaz": "#43c5cc", "Ultramarin": "#5057d0", "Çöl Titanyumu": "#bba48b"
+        "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b", "Turkuaz": "#43c5cc", "Ultramarin": "#5057d0", "Çöl Titanyumu": "#bba48b", "Titanyum": "#8e8e93"
     };
 
     const models = [
@@ -58,10 +66,10 @@
         { m: "iPhone 14 Pro / 14 Pro Max", c: ["Uzay Siyahı", "Derin Mor", "Altın", "Gümüş"] },
         { m: "iPhone 15 / 15 Plus", c: ["Siyah", "Mavi", "Yeşil", "Sarı", "Pembe"] },
         { m: "iPhone 15 Pro / 15 Pro Max", c: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Mavi Titanyum"] },
-        { m: "iPhone 16 / 16 Plus", c: ["Siyah", "Beyaz", "Pembe", "Turkuaz", "Ultramarin"] },
+        { m: "iPhone 16 / 16 Plus / 16E", c: ["Siyah", "Beyaz", "Pembe", "Turkuaz", "Ultramarin"] },
         { m: "iPhone 16 Pro / 16 Pro Max", c: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Çöl Titanyumu"] },
-        { m: "iPhone 17 / 17 Plus", c: ["Siyah", "Gümüş", "Titanyum", "Mavi"] },
-        { m: "iPhone 17 Pro / 17 Pro Max", c: ["Koyu Titanyum", "Beyaz Titanyum", "Doğal Titanyum", "Yeni Renk"] }
+        { m: "iPhone 17 / 17 Plus / 17 Air", c: ["Siyah", "Gümüş", "Titanyum", "Mavi", "Yeşil"] },
+        { m: "iPhone 17 Pro / 17 Pro Max", c: ["Koyu Titanyum", "Beyaz Titanyum", "Doğal Titanyum", "Siyah Titanyum"] }
     ];
 
     const listDiv = document.getElementById('list');
@@ -71,12 +79,14 @@
         let html = `<div class="model-header">${item.m}</div>`;
         item.c.forEach(color => {
             let code = colorMap[color] || "#555";
-            let dotClass = color === "Beyaz" || color === "Yıldız Işığı" ? "color-dot white-dot" : "color-dot";
-            let textShadow = color === "Beyaz" ? "text-shadow: 0 0 1px #888;" : "";
+            let isWhite = color === "Beyaz" || color === "Yıldız Işığı" || color === "Beyaz Titanyum";
+            let dotStyle = isWhite ? "background:#fff; border:1px solid #aaa; box-shadow:0 0 2px #ccc;" : `background:${code};`;
+            let textStyle = isWhite ? "color:#8e8e93; text-shadow: 0 0 1px #ccc;" : `color:${code};`;
+            
             html += `<div class="color-row">
                 <div class="color-info">
-                    <div class="${dotClass}" style="background:${code}"></div>
-                    <span style="color:${code}; font-weight:bold; ${textShadow}">${color}</span>
+                    <div class="color-dot" style="${dotStyle}"></div>
+                    <span style="font-weight:bold; ${textStyle}">${color}</span>
                 </div>
                 <input type="number" class="lens-count" data-model="${item.m}" data-color="${color}" data-code="${code}" placeholder="0">
             </div>`;
@@ -108,11 +118,14 @@
             gDiv.className = 'model-group';
             let gHtml = `<div class="model-header">${model}</div>`;
             orders[model].forEach(item => {
-                let textShadow = item.color === "Beyaz" ? "text-shadow: 0 0 1px #888;" : "";
+                let isWhite = item.color === "Beyaz" || item.color === "Yıldız Işığı" || item.color === "Beyaz Titanyum";
+                let textStyle = isWhite ? "color:#8e8e93; text-shadow: 0 0 1px #ccc;" : `color:${item.code};`;
+                let dotStyle = isWhite ? "background:#fff; border:1px solid #aaa;" : `background:${item.code};`;
+                
                 gHtml += `<div class="result-item">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <div class="color-dot" style="background:${item.code}; ${item.color==='Beyaz'?'box-shadow:0 0 3px #888;':''}"></div>
-                        <span style="color:${item.code}; ${textShadow}">${item.color}</span>
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <div class="color-dot" style="${dotStyle}"></div>
+                        <span style="${textStyle}">${item.color}</span>
                     </div>
                     <span>${item.count} ADET</span>
                 </div>`;
@@ -122,14 +135,14 @@
         }
 
         document.getElementById('controls').style.display = "none";
-        const canvas = await html2canvas(document.querySelector("#captureArea"), { scale: 3 });
+        const canvas = await html2canvas(document.querySelector("#captureArea"), { scale: 3, useCORS: true });
         const imgData = canvas.toDataURL("image/png");
         
         document.body.innerHTML = `
             <div style="text-align:center; padding:15px; background:#f4f4f7; min-height:100vh;">
-                <div class="save-notice">⚠️ Resme basılı tutup "Fotoğraflara Kaydet" deyin.</div>
-                <img src="${imgData}" style="width:100%; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.2);">
-                <button onclick="window.location.reload()" style="width:100%; margin-top:20px; padding:25px; background:#1c1c1e; color:white; border-radius:15px; font-weight:900; font-size:26px;">
+                <div class="save-notice">📸 İŞLEM TAMAM!<br>Resme basılı tutup "Fotoğraflara Kaydet" deyin.</div>
+                <img src="${imgData}" style="width:100%; border-radius:15px; box-shadow:0 8px 25px rgba(0,0,0,0.3); border:2px solid #007aff;">
+                <button onclick="window.location.reload()" style="width:100%; margin-top:25px; padding:25px; background:#1c1c1e; color:white; border-radius:15px; font-weight:900; font-size:26px; border:none; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
                     ⬅️ ANA SAYFAYA DÖN
                 </button>
             </div>`;
