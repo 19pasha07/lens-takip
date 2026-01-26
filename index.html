@@ -8,26 +8,17 @@
     <style>
         body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 0; margin: 0; padding-top: 90px; }
         .container { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
-        
         .main-title { text-align: center; color: #007aff; border-bottom: 3px solid #007aff; padding-bottom: 10px; margin: 0 0 10px 0; font-size: 22px; font-weight: 900; }
         .date-subtitle { text-align: center; color: #000; font-size: 16px; margin-bottom: 15px; font-weight: bold; }
-
         .btn-group { display: flex; gap: 10px; position: fixed; top: 0; left: 0; right: 0; background: white; padding: 15px; border-bottom: 2px solid #007aff; z-index: 9999; }
         button { flex: 1; padding: 14px; border: none; border-radius: 10px; font-weight: bold; font-size: 14px; color: white; cursor: pointer; }
-        
-        /* İstediğin Buton Rengi Değişimi */
         .save-btn { background: #34c759; } 
         .reset-btn { background: #ff3b30; }
-
         .model-group { margin-bottom: 15px; border: 2px solid #007aff; border-radius: 12px; overflow: hidden; background: white; }
         .model-header { background: #007aff; color: white; padding: 12px; font-weight: bold; font-size: 18px; text-align: center; }
-        
         .color-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #eee; }
         .color-info { display: flex; align-items: center; gap: 10px; }
-        
-        /* Renk İkonu */
         .color-dot { width: 18px; height: 18px; border-radius: 50%; border: 1px solid #ccc; }
-        
         input { width: 65px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; }
         .result-item { background: #f9f9f9; padding: 12px 15px; display: flex; justify-content: space-between; font-weight: 900; font-size: 19px; border-bottom: 1px solid #eee; }
     </style>
@@ -51,17 +42,23 @@
     document.getElementById('dateDisplay').innerText = "Tarih: " + new Date().toLocaleDateString('tr-TR');
 
     const colorMap = {
-        "Beyaz": "#ffffff", "Mor": "#a29bfe", "Sarı": "#f1c40f", "Siyah": "#2d3436", "Yeşil": "#26ae60", "Kırmızı": "#d63031",
-        "Mavi": "#0984e3", "Gece Yarısı": "#2c3e50", "Pembe": "#fd79a8", "Yıldız Işığı": "#f5f5f5", "Altın": "#f1c40f",
-        "Gümüş": "#bdc3c7", "Derin Mor": "#6c5ce7", "Beyaz Titanyum": "#f2f1ed", "Mavi Titanyum": "#3b445a",
-        "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b", "Turkuaz": "#00cec9", "Ultramarin": "#5057d0", "Çöl Titanyumu": "#bba48b"
+        "Beyaz": "#ffffff", "Mor": "#a29bfe", "Sarı": "#f1c40f", "Siyah": "#2d3436", "Yeşil": "#2e473b", "Kırmızı": "#a50011",
+        "Mavi": "#2c5d7d", "Gece Yarısı": "#191f28", "Pembe": "#fb9fbc", "Yıldız Işığı": "#faf7f2", "Altın": "#e3d0b1",
+        "Gümüş": "#e2e4e1", "Derin Mor": "#594f63", "Beyaz Titanyum": "#f2f1ed", "Mavi Titanyum": "#3b445a",
+        "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b", "Turkuaz": "#43c5cc", "Ultramarin": "#5057d0", "Çöl Titanyumu": "#bba48b"
     };
 
     const models = [
         { m: "iPhone 11", c: ["Beyaz", "Mor", "Sarı", "Siyah", "Yeşil", "Kırmızı"] },
+        { m: "iPhone 12 / 12 Mini", c: ["Beyaz", "Mavi", "Siyah", "Yeşil", "Kırmızı"] },
         { m: "iPhone 13 / 13 Mini", c: ["Gece Yarısı", "Mavi", "Pembe", "Yıldız Işığı"] },
+        { m: "iPhone 14 / 14 Plus", c: ["Gece Yarısı", "Mavi", "Mor", "Yıldız Işığı"] },
+        { m: "iPhone 14 Pro / Max", c: ["Altın", "Derin Mor", "Gümüş", "Siyah"] },
+        { m: "iPhone 15 / 15 Plus", c: ["Siyah", "Mavi", "Yeşil", "Sarı", "Pembe"] },
         { m: "iPhone 15 Pro / Max", c: ["Beyaz Titanyum", "Mavi Titanyum", "Natürel Titanyum", "Siyah Titanyum"] },
-        { m: "iPhone 16 Pro / Max", c: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Çöl Titanyumu"] }
+        { m: "iPhone 16 / 16 Plus", c: ["Siyah", "Beyaz", "Pembe", "Turkuaz", "Ultramarin"] },
+        { m: "iPhone 16 Pro / Max", c: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Çöl Titanyumu"] },
+        { m: "iPhone 17 Serisi", c: ["Siyah", "Gümüş", "Titanyum", "Özel Renk"] }
     ];
 
     const listDiv = document.getElementById('list');
@@ -104,7 +101,7 @@
         for (let model in orders) {
             let gDiv = document.createElement('div');
             gDiv.className = 'model-group';
-            let gHtml = `<div class="model-header">${model}</div>`;
+            let gHtml = `<div class="model-header" style="background:#007aff">${model}</div>`;
             orders[model].forEach(item => {
                 gHtml += `<div class="result-item">
                     <div style="display:flex; align-items:center; gap:10px;">
