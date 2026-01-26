@@ -6,29 +6,13 @@
     <title>KAMERA LENS SİPARİŞ</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 0; margin: 0; padding-top: 90px; } /* Üstteki butonlar için boşluk */
+        body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 0; margin: 0; padding-top: 90px; }
         .container { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
         h2 { text-align: center; color: #007aff; border-bottom: 2px solid #007aff; padding-bottom: 10px; margin-top: 0; font-size: 20px; }
-        
-        /* BUTONLARI EN ÜSTE SABİTLEME */
-        .btn-group { 
-            display: flex; 
-            gap: 10px; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            right: 0; 
-            background: rgba(255, 255, 255, 0.95); 
-            padding: 15px; 
-            border-bottom: 2px solid #007aff;
-            backdrop-filter: blur(10px); 
-            z-index: 9999;
-        }
-        
+        .btn-group { display: flex; gap: 10px; position: fixed; top: 0; left: 0; right: 0; background: rgba(255, 255, 255, 0.95); padding: 15px; border-bottom: 2px solid #007aff; backdrop-filter: blur(10px); z-index: 9999; }
         button { flex: 1; padding: 14px; border: none; border-radius: 10px; font-weight: bold; font-size: 14px; color: white; cursor: pointer; }
         .save-btn { background: #34c759; }
         .reset-btn { background: #ff3b30; }
-        
         .model-group { margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background: white; }
         .model-header { background: #007aff; color: white; padding: 12px; font-weight: bold; font-size: 16px; text-align: center; }
         .color-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #eee; }
@@ -40,7 +24,7 @@
 
 <div class="btn-group" id="controls">
     <button class="reset-btn" onclick="window.location.reload()">Temizle</button>
-    <button class="save-btn" onclick="generateFinalList()">Resmi Hazırla ve Kaydet</button>
+    <button class="save-btn" onclick="generateFinalList()">FOTOĞRAFA DÖNÜŞTÜR</button>
 </div>
 
 <div class="container" id="app">
@@ -91,10 +75,7 @@
             }
         });
 
-        if (!hasOrder) {
-            alert("Lütfen adet girin!");
-            return;
-        }
+        if (!hasOrder) { alert("Lütfen adet girin!"); return; }
 
         listDiv.innerHTML = "";
         for (let model in orders) {
@@ -109,14 +90,18 @@
         }
 
         document.getElementById('controls').style.display = "none";
-        document.getElementById('title').innerText = "SİPARİŞ LİSTESİ";
-        document.body.style.paddingTop = "20px"; // Resim alırken üst boşluğu düzelt
+        document.getElementById('title').innerText = "SİPARİŞ LİSTESİ (" + new Date().toLocaleDateString('tr-TR') + ")";
+        document.body.style.paddingTop = "20px";
 
-        const canvas = await html2canvas(document.querySelector("#captureArea"), { backgroundColor: "#f4f4f7", scale: 2 });
-        const link = document.createElement('a');
-        link.download = 'siparis.png';
-        link.href = canvas.toDataURL();
-        link.click();
+        // GÖRÜNTÜYÜ OLUŞTUR
+        const canvas = await html2canvas(document.querySelector("#captureArea"), { backgroundColor: "#f4f4f7", scale: 3 });
+        const imgData = canvas.toDataURL("image/png");
+        
+        // Yeni bir pencerede görüntüyü aç (İPhone'da üzerine basılı tutup kaydetmek için en garantisi)
+        const newWin = window.open("");
+        newWin.document.write(`<img src="${imgData}" style="width:100%; border-radius:10px;">`);
+        newWin.document.write(`<h2 style="text-align:center; font-family:sans-serif;">Resmin üzerine basılı tutup "Fotoğraflara Kaydet" deyin.</h2>`);
+        newWin.document.write(`<button onclick="window.location.reload()" style="width:100%; padding:20px; background:#007aff; color:white; border:none; border-radius:10px; font-weight:bold;">YENİ LİSTE İÇİN GERİ DÖN</button>`);
     }
 </script>
 </body>
