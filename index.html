@@ -6,7 +6,7 @@
     <title>İPHONE KAMERA LENS</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 0; margin: 0; padding-top: 90px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f4f4f7; padding: 0; margin: 0; padding-top: 90px; }
         .container { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
         
         .main-title { text-align: center; color: #007aff; border-bottom: 3px solid #007aff; padding-bottom: 10px; margin-top: 0; font-size: 22px; font-weight: 900; text-transform: uppercase; }
@@ -22,16 +22,13 @@
         .color-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #eee; }
         input { width: 65px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; }
         
-        /* Liste sonucu öğeleri */
         .result-item { background: #fdfdfd; padding: 12px 15px; display: flex; justify-content: space-between; font-weight: 900; font-size: 19px; border-bottom: 1px solid #eee; }
-        .result-item:last-child { border-bottom: none; }
 
         /* Seçim Modalı */
         .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; }
         .modal-content { background: white; padding: 30px; border-radius: 25px; text-align: center; width: 85%; max-width: 400px; }
         .modal-btn { display: block; width: 100%; padding: 22px; margin: 15px 0; border-radius: 18px; font-size: 22px; font-weight: bold; border: none; }
-        .btn-tasli { background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #d9d9d9 100%); color: #000; border: 2px solid #fff; box-shadow: 0 0 15px rgba(255,255,255,1); animation: parilti 1.5s infinite; }
-        @keyframes parilti { 0% { box-shadow: 0 0 5px rgba(255,255,255,1); } 50% { box-shadow: 0 0 25px rgba(255,255,255,1); transform: scale(1.02); } 100% { box-shadow: 0 0 5px rgba(255,255,255,1); } }
+        .btn-tasli { background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #d9d9d9 100%); color: #000; border: 1px solid #ddd; box-shadow: 0 0 15px rgba(255,255,255,1); animation: parilti 1.5s infinite; }
         .btn-tassiz { background: #1c1c1e; color: white; }
     </style>
 </head>
@@ -62,11 +59,28 @@
 <script>
     document.getElementById('dateDisplay').innerText = "Tarih: " + new Date().toLocaleDateString('tr-TR');
 
+    // REVİZE EDİLMİŞ ELİT RENK PALETİ
     const colorStyles = {
-        "Beyaz": "#FFFFFF", "Mor": "#7358a5", "Sarı": "#f9d023", "Siyah": "#1c1c1e", "Yeşil": "#304c3c", "Kırmızı": "#a50011",
-        "Mavi": "#215e7c", "Gece Yarısı": "#191f28", "Pembe": "#fb9fbc", "Yıldız Işığı": "#faf7f2", "Altın": "#e3d0b1",
-        "Gümüş": "#e2e4e1", "Derin Mor": "#4e394f", "Beyaz Titanyum": "#f2f1ed", "Mavi Titanyum": "#3b445a",
-        "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b", "Turkuaz": "#43c5cc", "Ultramarin": "#5057d0", "Çöl Titanyumu": "#bba48b"
+        "Beyaz": "#f9f9f9", 
+        "Mor": "#b2a2d3", // iPhone 11 açık mor
+        "Sarı": "#f9d023",
+        "Siyah": "#1c1c1e",
+        "Yeşil": "#2e473b", // Midnight Green (Çam Yeşili)
+        "Kırmızı": "#a50011",
+        "Mavi": "#2c5d7d", // Pacific Blue tonu
+        "Gece Yarısı": "#191f28",
+        "Pembe": "#fb9fbc",
+        "Yıldız Işığı": "#faf7f2",
+        "Altın": "#e3d0b1",
+        "Gümüş": "#e2e4e1",
+        "Derin Mor": "#594f63", // 14 Pro Deep Purple (Tam tonu bu)
+        "Beyaz Titanyum": "#f2f1ed",
+        "Mavi Titanyum": "#3b445b", // 15 Pro Blue Titanium
+        "Natürel Titanyum": "#bcb6ac",
+        "Siyah Titanyum": "#3d3d3b",
+        "Turkuaz": "#43c5cc",
+        "Ultramarin": "#5057d0",
+        "Çöl Titanyumu": "#bba48b"
     };
 
     const models = [
@@ -88,7 +102,8 @@
         let html = `<div class="model-header">${item.m}</div>`;
         item.c.forEach(color => {
             let textColor = colorStyles[color] || "#000";
-            let shadow = (color === "Beyaz" || color === "Yıldız Işığı") ? "text-shadow: 0 0 2px #aaa;" : "";
+            // Beyaz için gölgeyi koruyoruz ki belli olsun
+            let shadow = (color === "Beyaz" || color === "Yıldız Işığı" || color === "Gümüş") ? "text-shadow: 0 0 2px #ccc;" : "";
             html += `<div class="color-row"><span style="color:${textColor}; font-weight:bold; ${shadow}">${color}</span><input type="number" class="lens-count" data-model="${item.m}" data-color="${color}" data-style="${textColor}" data-shadow="${shadow}" placeholder="0"></div>`;
         });
         groupDiv.innerHTML = html;
@@ -125,7 +140,7 @@
         for (let model in orders) {
             let gDiv = document.createElement('div');
             gDiv.className = 'model-group';
-            gDiv.style.borderColor = "#007aff"; // Artık yeşil değil, mavi
+            gDiv.style.borderColor = "#007aff";
             let gHtml = `<div class="model-header" style="background:#007aff">${model}</div>`;
             orders[model].forEach(item => {
                 gHtml += `<div class="result-item"><span style="color:${item.style}; ${item.shadow}">${item.color}</span><span>${item.count} ADET</span></div>`;
@@ -143,13 +158,12 @@
         const newWin = window.open("");
         newWin.document.write(`
             <div style="text-align:center; font-family:-apple-system, sans-serif; padding:15px; background:#f4f4f7; min-height:100vh;">
-                <h2 style="color:#007aff; font-size:24px;">İŞLEM TAMAM!</h2>
-                <p style="font-size:16px;">Resme basılı tutup <b>"Fotoğraflara Kaydet"</b> deyin.</p>
+                <h2 style="color:#007aff; font-size:24px;">LİSTE OLUŞTURULDU!</h2>
+                <p>Üzerine basılı tutup kaydedin.</p>
                 <img src="${imgData}" style="width:100%; border:3px solid #007aff; border-radius:20px; box-shadow:0 8px 20px rgba(0,0,0,0.15);">
-                <button onclick="window.location.reload()" style="width:100%; margin-top:25px; padding:24px; background:#1c1c1e; color:white; border:none; border-radius:18px; font-weight:900; font-size:22px; display:flex; align-items:center; justify-content:center; gap:15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
-                    <span style="font-size:28px;">⬅️</span> ANA SAYFAYA DÖN
+                <button onclick="window.location.reload()" style="width:100%; margin-top:30px; padding:24px; background:#1c1c1e; color:white; border:none; border-radius:18px; font-weight:900; font-size:24px; display:flex; align-items:center; justify-content:center; gap:15px; cursor:pointer;">
+                    <span style="font-size:30px;">⬅️</span> ANA SAYFAYA DÖN
                 </button>
-                <div style="height:50px;"></div>
             </div>
         `);
     }
