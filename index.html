@@ -51,18 +51,23 @@
         "Beyaz": "#ffffff", "Siyah": "#1c1c1e", "Mor": "#b2a2d3", "Sarı": "#f9d023", "Yeşil": "#2e473b", "Kırmızı": "#a50011",
         "Mavi": "#2c5d7d", "Gece Yarısı": "#191f28", "Pembe": "#fb9fbc", "Yıldız Işığı": "#faf7f2", "Altın": "#e3d0b1",
         "Gümüş": "#e2e4e1", "Derin Mor": "#594f63", "Beyaz Titanyum": "#f2f1ed", "Mavi Titanyum": "#3b445a",
-        "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b", "Turkuaz": "#43c5cc", "Ultramarin": "#5057d0", "Çöl Titanyumu": "#bba48b", "Doğal Titanyum": "#bcb6ac", "Uzay Siyahı": "#1c1c1e"
+        "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b", "Turkuaz": "#43c5cc", "Ultramarin": "#5057d0", 
+        "Çöl Titanyumu": "#bba48b", "Doğal Titanyum": "#bcb6ac", "Uzay Siyahı": "#1c1c1e", "Uzay Grisi": "#535150",
+        "Gece Yeşili": "#4e5851", "Pasifik Mavisi": "#28475c", "Sierra Mavisi": "#9ebbd7", "Ladin Yeşili": "#505c4d"
     };
 
     const models = [
         { m: "iPhone 11", c: ["Siyah", "Beyaz", "Mor", "Sarı", "Yeşil", "Kırmızı"] },
-        { m: "iPhone 12 / 12 Mini", c: ["Siyah", "Beyaz", "Mavi", "Yeşil", "Kırmızı"] },
-        { m: "iPhone 13 / 13 Mini", c: ["Gece Yarısı", "Yıldız Işığı", "Mavi", "Pembe", "Yeşil"] },
-        { m: "iPhone 14 / 14 Plus", c: ["Gece Yarısı", "Yıldız Işığı", "Mavi", "Mor", "Sarı"] },
+        { m: "iPhone 11 Pro / 11 Pro Max", c: ["Gece Yeşili", "Uzay Grisi", "Gümüş", "Altın"] },
+        { m: "iPhone 12 / 12 Mini", c: ["Siyah", "Beyaz", "Mavi", "Yeşil", "Kırmızı", "Mor"] },
+        { m: "iPhone 12 Pro / 12 Pro Max", c: ["Pasifik Mavisi", "Grafit", "Altın", "Gümüş"] },
+        { m: "iPhone 13 / 13 Mini", c: ["Gece Yarısı", "Yıldız Işığı", "Mavi", "Pembe", "Yeşil", "Kırmızı"] },
+        { m: "iPhone 13 Pro / 13 Pro Max", c: ["Sierra Mavisi", "Grafit", "Altın", "Gümüş", "Ladin Yeşili"] },
+        { m: "iPhone 14 / 14 Plus", c: ["Gece Yarısı", "Yıldız Işığı", "Mavi", "Mor", "Sarı", "Kırmızı"] },
         { m: "iPhone 14 Pro / 14 Pro Max", c: ["Uzay Siyahı", "Derin Mor", "Altın", "Gümüş"] },
         { m: "iPhone 15 / 15 Plus", c: ["Siyah", "Mavi", "Yeşil", "Sarı", "Pembe"] },
         { m: "iPhone 15 Pro / 15 Pro Max", c: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Mavi Titanyum"] },
-        { m: "iPhone 16 / 16 Plus (16E)", c: ["Siyah", "Beyaz", "Pembe", "Turkuaz", "Ultramarin"] },
+        { m: "iPhone 16 / 16 Plus / 16E", c: ["Siyah", "Beyaz", "Pembe", "Turkuaz", "Ultramarin"] },
         { m: "iPhone 16 Pro / 16 Pro Max", c: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Çöl Titanyumu"] },
         { m: "iPhone 17 / 17 Plus / 17 Air", c: ["Siyah", "Gümüş", "Titanyum", "Mavi", "Yeşil"] },
         { m: "iPhone 17 Pro / 17 Pro Max", c: ["Koyu Titanyum", "Beyaz Titanyum", "Doğal Titanyum", "Siyah Titanyum"] }
@@ -75,7 +80,7 @@
         let html = `<div class="model-header">${item.m}</div>`;
         item.c.forEach(color => {
             let code = colorMap[color] || "#555";
-            let isWhite = color === "Beyaz" || color === "Yıldız Işığı" || color === "Beyaz Titanyum";
+            let isWhite = color === "Beyaz" || color === "Yıldız Işığı" || color === "Beyaz Titanyum" || color === "Gümüş";
             let dotStyle = isWhite ? "background:#fff; border:1px solid #aaa;" : `background:${code};`;
             let textStyle = isWhite ? "color:#8e8e93; text-shadow: 0 0 1px #ccc;" : `color:${code};`;
             
@@ -114,7 +119,7 @@
             gDiv.className = 'model-group';
             gDiv.innerHTML = `<div class="model-header">${model}</div>`;
             orders[model].forEach(item => {
-                let isWhite = item.color === "Beyaz" || item.color === "Yıldız Işığı" || item.color === "Beyaz Titanyum";
+                let isWhite = item.color === "Beyaz" || item.color === "Yıldız Işığı" || item.color === "Beyaz Titanyum" || item.color === "Gümüş";
                 let textStyle = isWhite ? "color:#8e8e93;" : `color:${item.code};`;
                 let dotStyle = isWhite ? "background:#fff; border:1px solid #aaa;" : `background:${item.code};`;
                 
