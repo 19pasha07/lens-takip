@@ -47,13 +47,16 @@
 <script>
     document.getElementById('dateDisplay').innerText = "Tarih: " + new Date().toLocaleDateString('tr-TR');
 
+    // Apple Orijinal Renk Kodları (Revize Edildi)
     const colorMap = {
-        "Beyaz": "#ffffff", "Siyah": "#1c1c1e", "Mor": "#b2a2d3", "Sarı": "#f9d023", "Yeşil": "#2e473b", "Kırmızı": "#a50011",
-        "Mavi": "#2c5d7d", "Gece Yarısı": "#191f28", "Pembe": "#fb9fbc", "Yıldız Işığı": "#faf7f2", "Altın": "#e3d0b1",
-        "Gümüş": "#e2e4e1", "Derin Mor": "#594f63", "Beyaz Titanyum": "#f2f1ed", "Mavi Titanyum": "#3b445a",
-        "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b", "Turkuaz": "#43c5cc", "Ultramarin": "#5057d0", 
-        "Çöl Titanyumu": "#bba48b", "Doğal Titanyum": "#bcb6ac", "Uzay Siyahı": "#1c1c1e", "Uzay Grisi": "#535150",
-        "Gece Yeşili": "#4e5851", "Pasifik Mavisi": "#28475c", "Sierra Mavisi": "#9ebbd7", "Ladin Yeşili": "#505c4d"
+        "Beyaz": "#f5f5f7", "Siyah": "#1d1d1f", "Mor": "#b8afdb", "Sarı": "#f9e48b", 
+        "Yeşil": "#ade0c1", "Kırmızı": "#e11c2a", "Gece Yarısı": "#191f28", "Yıldız Işığı": "#faf7f2",
+        "Mavi": "#4a7eb3", "Pembe": "#fadde5", "Altın": "#f5e3c8", "Gümüş": "#e2e4e1",
+        "Gece Yeşili": "#4e5851", "Uzay Grisi": "#535150", "Pasifik Mavisi": "#28475c", 
+        "Sierra Mavisi": "#9ebbd7", "Ladin Yeşili": "#505c4d", "Derin Mor": "#594f63",
+        "Uzay Siyahı": "#242323", "Grafit": "#4b4a45", "Turkuaz": "#43c5cc", "Ultramarin": "#5057d0",
+        "Beyaz Titanyum": "#f2f1ed", "Mavi Titanyum": "#3b445a", "Natürel Titanyum": "#bcb6ac", 
+        "Siyah Titanyum": "#3d3d3b", "Çöl Titanyumu": "#bba48b", "Koyu Titanyum": "#353535", "Doğal Titanyum": "#bcb6ac"
     };
 
     const models = [
@@ -80,9 +83,9 @@
         let html = `<div class="model-header">${item.m}</div>`;
         item.c.forEach(color => {
             let code = colorMap[color] || "#555";
-            let isWhite = color === "Beyaz" || color === "Yıldız Işığı" || color === "Beyaz Titanyum" || color === "Gümüş";
-            let dotStyle = isWhite ? "background:#fff; border:1px solid #aaa;" : `background:${code};`;
-            let textStyle = isWhite ? "color:#8e8e93; text-shadow: 0 0 1px #ccc;" : `color:${code};`;
+            let isLight = color === "Beyaz" || color === "Yıldız Işığı" || color === "Gümüş" || color === "Sarı";
+            let dotStyle = `background:${code}; border: 1px solid ${isLight ? '#bbb' : 'transparent'};`;
+            let textStyle = isLight ? "color:#666; text-shadow: 0 0 1px #ccc;" : `color:${code};`;
             
             html += `<div class="color-row">
                 <div class="color-info">
@@ -119,13 +122,12 @@
             gDiv.className = 'model-group';
             gDiv.innerHTML = `<div class="model-header">${model}</div>`;
             orders[model].forEach(item => {
-                let isWhite = item.color === "Beyaz" || item.color === "Yıldız Işığı" || item.color === "Beyaz Titanyum" || item.color === "Gümüş";
-                let textStyle = isWhite ? "color:#8e8e93;" : `color:${item.code};`;
-                let dotStyle = isWhite ? "background:#fff; border:1px solid #aaa;" : `background:${item.code};`;
+                let isLight = item.color === "Beyaz" || item.color === "Yıldız Işığı" || item.color === "Gümüş";
+                let textStyle = isLight ? "color:#666;" : `color:${item.code};`;
                 
                 gDiv.innerHTML += `<div class="result-item">
                     <div style="display:flex; align-items:center; gap:12px;">
-                        <div class="color-dot" style="${dotStyle}"></div>
+                        <div class="color-dot" style="background:${item.code}; border:1px solid #ccc;"></div>
                         <span style="${textStyle}">${item.color}</span>
                     </div>
                     <span>${item.count} ADET</span>
