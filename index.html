@@ -12,7 +12,7 @@
         .date-subtitle { text-align: center; color: #333; font-size: 16px; margin-bottom: 15px; font-weight: bold; }
         
         .btn-group { display: flex; gap: 10px; position: fixed; top: 0; left: 0; right: 0; background: white; padding: 15px; border-bottom: 2px solid #007aff; z-index: 9999; }
-        button { flex: 1; padding: 16px; border: none; border-radius: 12px; font-weight: 900; font-size: 12px; color: white; cursor: pointer; text-transform: uppercase; }
+        button { flex: 1; padding: 16px; border: none; border-radius: 12px; font-weight: 900; font-size: 11px; color: white; cursor: pointer; text-transform: uppercase; }
         .save-btn { background: #28a745; } 
         .reset-btn { background: #ff3b30; }
 
@@ -47,19 +47,13 @@
 <script>
     document.getElementById('dateDisplay').innerText = "Tarih: " + new Date().toLocaleDateString('tr-TR');
 
-    // Apple Orijinal Renk Kodları - GERÇEK RENKLER
     const colorMap = {
-        "Beyaz": "#f5f5f7", "Siyah": "#1d1d1f", "Mor": "#b8afdb", "Sarı": "#f9e48b", 
-        "Yeşil": "#ade0c1", "Kırmızı": "#e11c2a", "Gece Yarısı": "#191f28", "Yıldız Işığı": "#faf7f2",
-        "Mavi": "#4a7eb3", "Pembe": "#fadde5", "Altın": "#f5e3c8", "Gümüş": "#e2e4e1",
-        "Gece Yeşili": "#4e5851", "Uzay Grisi": "#535150", "Pasifik Mavisi": "#28475c", 
-        "Sierra Mavisi": "#9ebbd7", "Ladin Yeşili": "#505c4d", "Derin Mor": "#594f63",
-        "Uzay Siyahı": "#242323", "Grafit": "#4b4a45", 
-        // iPhone 16 Serisi Özel
-        "Teal (Turkuaz)": "#b3d9d6", "Ultramarin": "#5057d0", "16 Pembe": "#f5a7bd",
-        // Titanyum Serisi
-        "Beyaz Titanyum": "#f2f1ed", "Mavi Titanyum": "#3b445a", "Natürel Titanyum": "#bcb6ac", 
-        "Siyah Titanyum": "#3d3d3b", "Çöl Titanyumu": "#bba48b", "Koyu Titanyum": "#353535"
+        "Beyaz": "#f5f5f7", "Siyah": "#1d1d1f", "Mor": "#b8afdb", "Sarı": "#f9e48b", "Yeşil": "#ade0c1", "Kırmızı": "#e11c2a",
+        "Gece Yarısı": "#191f28", "Yıldız Işığı": "#faf7f2", "Mavi": "#4a7eb3", "Pembe": "#fadde5", "Altın": "#f5e3c8", "Gümüş": "#e2e4e1",
+        "Gece Yeşili": "#4e5851", "Uzay Grisi": "#535150", "Pasifik Mavisi": "#28475c", "Grafit": "#4b4a45", "Sierra Mavisi": "#9ebbd7",
+        "Ladin Yeşili": "#505c4d", "Uzay Siyahı": "#242323", "Derin Mor": "#594f63", "Beyaz Titanyum": "#f2f1ed", "Mavi Titanyum": "#3b445a",
+        "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b", "Ultramarin": "#5057d0", "Teal (Turkuaz)": "#b3d9d6", "Çöl Titanyumu": "#bba48b",
+        "Koyu Titanyum": "#353535", "Titanyum": "#8e8e93"
     };
 
     const models = [
@@ -73,7 +67,8 @@
         { m: "iPhone 14 Pro / 14 Pro Max", c: ["Uzay Siyahı", "Derin Mor", "Altın", "Gümüş"] },
         { m: "iPhone 15 / 15 Plus", c: ["Siyah", "Mavi", "Yeşil", "Sarı", "Pembe"] },
         { m: "iPhone 15 Pro / 15 Pro Max", c: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Mavi Titanyum"] },
-        { m: "iPhone 16 / 16 Plus / 16E", c: ["Siyah", "Beyaz", "16 Pembe", "Teal (Turkuaz)", "Ultramarin"] },
+        { m: "iPhone 16 / 16 Plus", c: ["Siyah", "Beyaz", "Pembe", "Teal (Turkuaz)", "Ultramarin"] },
+        { m: "iPhone 16E", c: ["Siyah", "Beyaz"] },
         { m: "iPhone 16 Pro / 16 Pro Max", c: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Çöl Titanyumu"] },
         { m: "iPhone 17 / 17 Plus / 17 Air", c: ["Siyah", "Gümüş", "Titanyum", "Mavi", "Yeşil"] },
         { m: "iPhone 17 Pro / 17 Pro Max", c: ["Koyu Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Siyah Titanyum"] }
@@ -86,14 +81,14 @@
         let html = `<div class="model-header">${item.m}</div>`;
         item.c.forEach(color => {
             let code = colorMap[color] || "#555";
-            let isLight = ["Beyaz", "Yıldız Işığı", "Gümüş", "Sarı", "Beyaz Titanyum"].includes(color);
+            let isLight = ["Beyaz", "Yıldız Işığı", "Gümüş", "Beyaz Titanyum"].includes(color);
             let dotStyle = `background:${code}; border: 1px solid ${isLight ? '#bbb' : 'transparent'};`;
-            let textStyle = isLight ? "color:#666; text-shadow: 0 0 1px #ccc;" : `color:${code};`;
+            let textStyle = isLight ? "color:#8e8e93; text-shadow: 0 0 1px #ccc;" : `color:${code};`;
             
             html += `<div class="color-row">
                 <div class="color-info">
                     <div class="color-dot" style="${dotStyle}"></div>
-                    <span style="font-weight:bold; ${textStyle}">${color.replace('16 ', '')}</span>
+                    <span style="font-weight:bold; ${textStyle}">${color}</span>
                 </div>
                 <input type="number" class="lens-count" data-model="${item.m}" data-color="${color}" data-code="${code}" placeholder="0">
             </div>`;
@@ -106,7 +101,6 @@
         const inputs = document.querySelectorAll('.lens-count');
         let orders = {};
         let hasOrder = false;
-
         inputs.forEach(input => {
             const val = parseInt(input.value);
             if (val > 0) {
@@ -126,12 +120,11 @@
             gDiv.innerHTML = `<div class="model-header">${model}</div>`;
             orders[model].forEach(item => {
                 let isLight = ["Beyaz", "Yıldız Işığı", "Gümüş", "Beyaz Titanyum"].includes(item.color);
-                let textStyle = isLight ? "color:#666;" : `color:${item.code};`;
-                
+                let textStyle = isLight ? "color:#8e8e93;" : `color:${item.code};`;
                 gDiv.innerHTML += `<div class="result-item">
                     <div style="display:flex; align-items:center; gap:12px;">
                         <div class="color-dot" style="background:${item.code}; border:1px solid #ccc;"></div>
-                        <span style="${textStyle}">${item.color.replace('16 ', '')}</span>
+                        <span style="${textStyle}">${item.color}</span>
                     </div>
                     <span>${item.count} ADET</span>
                 </div>`;
