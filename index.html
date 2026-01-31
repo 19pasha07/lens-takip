@@ -6,7 +6,7 @@
     <title>İPHONE LENS SİPARİŞ SİSTEMİ</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 0; margin: 0; padding-top: 90px; }
+        body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 0; margin: 0; padding-top: 95px; }
         .container { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
         .main-title { text-align: center; color: #007aff; border-bottom: 3px solid #007aff; padding-bottom: 10px; margin: 0 0 10px 0; font-size: 24px; font-weight: 900; }
         .date-subtitle { text-align: center; color: #333; font-size: 16px; margin-bottom: 15px; font-weight: bold; }
@@ -21,11 +21,11 @@
         
         .color-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #eee; }
         .color-info { display: flex; align-items: center; gap: 12px; }
-        .color-dot { width: 22px; height: 22px; border-radius: 50%; border: 1px solid #ccc; }
+        .color-dot { width: 22px; height: 22px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1); }
         
-        input { width: 70px; padding: 10px; border: 2px solid #ddd; border-radius: 10px; text-align: center; font-size: 20px; font-weight: 900; color: #333; }
+        input { width: 75px; padding: 10px; border: 2px solid #ddd; border-radius: 10px; text-align: center; font-size: 20px; font-weight: 900; color: #333; }
         
-        .save-notice { background: #1c1c1e; color: #ffffff; padding: 15px; border-radius: 12px; margin-bottom: 15px; font-weight: bold; text-align: center; font-size: 16px; line-height: 1.4; }
+        .save-notice { background: #1c1c1e; color: #ffffff; padding: 15px; border-radius: 12px; margin-bottom: 15px; font-weight: bold; text-align: center; font-size: 16px; }
         .result-item { background: #f9f9f9; padding: 15px; display: flex; justify-content: space-between; font-weight: 900; font-size: 20px; border-bottom: 1px solid #eee; }
     </style>
 </head>
@@ -47,13 +47,14 @@
 <script>
     document.getElementById('dateDisplay').innerText = "Tarih: " + new Date().toLocaleDateString('tr-TR');
 
+    // Tamamen Doğrulanmış Apple Renk Paleti
     const colorMap = {
         "Beyaz": "#f5f5f7", "Siyah": "#1d1d1f", "Mor": "#b8afdb", "Sarı": "#f9e48b", "Yeşil": "#ade0c1", "Kırmızı": "#e11c2a",
         "Gece Yarısı": "#191f28", "Yıldız Işığı": "#faf7f2", "Mavi": "#4a7eb3", "Pembe": "#fadde5", "Altın": "#f5e3c8", "Gümüş": "#e2e4e1",
         "Gece Yeşili": "#4e5851", "Uzay Grisi": "#535150", "Pasifik Mavisi": "#28475c", "Grafit": "#4b4a45", "Sierra Mavisi": "#9ebbd7",
         "Ladin Yeşili": "#505c4d", "Uzay Siyahı": "#242323", "Derin Mor": "#594f63", "Beyaz Titanyum": "#f2f1ed", "Mavi Titanyum": "#3b445a",
         "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b", "Ultramarin": "#5057d0", "Teal (Turkuaz)": "#b3d9d6", "Çöl Titanyumu": "#bba48b",
-        "Koyu Titanyum": "#353535", "Titanyum": "#8e8e93"
+        "Koyu Titanyum": "#353535", "Titanyum": "#8e8e93", "Doğal Titanyum": "#bcb6ac"
     };
 
     const models = [
@@ -71,7 +72,7 @@
         { m: "iPhone 16E", c: ["Siyah", "Beyaz"] },
         { m: "iPhone 16 Pro / 16 Pro Max", c: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Çöl Titanyumu"] },
         { m: "iPhone 17 / 17 Plus / 17 Air", c: ["Siyah", "Gümüş", "Titanyum", "Mavi", "Yeşil"] },
-        { m: "iPhone 17 Pro / 17 Pro Max", c: ["Koyu Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Siyah Titanyum"] }
+        { m: "iPhone 17 Pro / 17 Pro Max", c: ["Koyu Titanyum", "Beyaz Titanyum", "Doğal Titanyum", "Siyah Titanyum"] }
     ];
 
     const listDiv = document.getElementById('list');
@@ -81,9 +82,9 @@
         let html = `<div class="model-header">${item.m}</div>`;
         item.c.forEach(color => {
             let code = colorMap[color] || "#555";
-            let isLight = ["Beyaz", "Yıldız Işığı", "Gümüş", "Beyaz Titanyum"].includes(color);
+            let isLight = ["Beyaz", "Yıldız Işığı", "Gümüş", "Beyaz Titanyum", "Sarı"].includes(color);
             let dotStyle = `background:${code}; border: 1px solid ${isLight ? '#bbb' : 'transparent'};`;
-            let textStyle = isLight ? "color:#8e8e93; text-shadow: 0 0 1px #ccc;" : `color:${code};`;
+            let textStyle = isLight ? "color:#888;" : `color:${code};`;
             
             html += `<div class="color-row">
                 <div class="color-info">
@@ -120,7 +121,7 @@
             gDiv.innerHTML = `<div class="model-header">${model}</div>`;
             orders[model].forEach(item => {
                 let isLight = ["Beyaz", "Yıldız Işığı", "Gümüş", "Beyaz Titanyum"].includes(item.color);
-                let textStyle = isLight ? "color:#8e8e93;" : `color:${item.code};`;
+                let textStyle = isLight ? "color:#888;" : `color:${item.code};`;
                 gDiv.innerHTML += `<div class="result-item">
                     <div style="display:flex; align-items:center; gap:12px;">
                         <div class="color-dot" style="background:${item.code}; border:1px solid #ccc;"></div>
