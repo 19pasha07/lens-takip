@@ -2,251 +2,784 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>İPHONE LENS SİPARİŞ SİSTEMİ</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Renk Paleti Oluşturucu</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, sans-serif; background: #f4f4f7; padding: 0; margin: 0; padding-top: 95px; }
-        .container { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
-        .main-title { text-align: center; color: #007aff; border-bottom: 3px solid #007aff; padding-bottom: 10px; margin: 0 0 10px 0; font-size: 24px; font-weight: 900; }
-        .date-subtitle { text-align: center; color: #333; font-size: 16px; margin-bottom: 15px; font-weight: bold; }
-        
-        .btn-group { display: flex; gap: 10px; position: fixed; top: 0; left: 0; right: 0; background: white; padding: 15px; border-bottom: 2px solid #007aff; z-index: 9999; }
-        button { flex: 1; padding: 16px; border: none; border-radius: 12px; font-weight: 900; font-size: 11px; color: white; cursor: pointer; text-transform: uppercase; }
-        .save-btn { background: #28a745; } 
-        .reset-btn { background: #ff3b30; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        .lens-group { margin-bottom: 15px; border: 2px solid #007aff; border-radius: 12px; overflow: hidden; background: white; }
-        .lens-group-header { background: #007aff; color: white; padding: 12px; font-weight: bold; font-size: 14px; text-align: center; line-height: 1.4; }
-        
-        .model-section { border-bottom: 2px solid #e0e0e0; }
-        .model-section:last-child { border-bottom: none; }
-        .model-title { background: #f0f0f5; padding: 8px 12px; font-weight: bold; font-size: 15px; color: #333; }
-        
-        .color-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #f0f0f0; }
-        .color-row:last-child { border-bottom: none; }
-        .color-info { display: flex; align-items: center; gap: 12px; }
-        .color-dot { width: 22px; height: 22px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1); min-width: 22px; }
-        
-        input { width: 70px; padding: 8px; border: 2px solid #ddd; border-radius: 8px; text-align: center; font-size: 18px; font-weight: 900; color: #333; }
-        
-        .save-notice { background: #1c1c1e; color: #ffffff; padding: 15px; border-radius: 12px; margin-bottom: 15px; font-weight: bold; text-align: center; font-size: 16px; }
-        .result-item { background: #f9f9f9; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; font-weight: 900; font-size: 18px; border-bottom: 1px solid #eee; }
-        .result-item:last-child { border-bottom: none; }
-        .result-model { font-size: 11px; color: #888; font-weight: normal; background: #e8e8ed; padding: 2px 8px; border-radius: 4px; margin-left: 8px; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f7;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            color: #1d1d1f;
+            margin-bottom: 30px;
+        }
+
+        .controls {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .controls input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 16px;
+            border: 2px solid #d2d2d7;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            background: white;
+        }
+
+        .controls input:focus {
+            border-color: #0071e3;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: #0071e3;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0077ed;
+            transform: scale(1.02);
+        }
+
+        .btn-success {
+            background: #34c759;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #28a745;
+            transform: scale(1.02);
+        }
+
+        .btn-warning {
+            background: #ff9500;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #e08600;
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: scale(1.02);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .model-group {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .model-group h2 {
+            font-size: 22px;
+            color: #1d1d1f;
+            margin-bottom: 6px;
+        }
+
+        .model-group .subtitle {
+            font-size: 13px;
+            color: #86868b;
+            margin-bottom: 16px;
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .color-card {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e8e8ed;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            background: white;
+        }
+
+        .color-card.selected {
+            border: 3px solid #0071e3;
+            box-shadow: 0 0 0 1px #0071e3;
+        }
+
+        .color-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .color-swatch {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .color-swatch .check {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .color-card.selected .color-swatch .check {
+            opacity: 1;
+        }
+
+        .color-info {
+            padding: 10px 12px;
+        }
+
+        .color-info .name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1d1d1f;
+        }
+
+        .color-info .number {
+            font-size: 12px;
+            color: #86868b;
+            margin-top: 2px;
+        }
+
+        .color-info .number-input {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid #d2d2d7;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-top: 6px;
+            outline: none;
+            text-align: center;
+        }
+
+        .color-info .number-input:focus {
+            border-color: #0071e3;
+        }
+
+        .footer-actions {
+            text-align: center;
+            margin: 30px 0;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1d1d1f;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 15px;
+            opacity: 0;
+            transition: all 0.4s;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .stats {
+            text-align: center;
+            color: #86868b;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .color-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+            h1 {
+                font-size: 22px;
+            }
+        }
     </style>
 </head>
 <body>
+    <h1>📱 iPhone Renk Paleti Oluşturucu</h1>
 
-<div class="btn-group" id="controls">
-    <button class="reset-btn" onclick="window.location.reload()">TEMİZLE</button>
-    <button class="save-btn" onclick="finishProcess()">LİSTELE VE RESİM OLARAK KAYDET</button>
-</div>
-
-<div class="container" id="app">
-    <div id="captureArea" style="padding: 15px; background: white;">
-        <h1 class="main-title">İPHONE KAMERA LENS</h1>
-        <div class="date-subtitle" id="dateDisplay"></div>
-        <div id="list"></div>
+    <div class="controls">
+        <input type="text" id="searchInput" placeholder="🔍 Model veya renk ara..." oninput="filterModels()">
+        <button class="btn btn-primary" onclick="selectAll()">Tümünü Seç</button>
+        <button class="btn btn-secondary" onclick="deselectAll()">Seçimi Temizle</button>
     </div>
-</div>
 
-<script>
-    document.getElementById('dateDisplay').innerText = "Tarih: " + new Date().toLocaleDateString('tr-TR');
+    <div class="stats" id="stats">Seçili: 0 renk</div>
 
-    const colorMap = {
-        "Siyah": "#1d1d1f", "Beyaz": "#f5f5f7", "Mor": "#b8afdb", "Sarı": "#f9d023", "Yeşil": "#ade0c1", "Kırmızı": "#e11c2a",
-        "Gece Yarısı": "#191f28", "Yıldız Işığı": "#faf7f2", "Mavi": "#4a7eb3", "Pembe": "#fadde5", "Altın": "#f5e3c8", "Gümüş": "#e2e4e1",
-        "Gece Yeşili": "#4e5851", "Uzay Grisi": "#535150", "Pasifik Mavisi": "#28475c", "Grafit": "#4b4a45", "Sierra Mavisi": "#9ebbd7",
-        "Ladin Yeşili": "#505c4d", "Uzay Siyahı": "#242323", "Derin Mor": "#594f63",
-        "Beyaz Titanyum": "#f2f1ed", "Mavi Titanyum": "#3b445a", "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b",
-        "Ultramarin": "#5057d0", "Turkuaz": "#b3d9d6",
-        "Çöl Titanyumu": "#bba48b", "Koyu Titanyum": "#353535", "Doğal Titanyum": "#bcb6ac",
-        "Turuncu": "#FF6B35",
-        "Lavanta": "#d4c5e0", "Ada Çayı": "#b5c4a8", "Sis Mavisi": "#b8cdd6",
-        "Gök Mavisi": "#a8d0e6", "Açık Altın": "#f0dbc0", "Bulut Beyazı": "#f8f6f0", "Uzay Siyahı (Air)": "#2c2c2e"
-    };
+    <div class="container" id="app"></div>
 
-    // ========== LENS UYUMLULUK GRUPLARI ==========
-    // Her grup = aynı lens koruyucunun uyduğu modeller
-    const lensGroups = [
-        {
-            label: "ÇİFT KAMERA (DİKEY) — AYNI LENS KORUYUCU",
-            models: [
-                { 
-                    name: "iPhone 11", 
-                    colors: ["Siyah", "Beyaz", "Mor", "Sarı", "Yeşil", "Kırmızı"] 
-                },
-                { 
-                    name: "iPhone 12 / 12 Mini", 
-                    colors: ["Siyah", "Beyaz", "Mavi", "Yeşil", "Kırmızı", "Mor"] 
-                },
-                { 
-                    name: "iPhone 13 / 13 Mini", 
-                    colors: ["Gece Yarısı", "Yıldız Işığı", "Mavi", "Pembe", "Yeşil", "Kırmızı"] 
-                },
-                { 
-                    name: "iPhone 14 / 14 Plus", 
-                    colors: ["Gece Yarısı", "Mavi", "Yıldız Işığı", "Mor", "Kırmızı", "Sarı"] 
-                },
-                { 
-                    name: "iPhone 15 / 15 Plus", 
-                    colors: ["Siyah", "Mavi", "Yeşil", "Sarı", "Pembe"] 
-                },
-                { 
-                    name: "iPhone 16 / 16 Plus", 
-                    colors: ["Siyah", "Beyaz", "Pembe", "Turkuaz", "Ultramarin"] 
-                },
-                { 
-                    name: "iPhone 16E", 
-                    colors: ["Siyah", "Beyaz"] 
-                },
-                { 
-                    name: "iPhone 17 / 17 Plus / 17 Air", 
-                    colors: ["Siyah", "Beyaz", "Sis Mavisi", "Ada Çayı", "Lavanta", "Gök Mavisi", "Açık Altın", "Bulut Beyazı", "Uzay Siyahı (Air)"] 
-                }
-            ]
-        },
-        {
-            label: "ÜÇLÜ KAMERA (ÜÇGEN) — AYNI LENS KORUYUCU",
-            models: [
-                { 
-                    name: "iPhone 11 Pro / 11 Pro Max", 
-                    colors: ["Gece Yeşili", "Uzay Grisi", "Gümüş", "Altın"] 
-                },
-                { 
-                    name: "iPhone 12 Pro / 12 Pro Max", 
-                    colors: ["Pasifik Mavisi", "Grafit", "Altın", "Gümüş"] 
-                },
-                { 
-                    name: "iPhone 13 Pro / 13 Pro Max", 
-                    colors: ["Sierra Mavisi", "Grafit", "Altın", "Gümüş", "Ladin Yeşili"] 
-                }
-            ]
-        },
-        {
-            label: "ÜÇLÜ KAMERA (ÜÇGEN) — AYNI LENS KORUYUCU (14 Pro - 15 Pro)",
-            models: [
-                { 
-                    name: "iPhone 14 Pro / 14 Pro Max", 
-                    colors: ["Uzay Siyahı", "Derin Mor", "Altın", "Gümüş"] 
-                },
-                { 
-                    name: "iPhone 15 Pro / 15 Pro Max", 
-                    colors: ["Siyah Titanyum", "Beyaz Titanyum", "Mavi Titanyum", "Natürel Titanyum"] 
-                }
-            ]
-        },
-        {
-            label: "ÜÇLÜ KAMERA (YATAY) — AYNI LENS KORUYUCU",
-            models: [
-                { 
-                    name: "iPhone 16 Pro / 16 Pro Max", 
-                    colors: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Çöl Titanyumu"] 
-                },
-                { 
-                    name: "iPhone 17 Pro / 17 Pro Max", 
-                    colors: ["Siyah Titanyum", "Beyaz Titanyum", "Doğal Titanyum", "Turuncu"] 
-                }
-            ]
-        }
-    ];
+    <div class="footer-actions">
+        <button class="btn btn-success" onclick="generatePhotos()">📸 Fotoğraf Oluştur</button>
+        <button class="btn btn-warning" onclick="generateAndDownloadAll()">⬇️ Tümünü İndir</button>
+    </div>
 
-    // ========== ARAYÜZ ==========
-    const listDiv = document.getElementById('list');
+    <div class="toast" id="toast"></div>
 
-    lensGroups.forEach((group, gIdx) => {
-        let modelsList = group.models.map(m => m.name).join(' • ');
-        let html = `<div class="lens-group">
-            <div class="lens-group-header">📷 ${group.label}<br><span style="font-size:11px;font-weight:normal;opacity:0.9;">${modelsList}</span></div>`;
+    <script>
+        // ======================== RENK VERİLERİ ========================
 
-        group.models.forEach(model => {
-            html += `<div class="model-section">
-                <div class="model-title">${model.name}</div>`;
-
-            model.colors.forEach(color => {
-                const code = colorMap[color] || "#555";
-                let isLight = ["Beyaz", "Yıldız Işığı", "Gümüş", "Beyaz Titanyum", "Bulut Beyazı", "Açık Altın", "Natürel Titanyum", "Doğal Titanyum"].includes(color);
-                let textStyle = (color === "Sarı") ? "color:#d4af37; text-shadow: 0 0 1px #000;" : (isLight ? "color:#888;" : `color:${code};`);
-
-                html += `<div class="color-row">
-                    <div class="color-info">
-                        <div class="color-dot" style="background:${code}; border: 1px solid ${isLight ? '#bbb' : 'transparent'};"></div>
-                        <span style="font-weight:bold; ${textStyle}">${color}</span>
-                    </div>
-                    <input type="number" class="lens-count" data-group="${gIdx}" data-model="${model.name}" data-color="${color}" data-code="${code}" placeholder="0">
-                </div>`;
-            });
-
-            html += `</div>`;
-        });
-
-        html += `</div>`;
-        listDiv.innerHTML += html;
-    });
-
-    // ========== GÖNDER / KAYDET ==========
-    async function finishProcess() {
-        const inputs = document.querySelectorAll('.lens-count');
-        let orders = {};
-        let hasOrder = false;
-
-        inputs.forEach(input => {
-            const val = parseInt(input.value);
-            if (val > 0) {
-                const model = input.getAttribute('data-model');
-                const color = input.getAttribute('data-color');
-                const code = input.getAttribute('data-code');
-
-                if (!orders[model]) orders[model] = [];
-                let existing = orders[model].find(o => o.color === color);
-                if (existing) {
-                    existing.count += val;
-                } else {
-                    orders[model].push({ color, count: val, code });
-                }
-                hasOrder = true;
+        const colorData = [
+            // ---- iPhone 11 ----
+            {
+                model: "iPhone 11",
+                colors: [
+                    { tr: "Mor", en: "Purple", hex: "#C9B8E0" },
+                    { tr: "Sar\u0131", en: "Yellow", hex: "#F7E87A" },
+                    { tr: "Ye\u015fil", en: "Green", hex: "#A8D8C9" },
+                    { tr: "Siyah", en: "Black", hex: "#2E2E2E" },
+                    { tr: "Beyaz", en: "White", hex: "#F0EFED" },
+                    { tr: "K\u0131rm\u0131z\u0131 (PRODUCT)RED", en: "Product Red", hex: "#D32F2F" }
+                ]
+            },
+            // ---- iPhone 11 Pro ----
+            {
+                model: "iPhone 11 Pro / Pro Max",
+                colors: [
+                    { tr: "Gece Yarısı Yeşili", en: "Midnight Green", hex: "#4A5D5A" },
+                    { tr: "Uzay Grisi", en: "Space Gray", hex: "#3A3A3C" },
+                    { tr: "Gümüş", en: "Silver", hex: "#E3E2DC" },
+                    { tr: "Altın", en: "Gold", hex: "#F4D7B3" }
+                ]
+            },
+            // ---- iPhone 12 ----
+            {
+                model: "iPhone 12 / 12 Mini",
+                colors: [
+                    { tr: "Siyah", en: "Black", hex: "#2E2E2E" },
+                    { tr: "Beyaz", en: "White", hex: "#F0EFED" },
+                    { tr: "Kırmızı (PRODUCT)RED", en: "Product Red", hex: "#D32F2F" },
+                    { tr: "Yeşil", en: "Green", hex: "#A8D8C9" },
+                    { tr: "Mavi", en: "Blue", hex: "#5A8BB8" },
+                    { tr: "Mor", en: "Purple", hex: "#C9B8E0" }
+                ]
+            },
+            // ---- iPhone 12 Pro ----
+            {
+                model: "iPhone 12 Pro / Pro Max",
+                colors: [
+                    { tr: "Pasifik Mavisi", en: "Pacific Blue", hex: "#3B5E7D" },
+                    { tr: "Grafit", en: "Graphite", hex: "#4B4B4F" },
+                    { tr: "Altın", en: "Gold", hex: "#F4D7B3" },
+                    { tr: "Gümüş", en: "Silver", hex: "#E3E2DC" }
+                ]
+            },
+            // ---- iPhone 13 ----
+            {
+                model: "iPhone 13 / 13 Mini",
+                colors: [
+                    { tr: "Yıldız Işığı", en: "Starlight", hex: "#EDE8DF" },
+                    { tr: "Gece Yarısı", en: "Midnight", hex: "#232B32" },
+                    { tr: "Mavi", en: "Blue", hex: "#3976A8" },
+                    { tr: "Pembe", en: "Pink", hex: "#F5B7B1" },
+                    { tr: "Kırmızı (PRODUCT)RED", en: "Product Red", hex: "#D32F2F" },
+                    { tr: "Yeşil", en: "Green", hex: "#86B89A" }
+                ]
+            },
+            // ---- iPhone 13 Pro ----
+            {
+                model: "iPhone 13 Pro / Pro Max",
+                colors: [
+                    { tr: "Sierra Mavisi", en: "Sierra Blue", hex: "#7A9EB3" },
+                    { tr: "Alp Yeşili", en: "Alpine Green", hex: "#576D62" },
+                    { tr: "Altın", en: "Gold", hex: "#F4D7B3" },
+                    { tr: "Grafit", en: "Graphite", hex: "#4B4B4F" },
+                    { tr: "Gümüş", en: "Silver", hex: "#E3E2DC" }
+                ]
+            },
+            // ---- iPhone 14 ----
+            {
+                model: "iPhone 14 / 14 Plus",
+                colors: [
+                    { tr: "Gece Yarısı", en: "Midnight", hex: "#232B32" },
+                    { tr: "Yıldız Işığı", en: "Starlight", hex: "#EDE8DF" },
+                    { tr: "Mavi", en: "Blue", hex: "#4A7CA8" },
+                    { tr: "Mor", en: "Purple", hex: "#A98AC7" },
+                    { tr: "Sar\u0131", en: "Yellow", hex: "#F2D06B" },
+                    { tr: "Kırmızı (PRODUCT)RED", en: "Product Red", hex: "#D32F2F" }
+                ]
+            },
+            // ---- iPhone 14 Pro ----
+            {
+                model: "iPhone 14 Pro / Pro Max",
+                colors: [
+                    { tr: "Derin Mor", en: "Deep Purple", hex: "#6B5B8A" },
+                    { tr: "Uzay Siyahı", en: "Space Black", hex: "#2C2C2E" },
+                    { tr: "Gümüş", en: "Silver", hex: "#E3E2DC" },
+                    { tr: "Altın", en: "Gold", hex: "#F4D7B3" }
+                ]
+            },
+            // ---- iPhone 15 ----
+            {
+                model: "iPhone 15 / 15 Plus",
+                colors: [
+                    { tr: "Pembe", en: "Pink", hex: "#F5B7B1" },
+                    { tr: "Sar\u0131", en: "Yellow", hex: "#F2D06B" },
+                    { tr: "Yeşil", en: "Green", hex: "#86B89A" },
+                    { tr: "Mavi", en: "Blue", hex: "#5A8BB8" },
+                    { tr: "Siyah", en: "Black", hex: "#2E2E2E" }
+                ]
+            },
+            // ---- iPhone 15 Pro ----
+            {
+                model: "iPhone 15 Pro / Pro Max",
+                colors: [
+                    { tr: "Doğal Titanyum", en: "Natural Titanium", hex: "#C4BCB0" },
+                    { tr: "Mavi Titanyum", en: "Blue Titanium", hex: "#5A7087" },
+                    { tr: "Beyaz Titanyum", en: "White Titanium", hex: "#EAE7E0" },
+                    { tr: "Siyah Titanyum", en: "Black Titanium", hex: "#3A3A3C" }
+                ]
+            },
+            // ---- iPhone 16 ----
+            {
+                model: "iPhone 16 / 16 Plus",
+                colors: [
+                    { tr: "Ultramarin", en: "Ultramarine", hex: "#2C4F8A" },
+                    { tr: "Deniz Yeşili", en: "Teal", hex: "#4A9A8A" },
+                    { tr: "Pembe", en: "Pink", hex: "#F5A0A0" },
+                    { tr: "Beyaz", en: "White", hex: "#F0EFED" },
+                    { tr: "Siyah", en: "Black", hex: "#2E2E2E" }
+                ]
+            },
+            // ---- iPhone 16 Pro ----
+            {
+                model: "iPhone 16 Pro / Pro Max",
+                colors: [
+                    { tr: "Çöl Titanyumu", en: "Desert Titanium", hex: "#C8A87C" },
+                    { tr: "Doğal Titanyum", en: "Natural Titanium", hex: "#C4BCB0" },
+                    { tr: "Beyaz Titanyum", en: "White Titanium", hex: "#EAE7E0" },
+                    { tr: "Siyah Titanyum", en: "Black Titanium", hex: "#3A3A3C" }
+                ]
+            },
+            // ---- iPhone 17 ----
+            {
+                model: "iPhone 17",
+                colors: [
+                    { tr: "Lavanta", en: "Lavender", hex: "#C9B8E0" },
+                    { tr: "Ada Çayı", en: "Sage", hex: "#9AAD8A" },
+                    { tr: "Sis Mavisi", en: "Mist Blue", hex: "#A8C4D8" },
+                    { tr: "Beyaz", en: "White", hex: "#F0EFED" },
+                    { tr: "Siyah", en: "Black", hex: "#2E2E2E" }
+                ]
+            },
+            // ---- iPhone 17 Air ----
+            {
+                model: "iPhone 17 Air",
+                colors: [
+                    { tr: "Gök Mavisi", en: "Sky Blue", hex: "#7DB4D6" },
+                    { tr: "Açık Altın", en: "Light Gold", hex: "#E8D5B0" },
+                    { tr: "Pamuk Beyazı", en: "Cloud White", hex: "#F5F3EF" },
+                    { tr: "Uzay Siyahı", en: "Space Black", hex: "#2C2C2E" }
+                ]
+            },
+            // ---- iPhone 17 Pro ----
+            {
+                model: "iPhone 17 Pro / Pro Max",
+                colors: [
+                    { tr: "Kozmik Turuncu", en: "Cosmic Orange", hex: "#D4794A" },
+                    { tr: "Derin Mavi", en: "Deep Blue", hex: "#2C4F7A" },
+                    { tr: "Gümüş", en: "Silver", hex: "#E3E2DC" }
+                ]
             }
-        });
+        ];
 
-        if (!hasOrder) return alert("Lütfen adet giriniz!");
+        // ======================== UYGULAMA ========================
 
-        listDiv.innerHTML = "";
-        for (let model in orders) {
-            let gDiv = document.createElement('div');
-            gDiv.className = 'lens-group';
-            gDiv.innerHTML = `<div class="lens-group-header" style="background:#28a745;">${model}</div>`;
-            
-            orders[model].forEach(item => {
-                let isLight = ["Beyaz", "Yıldız Işığı", "Gümüş", "Beyaz Titanyum", "Bulut Beyazı", "Açık Altın", "Natürel Titanyum", "Doğal Titanyum"].includes(item.color);
-                let textStyle = isLight ? "color:#888;" : `color:${item.code};`;
-                if (item.color === "Sarı") textStyle = "color:#d4af37;";
+        let selectedColors = new Set(); // "modelIndex-colorIndex" string
 
-                gDiv.innerHTML += `<div class="result-item">
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <div class="color-dot" style="background:${item.code}; border:1px solid #ccc;"></div>
-                        <span style="${textStyle}">${item.color}</span>
-                    </div>
-                    <span>${item.count} ADET</span>
-                </div>`;
+        function renderApp() {
+            const app = document.getElementById('app');
+            app.innerHTML = '';
+
+            colorData.forEach((group, mi) => {
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'model-group';
+                groupDiv.dataset.modelIndex = mi;
+
+                const title = document.createElement('h2');
+                title.textContent = group.model;
+                groupDiv.appendChild(title);
+
+                const subtitle = document.createElement('div');
+                subtitle.className = 'subtitle';
+                const count = group.colors.length;
+                subtitle.textContent = `${count} renk seçeneği`;
+                groupDiv.appendChild(subtitle);
+
+                const grid = document.createElement('div');
+                grid.className = 'color-grid';
+
+                group.colors.forEach((color, ci) => {
+                    const key = `${mi}-${ci}`;
+                    const card = document.createElement('div');
+                    card.className = 'color-card' + (selectedColors.has(key) ? ' selected' : '');
+                    card.dataset.key = key;
+
+                    // Renk swatch
+                    const swatch = document.createElement('div');
+                    swatch.className = 'color-swatch';
+                    swatch.style.background = color.hex;
+                    if (['#F0EFED','#EDE8DF','#F5F3EF','#EAE7E0','#E3E2DC','#F5B7B1','#F4D7B3','#E8D5B0','#F2D06B','#F7E87A','#C4BCB0'].includes(color.hex)) {
+                        swatch.style.borderBottom = '1px solid #d2d2d7';
+                    }
+                    const check = document.createElement('div');
+                    check.className = 'check';
+                    check.textContent = '✓';
+                    swatch.appendChild(check);
+                    card.appendChild(swatch);
+
+                    // Bilgi
+                    const info = document.createElement('div');
+                    info.className = 'color-info';
+
+                    const name = document.createElement('div');
+                    name.className = 'name';
+                    name.textContent = color.tr;
+                    info.appendChild(name);
+
+                    const numLabel = document.createElement('div');
+                    numLabel.className = 'number';
+                    numLabel.textContent = 'Numara:';
+                    info.appendChild(numLabel);
+
+                    const numInput = document.createElement('input');
+                    numInput.type = 'text';
+                    numInput.className = 'number-input';
+                    numInput.placeholder = 'Örn: 01, 02...';
+                    numInput.dataset.key = key;
+                    numInput.addEventListener('click', (e) => e.stopPropagation());
+                    numInput.addEventListener('input', (e) => {
+                        e.stopPropagation();
+                    });
+                    info.appendChild(numInput);
+
+                    card.appendChild(info);
+
+                    // Tıklama
+                    card.addEventListener('click', () => {
+                        toggleSelect(key, card);
+                    });
+
+                    grid.appendChild(card);
+                });
+
+                groupDiv.appendChild(grid);
+                app.appendChild(groupDiv);
             });
-            listDiv.appendChild(gDiv);
+
+            updateStats();
         }
 
-        document.getElementById('controls').style.display = "none";
-        const canvas = await html2canvas(document.querySelector("#captureArea"), { scale: 3 });
-        const imgData = canvas.toDataURL("image/png");
+        function toggleSelect(key, card) {
+            if (selectedColors.has(key)) {
+                selectedColors.delete(key);
+                card.classList.remove('selected');
+            } else {
+                selectedColors.add(key);
+                card.classList.add('selected');
+            }
+            updateStats();
+        }
 
-        document.body.innerHTML = `
-            <div style="text-align:center; padding:15px; background:#f4f4f7; min-height:100vh;">
-                <div class="save-notice">👍 TAMAMDIR! Basılı tut ve fotoğraflara kaydet.</div>
-                <img src="${imgData}" style="width:100%; border-radius:15px; box-shadow:0 8px 25px rgba(0,0,0,0.3);">
-                <button onclick="window.location.reload()" style="width:100%; margin-top:25px; padding:25px; background:#1c1c1e; color:white; border-radius:15px; font-weight:900; font-size:26px; border:none;">
-                    ⬅️ ANA SAYFAYA DÖN
-                </button>
-            </div>`;
-    }
-</script>
+        function updateStats() {
+            document.getElementById('stats').textContent = `Seçili: ${selectedColors.size} renk`;
+        }
+
+        function selectAll() {
+            document.querySelectorAll('.color-card').forEach(card => {
+                const key = card.dataset.key;
+                selectedColors.add(key);
+                card.classList.add('selected');
+            });
+            updateStats();
+        }
+
+        function deselectAll() {
+            document.querySelectorAll('.color-card').forEach(card => {
+                const key = card.dataset.key;
+                selectedColors.delete(key);
+                card.classList.remove('selected');
+            });
+            updateStats();
+        }
+
+        function filterModels() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('.model-group').forEach(group => {
+                const text = group.textContent.toLowerCase();
+                group.style.display = text.includes(q) ? '' : 'none';
+            });
+        }
+
+        // ======================== FOTOĞRAF OLUŞTURMA ========================
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        function getSelectedColorData() {
+            const results = [];
+            selectedColors.forEach(key => {
+                const [mi, ci] = key.split('-').map(Number);
+                const group = colorData[mi];
+                const color = group.colors[ci];
+                const input = document.querySelector(`.number-input[data-key="${key}"]`);
+                const number = input ? input.value.trim() : '';
+                results.push({
+                    model: group.model,
+                    colorName: color.tr,
+                    colorEn: color.en,
+                    hex: color.hex,
+                    number: number,
+                    key: key
+                });
+            });
+            return results;
+        }
+
+        function generatePhotos() {
+            const items = getSelectedColorData();
+            if (items.length === 0) {
+                showToast('Lütfen en az bir renk seçin!');
+                return;
+            }
+
+            items.forEach(item => {
+                generateSinglePhoto(item);
+            });
+
+            showToast(`${items.length} fotoğraf oluşturuldu!`);
+        }
+
+        function generateSinglePhoto(item) {
+            const canvas = document.createElement('canvas');
+            const size = 600;
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            // Arkaplan
+            const grad = ctx.createLinearGradient(0, 0, size, size);
+            grad.addColorStop(0, item.hex);
+            grad.addColorStop(1, lightenColor(item.hex, 40));
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, size, size);
+
+            // İç gölge efekti
+            ctx.fillStyle = 'rgba(255,255,255,0.1)';
+            ctx.fillRect(0, 0, size, 4);
+
+            // ---- Telefon çerçevesi ----
+            const cx = size / 2;
+            const cy = size / 2 - 30;
+            const fw = 180;
+            const fh = 320;
+            const r = 28;
+
+            // Dış gölge
+            ctx.shadowColor = 'rgba(0,0,0,0.25)';
+            ctx.shadowBlur = 30;
+            ctx.shadowOffsetY = 8;
+
+            // Telefon gövdesi (daha koyu ton)
+            ctx.beginPath();
+            ctx.roundRect(cx - fw/2, cy - fh/2, fw, fh, r);
+            ctx.fillStyle = darkenColor(item.hex, 50);
+            ctx.fill();
+
+            // İç ekran
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetY = 0;
+            ctx.beginPath();
+            ctx.roundRect(cx - fw/2 + 8, cy - fh/2 + 8, fw - 16, fh - 16, r - 4);
+            ctx.fillStyle = item.hex;
+            ctx.fill();
+
+            // Çentik (notch)
+            ctx.fillStyle = '#1d1d1f';
+            ctx.beginPath();
+            ctx.roundRect(cx - 40, cy - fh/2 + 12, 80, 22, 10);
+            ctx.fill();
+
+            // Kamera lensi
+            ctx.fillStyle = '#2C2C2E';
+            ctx.beginPath();
+            ctx.arc(cx - 10, cy - fh/2 + 23, 5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#3A3A3C';
+            ctx.beginPath();
+            ctx.arc(cx + 10, cy - fh/2 + 23, 3, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Dinamik Ada (Dynamic Island - iPhone 14 Pro+)
+            ctx.shadowColor = 'rgba(0,0,0,0.2)';
+            ctx.shadowBlur = 4;
+            ctx.fillStyle = '#1d1d1f';
+            ctx.beginPath();
+            ctx.roundRect(cx - 48, cy - fh/2 + 14, 96, 18, 9);
+            ctx.fill();
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+
+            // ---- METİNLER ----
+            ctx.textAlign = 'center';
+
+            // Model adı
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 20px -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 6;
+            ctx.fillText(item.model, cx, cy + fh/2 + 60);
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+
+            // Renk adı (Türkçe)
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 8;
+            ctx.fillText(item.colorName, cx, cy + fh/2 + 100);
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+
+            // İngilizce renk adı
+            ctx.fillStyle = 'rgba(255,255,255,0.6)';
+            ctx.font = '15px -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif';
+            ctx.fillText(item.colorEn, cx, cy + fh/2 + 128);
+
+            // Numara (varsa)
+            if (item.number) {
+                // Sol üst köşe etiketi
+                ctx.fillStyle = 'rgba(0,0,0,0.4)';
+                ctx.beginPath();
+                ctx.roundRect(20, 20, 80, 44, 12);
+                ctx.fill();
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 22px -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('#' + item.number, 60, 50);
+            }
+
+            // Alt watermark
+            ctx.fillStyle = 'rgba(255,255,255,0.15)';
+            ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('iPhone Renk Paleti', cx, size - 16);
+
+            // Canvas'ı göster -> indir
+            const link = document.createElement('a');
+            let filename = `${item.model}_${item.colorName}`;
+            if (item.number) filename += `_${item.number}`;
+            filename += '.png';
+
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        function generateAndDownloadAll() {
+            generatePhotos();
+        }
+
+        // ======================== YARDIMCI ========================
+
+        function lightenColor(hex, percent) {
+            const num = parseInt(hex.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = Math.min(255, (num >> 16) + amt);
+            const G = Math.min(255, ((num >> 8) & 0x00FF) + amt);
+            const B = Math.min(255, (num & 0x0000FF) + amt);
+            return `rgb(${R},${G},${B})`;
+        }
+
+        function darkenColor(hex, percent) {
+            const num = parseInt(hex.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = Math.max(0, (num >> 16) - amt);
+            const G = Math.max(0, ((num >> 8) & 0x00FF) - amt);
+            const B = Math.max(0, (num & 0x0000FF) - amt);
+            return `rgb(${R},${G},${B})`;
+        }
+
+        // roundRect polyfill
+        if (!CanvasRenderingContext2D.prototype.roundRect) {
+            CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, radii) {
+                const r = typeof radii === 'number' ? radii : (Array.isArray(radii) ? radii[0] : 8);
+                this.moveTo(x + r, y);
+                this.lineTo(x + w - r, y);
+                this.quadraticCurveTo(x + w, y, x + w, y + r);
+                this.lineTo(x + w, y + h - r);
+                this.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+                this.lineTo(x + r, y + h);
+                this.quadraticCurveTo(x, y + h, x, y + h - r);
+                this.lineTo(x, y + r);
+                this.quadraticCurveTo(x, y, x + r, y);
+                return this;
+            };
+        }
+
+        // Başlat
+        renderApp();
+    </script>
 </body>
 </html>
