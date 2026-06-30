@@ -178,9 +178,9 @@
             height: auto;
             border-radius: 10px;
             display: block;
-            /* basılı tutunca "Fotoğraflara Kaydet" çıksın */
             -webkit-touch-callout: default;
             pointer-events: auto;
+            cursor: pointer;
         }
         #outputInner .foto-label {
             font-size: 12px;
@@ -241,7 +241,7 @@
 
 <div class="container" id="app"></div>
 
-<!-- ÇIKTI ALANI (sayfa gibi) -->
+<!-- ÇIKTI ALANI -->
 <div id="outputArea">
     <h3>🖼️ Oluşturulan Fotoğraflar</h3>
     <div class="note">👇 Basılı tut & "Fotoğraflara Kaydet" de</div>
@@ -266,7 +266,7 @@ const colorData = [
         ]
     },
     {
-        model: "iPhone 11 Pro / Pro Max",
+        model: "iPhone 11 Pro / 11 Pro Max",
         colors: [
             { tr: "Gece Yarısı Yeşili", en: "Midnight Green", hex: "#4A5D5A" },
             { tr: "Uzay Grisi",         en: "Space Gray",     hex: "#3A3A3C" },
@@ -286,7 +286,7 @@ const colorData = [
         ]
     },
     {
-        model: "iPhone 12 Pro / Pro Max",
+        model: "iPhone 12 Pro / 12 Pro Max",
         colors: [
             { tr: "Pasifik Mavisi", en: "Pacific Blue", hex: "#3B5E7D" },
             { tr: "Grafit",         en: "Graphite",     hex: "#4B4B4F" },
@@ -306,7 +306,7 @@ const colorData = [
         ]
     },
     {
-        model: "iPhone 13 Pro / Pro Max",
+        model: "iPhone 13 Pro / 13 Pro Max",
         colors: [
             { tr: "Sierra Mavisi", en: "Sierra Blue",   hex: "#7A9EB3" },
             { tr: "Alp Yeşili",    en: "Alpine Green",  hex: "#576D62" },
@@ -327,7 +327,7 @@ const colorData = [
         ]
     },
     {
-        model: "iPhone 14 Pro / Pro Max",
+        model: "iPhone 14 Pro / 14 Pro Max",
         colors: [
             { tr: "Derin Mor",    en: "Deep Purple",   hex: "#6B5B8A" },
             { tr: "Uzay Siyahı",  en: "Space Black",   hex: "#2C2C2E" },
@@ -346,7 +346,7 @@ const colorData = [
         ]
     },
     {
-        model: "iPhone 15 Pro / Pro Max",
+        model: "iPhone 15 Pro / 15 Pro Max",
         colors: [
             { tr: "Doğal Titanyum",  en: "Natural Titanium", hex: "#C4BCB0" },
             { tr: "Mavi Titanyum",   en: "Blue Titanium",    hex: "#5A7087" },
@@ -365,7 +365,7 @@ const colorData = [
         ]
     },
     {
-        model: "iPhone 16 Pro / Pro Max",
+        model: "iPhone 16 Pro / 16 Pro Max",
         colors: [
             { tr: "Çöl Titanyumu",    en: "Desert Titanium",  hex: "#C8A87C" },
             { tr: "Doğal Titanyum",   en: "Natural Titanium", hex: "#C4BCB0" },
@@ -393,7 +393,7 @@ const colorData = [
         ]
     },
     {
-        model: "iPhone 17 Pro / Pro Max",
+        model: "iPhone 17 Pro / 17 Pro Max",
         colors: [
             { tr: "Kozmik Turuncu", en: "Cosmic Orange", hex: "#D4794A" },
             { tr: "Derin Mavi",     en: "Deep Blue",     hex: "#2C4F7A" },
@@ -482,7 +482,7 @@ function filterModels() {
     document.querySelectorAll('.model-group').forEach(g => { g.style.display = g.textContent.toLowerCase().includes(q) ? '' : 'none'; });
 }
 
-// ======================== FOTOĞRAF OLUŞTUR (sayfa gibi) ========================
+// ======================== FOTOĞRAF OLUŞTUR ========================
 function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg; t.classList.add('show');
@@ -503,13 +503,11 @@ function fotografOlustur() {
         const inp = document.querySelector('.no[data-key="' + key + '"]');
         const num = inp ? inp.value.trim() : '';
 
-        // Canvas çiz
         const canvas = document.createElement('canvas');
         canvas.width = 500;
         canvas.height = 500;
         const ctx = canvas.getContext('2d');
 
-        // Arkaplan
         ctx.fillStyle = c.hex;
         ctx.fillRect(0, 0, 500, 500);
         ctx.fillStyle = 'rgba(0,0,0,0.04)';
@@ -519,7 +517,6 @@ function fotografOlustur() {
         const fw = 148, fh = 266;
         const rad = 20;
 
-        // Telefon gölge
         ctx.shadowColor = 'rgba(0,0,0,0.18)';
         ctx.shadowBlur = 18;
         ctx.shadowOffsetY = 4;
@@ -534,12 +531,10 @@ function fotografOlustur() {
         roundRect(ctx, cx - fw/2 + 6, cy - fh/2 + 6, fw - 12, fh - 12, rad - 2);
         ctx.fill();
 
-        // Dynamic Island
         ctx.fillStyle = '#1d1d1f';
         roundRect(ctx, cx - 38, cy - fh/2 + 10, 76, 15, 7);
         ctx.fill();
 
-        // Model adı
         ctx.textAlign = 'center';
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 17px -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif';
@@ -548,7 +543,6 @@ function fotografOlustur() {
         ctx.fillText(g.model, cx, cy + fh/2 + 48);
         ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0;
 
-        // Renk (Türkçe)
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 22px -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif';
         ctx.shadowColor = 'rgba(0,0,0,0.25)';
@@ -556,12 +550,10 @@ function fotografOlustur() {
         ctx.fillText(c.tr, cx, cy + fh/2 + 80);
         ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0;
 
-        // İngilizce
         ctx.fillStyle = 'rgba(255,255,255,0.55)';
         ctx.font = '12px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.fillText(c.en, cx, cy + fh/2 + 100);
 
-        // Numara
         if (num) {
             ctx.fillStyle = 'rgba(0,0,0,0.3)';
             roundRect(ctx, 16, 16, 60, 34, 9);
@@ -572,20 +564,17 @@ function fotografOlustur() {
             ctx.fillText('#' + num, 46, 39);
         }
 
-        // Watermark
         ctx.fillStyle = 'rgba(255,255,255,0.1)';
         ctx.font = '10px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText('iPhone Renk Paleti', 250, 490);
 
-        // Fotoğraf kartı
         const card = document.createElement('div');
         card.className = 'foto-card';
 
         const img = document.createElement('img');
         img.src = canvas.toDataURL('image/png');
         img.alt = g.model + ' - ' + c.tr;
-        // Basılı tutunca "Fotoğraflara Kaydet" çıksın diye
         img.style.cursor = 'pointer';
         card.appendChild(img);
 
@@ -599,7 +588,6 @@ function fotografOlustur() {
         output.appendChild(card);
     });
 
-    // Çıktı alanına kaydır
     document.getElementById('outputArea').scrollIntoView({ behavior: 'smooth' });
     showToast(selectedColors.size + ' fotoğraf oluşturuldu! Basılı tutup kaydedebilirsin.');
 }
@@ -609,7 +597,6 @@ function temizleCikti() {
     document.getElementById('outputArea').style.display = 'none';
 }
 
-// ======================== YARDIMCI ========================
 function darken(hex, p) {
     const n = parseInt(hex.replace('#',''), 16);
     const a = Math.round(2.55 * p);
