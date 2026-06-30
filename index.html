@@ -17,28 +17,20 @@
         .save-btn { background: #28a745; } 
         .reset-btn { background: #ff3b30; }
 
-        /* KAMERA GRUBU */
         .camera-group { margin-bottom: 15px; border: 2px solid #5856d6; border-radius: 12px; overflow: hidden; background: white; }
-        .camera-group-header { background: #5856d6; color: white; padding: 10px 12px; font-weight: bold; font-size: 14px; text-align: center; }
-        .camera-group-header .models-list { font-size: 11px; font-weight: normal; opacity: 0.9; display: block; margin-top: 3px; }
-
-        /* MODEL SATIRI */
-        .model-row { border-bottom: 1px solid #e0e0e0; }
-        .model-row:last-child { border-bottom: none; }
-        .model-row-header { background: #f0f0f5; padding: 8px 12px; font-weight: bold; font-size: 14px; color: #333; }
+        .camera-group-header { background: #5856d6; color: white; padding: 10px 12px; font-weight: bold; font-size: 15px; text-align: center; }
         
-        .color-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px 8px 24px; border-bottom: 1px solid #f0f0f0; }
+        .color-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; border-bottom: 1px solid #f0f0f0; }
         .color-row:last-child { border-bottom: none; }
         .color-info { display: flex; align-items: center; gap: 10px; flex: 1; }
-        .color-dot { min-width: 20px; width: 20px; height: 20px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1); }
+        .color-dot { min-width: 22px; width: 22px; height: 22px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1); }
+        .model-name-tag { font-size: 11px; color: #666; font-weight: normal; background: #f0f0f5; padding: 2px 7px; border-radius: 4px; margin-left: 6px; }
         
         input { width: 70px; padding: 8px; border: 2px solid #ddd; border-radius: 8px; text-align: center; font-size: 18px; font-weight: 900; color: #333; }
         
-        /* SONUÇ EKRANI */
         .save-notice { background: #1c1c1e; color: #ffffff; padding: 15px; border-radius: 12px; margin-bottom: 15px; font-weight: bold; text-align: center; font-size: 16px; }
         .result-item { background: #f9f9f9; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; font-weight: 900; font-size: 18px; border-bottom: 1px solid #eee; }
         .result-item:last-child { border-bottom: none; }
-        .result-model-badge { font-size: 11px; color: #888; font-weight: normal; background: #e8e8ed; padding: 2px 8px; border-radius: 4px; margin-left: 8px; }
     </style>
 </head>
 <body>
@@ -61,130 +53,106 @@
 
     // ========== RENK KODLARI ==========
     const colorMap = {
-        "Beyaz": "#f5f5f7", "Siyah": "#1d1d1f", "Mor": "#b8afdb", "Sarı": "#f9d023", "Yeşil": "#ade0c1", "Kırmızı": "#e11c2a",
-        "Gece Yarısı": "#191f28", "Yıldız Işığı": "#faf7f2", "Mavi": "#4a7eb3", "Pembe": "#fadde5", "Altın": "#f5e3c8", "Gümüş": "#e2e4e1",
-        "Gece Yeşili": "#4e5851", "Uzay Grisi": "#535150", "Pasifik Mavisi": "#28475c", "Grafit": "#4b4a45", "Sierra Mavisi": "#9ebbd7",
-        "Ladin Yeşili": "#505c4d", "Uzay Siyahı": "#242323", "Derin Mor": "#594f63", "Beyaz Titanyum": "#f2f1ed", "Mavi Titanyum": "#3b445a",
-        "Natürel Titanyum": "#bcb6ac", "Siyah Titanyum": "#3d3d3b", "Ultramarin": "#5057d0", "Teal (Turkuaz)": "#b3d9d6", "Çöl Titanyumu": "#bba48b",
-        "Koyu Titanyum": "#353535", "Doğal Titanyum": "#bcb6ac",
-        "Turuncu": "#FF6B35"
+        "Black": "#1d1d1f", "White": "#f5f5f7", "Purple": "#b8afdb", "Yellow": "#f9d023", "Green": "#ade0c1", "Product Red": "#e11c2a",
+        "Midnight": "#191f28", "Starlight": "#faf7f2", "Blue": "#4a7eb3", "Pink": "#fadde5", "Gold": "#f5e3c8", "Silver": "#e2e4e1",
+        "Midnight Green": "#4e5851", "Space Gray": "#535150", "Pacific Blue": "#28475c", "Graphite": "#4b4a45", "Sierra Blue": "#9ebbd7",
+        "Alpine Green": "#505c4d", "Space Black": "#242323", "Deep Purple": "#594f63",
+        "White Titanium": "#f2f1ed", "Black Titanium": "#3d3d3b", "Blue Titanium": "#3b445a", "Natural Titanium": "#bcb6ac",
+        "Ultramarine": "#5057d0", "Teal": "#b3d9d6", "Desert Titanium": "#bba48b",
+        "Black Titanium (16 Pro)": "#2c2c2e", "White Titanium (16 Pro)": "#f0efe8", "Natural Titanium (16 Pro)": "#bcb6ac", "Desert Titanium (16 Pro)": "#d4b896",
+        "Lavender": "#d4c5e0", "Sage": "#b5c4a8", "Mist Blue": "#b8cdd6",
+        "Sky Blue": "#a8d0e6", "Light Gold": "#f0dbc0", "Cloud White": "#f8f6f0", "Space Black (Air)": "#2c2c2e",
+        "Cosmic Orange": "#FF6B35", "Deep Blue": "#1e3a5f", "Gray": "#8a8a8e",
+        "Steel Gray": "#7a7a80", "Light Blue": "#a8c8e0", "Coral": "#ff7f6b"
     };
 
-    // ========== KAMERA GRUPLARI ==========
-    // Aynı fiziksel lens dizilimine sahip modeller
+    // ========== KAMERA GRUPLARI (fiziksel lens dizilimi aynı olanlar) ==========
     const cameraGroups = [
         {
-            id: "cift_dikey",
-            name: "📷 Çift Kamera (Dikey)",
+            // iPhone 11, 12, 12 Mini, 13, 13 Mini → 2 kamera dikey (farklı boyutlarda ama aynı düzen)
+            // iPhone 14, 14 Plus → 2 kamera dikey
+            // iPhone 15, 15 Plus → 2 kamera dikey
+            // iPhone 16, 16 Plus, 16E → 2 kamera dikey (16E tek kamera ama dikey düzende)
+            // iPhone 17, 17 Plus, 17 Air → 2 kamera dikey
+            name: "iPhone 11 / 12 / 12 mini / 13 / 13 mini / 14 / 14 Plus / 15 / 15 Plus / 16 / 16 Plus / 16E / 17 / 17 Plus / 17 Air",
             models: [
-                "iPhone 11", "iPhone 12", "iPhone 12 Mini",
-                "iPhone 13", "iPhone 13 Mini",
-                "iPhone 14", "iPhone 14 Plus",
-                "iPhone 15", "iPhone 15 Plus",
-                "iPhone 16", "iPhone 16 Plus",
-                "iPhone 16E",
-                "iPhone 17", "iPhone 17 Plus", "iPhone 17 Air"
+                { name: "iPhone 11", colors: ["Black", "White", "Purple", "Yellow", "Green", "Product Red"] },
+                { name: "iPhone 12", colors: ["Black", "White", "Blue", "Green", "Product Red", "Purple"] },
+                { name: "iPhone 12 Mini", colors: ["Black", "White", "Blue", "Green", "Product Red", "Purple"] },
+                { name: "iPhone 13", colors: ["Midnight", "Starlight", "Blue", "Pink", "Green", "Product Red"] },
+                { name: "iPhone 13 Mini", colors: ["Midnight", "Starlight", "Blue", "Pink", "Green", "Product Red"] },
+                { name: "iPhone 14", colors: ["Midnight", "Blue", "Starlight", "Purple", "Product Red", "Yellow"] },
+                { name: "iPhone 14 Plus", colors: ["Midnight", "Blue", "Starlight", "Purple", "Product Red", "Yellow"] },
+                { name: "iPhone 15", colors: ["Black", "Blue", "Green", "Yellow", "Pink"] },
+                { name: "iPhone 15 Plus", colors: ["Black", "Blue", "Green", "Yellow", "Pink"] },
+                { name: "iPhone 16", colors: ["Black", "White", "Pink", "Teal", "Ultramarine"] },
+                { name: "iPhone 16 Plus", colors: ["Black", "White", "Pink", "Teal", "Ultramarine"] },
+                { name: "iPhone 16E", colors: ["Black", "White"] },
+                { name: "iPhone 17", colors: ["Black", "White", "Mist Blue", "Sage", "Lavender"] },
+                { name: "iPhone 17 Plus", colors: ["Black", "White", "Mist Blue", "Sage", "Lavender"] },
+                { name: "iPhone 17 Air", colors: ["Space Black (Air)", "Cloud White", "Sky Blue", "Light Gold"] }
             ]
         },
         {
-            id: "uclu_ucgen",
-            name: "📷 Üçlü Kamera (Üçgen)",
+            // 3 kamera (üçgen) - Pro modeller 11-15
+            name: "iPhone 11 Pro / 11 Pro Max / 12 Pro / 12 Pro Max / 13 Pro / 13 Pro Max / 14 Pro / 14 Pro Max / 15 Pro / 15 Pro Max",
             models: [
-                "iPhone 11 Pro", "iPhone 11 Pro Max",
-                "iPhone 12 Pro", "iPhone 12 Pro Max",
-                "iPhone 13 Pro", "iPhone 13 Pro Max",
-                "iPhone 14 Pro", "iPhone 14 Pro Max",
-                "iPhone 15 Pro", "iPhone 15 Pro Max"
+                { name: "iPhone 11 Pro", colors: ["Midnight Green", "Space Gray", "Silver", "Gold"] },
+                { name: "iPhone 11 Pro Max", colors: ["Midnight Green", "Space Gray", "Silver", "Gold"] },
+                { name: "iPhone 12 Pro", colors: ["Pacific Blue", "Graphite", "Gold", "Silver"] },
+                { name: "iPhone 12 Pro Max", colors: ["Pacific Blue", "Graphite", "Gold", "Silver"] },
+                { name: "iPhone 13 Pro", colors: ["Sierra Blue", "Graphite", "Gold", "Silver", "Alpine Green"] },
+                { name: "iPhone 13 Pro Max", colors: ["Sierra Blue", "Graphite", "Gold", "Silver", "Alpine Green"] },
+                { name: "iPhone 14 Pro", colors: ["Space Black", "Deep Purple", "Gold", "Silver"] },
+                { name: "iPhone 14 Pro Max", colors: ["Space Black", "Deep Purple", "Gold", "Silver"] },
+                { name: "iPhone 15 Pro", colors: ["Black Titanium", "White Titanium", "Blue Titanium", "Natural Titanium"] },
+                { name: "iPhone 15 Pro Max", colors: ["Black Titanium", "White Titanium", "Blue Titanium", "Natural Titanium"] }
             ]
         },
         {
-            id: "uclu_yatay",
-            name: "📷 Üçlü Kamera (Yatay Tasarım)",
+            // 3 kamera (yatay yeni tasarım) - 16 Pro ve 17 Pro
+            name: "iPhone 16 Pro / 16 Pro Max / 17 Pro / 17 Pro Max",
             models: [
-                "iPhone 16 Pro", "iPhone 16 Pro Max",
-                "iPhone 17 Pro", "iPhone 17 Pro Max"
+                { name: "iPhone 16 Pro", colors: ["Black Titanium (16 Pro)", "White Titanium (16 Pro)", "Natural Titanium (16 Pro)", "Desert Titanium (16 Pro)"] },
+                { name: "iPhone 16 Pro Max", colors: ["Black Titanium (16 Pro)", "White Titanium (16 Pro)", "Natural Titanium (16 Pro)", "Desert Titanium (16 Pro)"] },
+                { name: "iPhone 17 Pro", colors: ["Cosmic Orange", "Deep Blue", "Silver"] },
+                { name: "iPhone 17 Pro Max", colors: ["Cosmic Orange", "Deep Blue", "Silver"] }
             ]
         }
     ];
 
-    // ========== TÜM MODELLER VE RENKLERİ ==========
-    const allModels = [
-        { m: "iPhone 11", c: ["Siyah", "Beyaz", "Mor", "Sarı", "Yeşil", "Kırmızı"] },
-        { m: "iPhone 11 Pro", c: ["Gece Yeşili", "Uzay Grisi", "Gümüş", "Altın"] },
-        { m: "iPhone 11 Pro Max", c: ["Gece Yeşili", "Uzay Grisi", "Gümüş", "Altın"] },
-        { m: "iPhone 12", c: ["Siyah", "Beyaz", "Mavi", "Yeşil", "Kırmızı", "Mor"] },
-        { m: "iPhone 12 Mini", c: ["Siyah", "Beyaz", "Mavi", "Yeşil", "Kırmızı", "Mor"] },
-        { m: "iPhone 12 Pro", c: ["Pasifik Mavisi", "Grafit", "Altın", "Gümüş"] },
-        { m: "iPhone 12 Pro Max", c: ["Pasifik Mavisi", "Grafit", "Altın", "Gümüş"] },
-        { m: "iPhone 13", c: ["Gece Yarısı", "Yıldız Işığı", "Mavi", "Pembe", "Yeşil", "Kırmızı"] },
-        { m: "iPhone 13 Mini", c: ["Gece Yarısı", "Yıldız Işığı", "Mavi", "Pembe", "Yeşil", "Kırmızı"] },
-        { m: "iPhone 13 Pro", c: ["Sierra Mavisi", "Grafit", "Altın", "Gümüş", "Ladin Yeşili"] },
-        { m: "iPhone 13 Pro Max", c: ["Sierra Mavisi", "Grafit", "Altın", "Gümüş", "Ladin Yeşili"] },
-        { m: "iPhone 14", c: ["Gece Yarısı", "Yıldız Işığı", "Mavi", "Mor", "Sarı", "Kırmızı"] },
-        { m: "iPhone 14 Plus", c: ["Gece Yarısı", "Yıldız Işığı", "Mavi", "Mor", "Sarı", "Kırmızı"] },
-        { m: "iPhone 14 Pro", c: ["Uzay Siyahı", "Derin Mor", "Altın", "Gümüş"] },
-        { m: "iPhone 14 Pro Max", c: ["Uzay Siyahı", "Derin Mor", "Altın", "Gümüş"] },
-        { m: "iPhone 15", c: ["Siyah", "Mavi", "Yeşil", "Sarı", "Pembe"] },
-        { m: "iPhone 15 Plus", c: ["Siyah", "Mavi", "Yeşil", "Sarı", "Pembe"] },
-        { m: "iPhone 15 Pro", c: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Mavi Titanyum"] },
-        { m: "iPhone 15 Pro Max", c: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Mavi Titanyum"] },
-        { m: "iPhone 16", c: ["Siyah", "Beyaz", "Pembe", "Teal (Turkuaz)", "Ultramarin"] },
-        { m: "iPhone 16 Plus", c: ["Siyah", "Beyaz", "Pembe", "Teal (Turkuaz)", "Ultramarin"] },
-        { m: "iPhone 16E", c: ["Siyah", "Beyaz"] },
-        { m: "iPhone 16 Pro", c: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Çöl Titanyumu"] },
-        { m: "iPhone 16 Pro Max", c: ["Siyah Titanyum", "Beyaz Titanyum", "Natürel Titanyum", "Çöl Titanyumu"] },
-        { m: "iPhone 17", c: ["Siyah", "Gümüş", "Natürel Titanyum", "Mavi", "Yeşil"] },
-        { m: "iPhone 17 Plus", c: ["Siyah", "Gümüş", "Natürel Titanyum", "Mavi", "Yeşil"] },
-        { m: "iPhone 17 Air", c: ["Siyah", "Gümüş", "Natürel Titanyum", "Mavi", "Yeşil"] },
-        { m: "iPhone 17 Pro", c: ["Siyah Titanyum", "Beyaz Titanyum", "Doğal Titanyum", "Turuncu"] },
-        { m: "iPhone 17 Pro Max", c: ["Siyah Titanyum", "Beyaz Titanyum", "Doğal Titanyum", "Turuncu"] }
-    ];
-
-    // ========== ARAYÜZÜ OLUŞTUR ==========
+    // ========== ARAYÜZ ==========
     const listDiv = document.getElementById('list');
 
-    cameraGroups.forEach(group => {
-        // Grup içindeki modelleri filtrele
-        const groupModels = allModels.filter(m => group.models.includes(m.m));
-        if (groupModels.length === 0) return;
-
-        // Model isimlerini yan yana yaz
-        const modelNamesStr = group.models.join(' • ');
-
+    cameraGroups.forEach((group, gIdx) => {
         let html = `<div class="camera-group">
-            <div class="camera-group-header">
-                ${group.name}
-                <span class="models-list">${modelNamesStr}</span>
-            </div>`;
+            <div class="camera-group-header">📷 ${group.name}</div>`;
 
-        // Her model için ayrı satır
-        groupModels.forEach(model => {
-            html += `<div class="model-row">
-                <div class="model-row-header">${model.m}</div>`;
-
-            model.c.forEach(color => {
-                const code = colorMap[color] || "#555";
-                let isLight = ["Beyaz", "Yıldız Işığı", "Gümüş", "Beyaz Titanyum"].includes(color);
-                let textStyle = (color === "Sarı") ? "color:#d4af37; text-shadow: 0 0 1px #000;" : (isLight ? "color:#888;" : `color:${code};`);
-                if (color === "Gece Yeşili") textStyle = `color:${code}; font-weight:900;`;
+        group.models.forEach(model => {
+            model.colors.forEach(color => {
+                const code = colorMap[color] || "#888";
+                let isLight = ["White", "Starlight", "Silver", "White Titanium", "Cloud White", "Light Gold", "Natural Titanium", "Natural Titanium (16 Pro)", "White Titanium (16 Pro)"].includes(color);
+                let textStyle = isLight ? "color:#888;" : `color:${code};`;
+                if (color === "Yellow") textStyle = "color:#d4af37; text-shadow: 0 0 1px #000;";
 
                 html += `<div class="color-row">
                     <div class="color-info">
                         <div class="color-dot" style="background:${code}; border: 1px solid ${isLight ? '#bbb' : 'transparent'};"></div>
-                        <span style="font-weight:bold; ${textStyle}">${color}</span>
+                        <span style="font-weight:bold; ${textStyle}">
+                            ${color}
+                            <span class="model-name-tag">${model.name}</span>
+                        </span>
                     </div>
-                    <input type="number" class="lens-count" data-model="${model.m}" data-color="${color}" data-code="${code}" placeholder="0">
+                    <input type="number" class="lens-count" data-group="${gIdx}" data-model="${model.name}" data-color="${color}" data-code="${code}" placeholder="0">
                 </div>`;
             });
-
-            html += `</div>`; // model-row kapat
         });
 
-        html += `</div>`; // camera-group kapat
+        html += `</div>`;
         listDiv.innerHTML += html;
     });
 
-    // ========== GÖNDER / KAYDET ==========
+    // ========== GÖNDER ==========
     async function finishProcess() {
         const inputs = document.querySelectorAll('.lens-count');
         let orders = {};
@@ -210,7 +178,6 @@
 
         if (!hasOrder) return alert("Lütfen adet giriniz!");
 
-        // Listeyi yeniden oluştur (sadece siparişler)
         listDiv.innerHTML = "";
         for (let model in orders) {
             let gDiv = document.createElement('div');
@@ -218,9 +185,9 @@
             gDiv.innerHTML = `<div class="camera-group-header" style="background:#007aff;">${model}</div>`;
             
             orders[model].forEach(item => {
-                let isLight = ["Beyaz", "Yıldız Işığı", "Gümüş", "Beyaz Titanyum"].includes(item.color);
-                let textStyle = (item.color === "Sarı") ? "color:#d4af37;" : (isLight ? "color:#888;" : `color:${item.code};`);
-                if (item.color === "Gece Yeşili") textStyle = `color:${item.code};`;
+                let isLight = ["White", "Starlight", "Silver", "White Titanium", "Cloud White", "Light Gold", "Natural Titanium", "Natural Titanium (16 Pro)", "White Titanium (16 Pro)"].includes(item.color);
+                let textStyle = isLight ? "color:#888;" : `color:${item.code};`;
+                if (item.color === "Yellow") textStyle = "color:#d4af37;";
 
                 gDiv.innerHTML += `<div class="result-item">
                     <div style="display:flex; align-items:center; gap:12px;">
@@ -233,7 +200,6 @@
             listDiv.appendChild(gDiv);
         }
 
-        // Fotoğraf çek
         document.getElementById('controls').style.display = "none";
         const canvas = await html2canvas(document.querySelector("#captureArea"), { scale: 3 });
         const imgData = canvas.toDataURL("image/png");
