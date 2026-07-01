@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>iPhone Renk Paleti</title>
+    <title>iPhone Renk Paleti 🎨</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -18,20 +18,22 @@
             margin-bottom: 12px;
         }
 
+        /* ===== FOTOĞRAF ÇIKTISI ===== */
         #outputArea {
             display: none;
-            max-width: 430px;
+            width: 100%;
+            max-width: 500px;
             margin: 0 auto 20px;
             background: white;
             border-radius: 18px;
-            padding: 18px 16px 16px;
+            padding: 20px 16px 18px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             text-align: center;
         }
         #outputArea .note {
             font-size: 12px;
             color: #86868b;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
         #outputInner {
             display: flex;
@@ -39,28 +41,28 @@
             align-items: center;
             gap: 14px;
         }
-        #outputInner .foto-card {
+        #outputInner .kart {
             background: #f5f5f7;
             border-radius: 14px;
-            padding: 10px;
+            padding: 8px;
             width: 100%;
-            max-width: 400px;
+            max-width: 360px;
             border: 1px solid #e8e8ed;
         }
-        #outputInner .foto-card img {
+        #outputInner .kart img {
             width: 100%;
             height: auto;
             border-radius: 10px;
             display: block;
             cursor: pointer;
         }
-        #outputInner .foto-label {
-            font-size: 12px;
+        #outputInner .kart .etiket {
+            font-size: 11px;
             color: #555;
-            margin-top: 5px;
+            margin-top: 4px;
             font-weight: 500;
         }
-        .btn-clear-output {
+        .btn-temizle {
             margin-top: 4px;
             background: #ff3b30;
             color: white;
@@ -71,7 +73,7 @@
             font-weight: 600;
             cursor: pointer;
         }
-        .btn-clear-output:hover { background: #d63031; }
+        .btn-temizle:hover { background: #d63031; }
 
         .top-bar {
             display: flex;
@@ -198,17 +200,18 @@
             h1 { font-size: 18px; }
             .btn { padding: 8px 14px; font-size: 12px; }
             .btn-foto { padding: 8px 18px; }
+            #outputInner .kart { max-width: 300px; }
         }
     </style>
 </head>
 <body>
 
-<h1>📱 iPhone Renk Paleti</h1>
+<h1>iPhone Renk Paleti 🎨</h1>
 
 <div id="outputArea">
     <div class="note">👇 Resme basılı tut → "Fotoğraflara Kaydet"</div>
     <div id="outputInner"></div>
-    <button class="btn-clear-output" onclick="ciktiTemizle()">Temizle</button>
+    <button class="btn-temizle" onclick="ciktiTemizle()">Temizle</button>
 </div>
 
 <div class="top-bar">
@@ -385,64 +388,70 @@ function fotografOlustur() {
         const g = colorData[mi];
         const c = g.colors[ci];
 
+        // Küçük resim - 300x200
         const canvas = document.createElement('canvas');
-        canvas.width = 400;
-        canvas.height = 300;
+        canvas.width = 300;
+        canvas.height = 200;
         const ctx = canvas.getContext('2d');
 
-        // Sadece düz zemin - telefon yok
+        // Düz renk zemin
         ctx.fillStyle = c.hex;
-        ctx.fillRect(0, 0, 400, 300);
+        ctx.fillRect(0, 0, 300, 200);
 
-        // Hafif üst gölge
-        ctx.fillStyle = 'rgba(0,0,0,0.04)';
-        ctx.fillRect(0, 0, 400, 2);
+        // Hafif üst çizgi
+        ctx.fillStyle = 'rgba(0,0,0,0.05)';
+        ctx.fillRect(0, 0, 300, 2);
 
-        // Model adı (orta üst)
+        // Model
         ctx.textAlign = 'center';
         ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 22px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.font = 'bold 15px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.shadowColor = 'rgba(0,0,0,0.2)';
-        ctx.shadowBlur = 4;
-        ctx.fillText(g.model, 200, 90);
+        ctx.shadowBlur = 3;
+        ctx.fillText(g.model, 150, 58);
         ctx.shadowColor = 'transparent';
         ctx.shadowBlur = 0;
 
         // Renk (Türkçe) - büyük
         ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 42px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.font = 'bold 30px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.shadowColor = 'rgba(0,0,0,0.2)';
-        ctx.shadowBlur = 6;
-        ctx.fillText(c.tr, 200, 175);
+        ctx.shadowBlur = 5;
+        ctx.fillText(c.tr, 150, 118);
         ctx.shadowColor = 'transparent';
         ctx.shadowBlur = 0;
 
         // İngilizce
         ctx.fillStyle = 'rgba(255,255,255,0.5)';
-        ctx.font = '14px -apple-system, BlinkMacSystemFont, sans-serif';
-        ctx.fillText(c.en, 200, 205);
+        ctx.font = '10px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.fillText(c.en, 150, 138);
 
         // Adet - sol üst
         ctx.fillStyle = 'rgba(0,0,0,0.2)';
-        yuvarlak(ctx, 14, 14, 60, 32, 8);
+        yuvarlak(ctx, 10, 10, 50, 26, 7);
         ctx.fill();
         ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 16px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.font = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(adet + ' adet', 44, 35);
+        ctx.fillText(adet + ' adet', 35, 27);
 
         const kart = document.createElement('div');
-        kart.className = 'foto-card';
+        kart.className = 'kart';
         const img = document.createElement('img');
         img.src = canvas.toDataURL('image/png');
         img.alt = g.model + ' - ' + c.tr;
         kart.appendChild(img);
         const lbl = document.createElement('div');
-        lbl.className = 'foto-label';
+        lbl.className = 'etiket';
         lbl.textContent = g.model + ' — ' + c.tr + ' (' + adet + ' adet)';
         kart.appendChild(lbl);
         output.appendChild(kart);
     });
+
+    // Sayfayı tamamen temizle - sadece çıktı kalsın
+    document.querySelector('.container').style.display = 'none';
+    document.querySelector('.top-bar').style.display = 'none';
+    document.querySelector('.stats').style.display = 'none';
 
     document.getElementById('outputArea').scrollIntoView({ behavior: 'smooth' });
     toast(seciliRenkler.size + ' fotoğraf oluşturuldu!');
@@ -451,6 +460,11 @@ function fotografOlustur() {
 function ciktiTemizle() {
     document.getElementById('outputInner').innerHTML = '';
     document.getElementById('outputArea').style.display = 'none';
+
+    // Sayfayı geri getir
+    document.querySelector('.container').style.display = '';
+    document.querySelector('.top-bar').style.display = '';
+    document.querySelector('.stats').style.display = '';
 }
 
 function yuvarlak(ctx, x, y, w, h, r) {
