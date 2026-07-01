@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone Lens Kartı Oluşturucu</title>
+    <title>iPhone Lens Kartı</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -12,150 +12,105 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #f0f2f5;
             padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .header {
-            max-width: 1000px;
-            margin: 0 auto 30px;
+        .container {
+            max-width: 440px;
+            width: 100%;
+        }
+
+        .baslik {
             text-align: center;
+            margin-bottom: 24px;
         }
 
-        .header h1 {
-            font-size: 26px;
+        .baslik h1 {
+            font-size: 24px;
             font-weight: 700;
             color: #1a1a2e;
         }
 
-        .header p {
+        .baslik p {
             color: #6b7280;
-            font-size: 14px;
+            font-size: 13px;
             margin-top: 4px;
         }
 
-        .controls-bar {
-            max-width: 1000px;
-            margin: 0 auto 24px;
+        /* Kontrol Paneli */
+        .panel {
             background: white;
             border-radius: 16px;
-            padding: 20px 24px;
+            padding: 20px;
             box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 14px;
+            margin-bottom: 24px;
         }
 
-        .controls-bar label {
+        .panel label {
+            display: block;
             font-size: 12px;
             font-weight: 600;
             color: #374151;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-right: 4px;
+            margin-bottom: 5px;
+            margin-top: 14px;
         }
 
-        .controls-bar input,
-        .controls-bar select {
-            padding: 9px 12px;
+        .panel label:first-child {
+            margin-top: 0;
+        }
+
+        .panel input {
+            width: 100%;
+            padding: 11px 14px;
             border: 2px solid #e5e7eb;
             border-radius: 10px;
-            font-size: 14px;
+            font-size: 15px;
             outline: none;
             background: #fafafa;
             transition: border-color 0.2s;
         }
 
-        .controls-bar input:focus,
-        .controls-bar select:focus {
+        .panel input:focus {
             border-color: #3b82f6;
             background: white;
         }
 
-        .controls-bar .sep {
-            color: #d1d5db;
-            font-size: 18px;
-            user-select: none;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-primary {
-            background: #1a1a2e;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #2d2d4a;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(26,26,46,0.25);
-        }
-
-        .btn-primary:active {
-            transform: scale(0.97);
-        }
-
-        .btn-success {
-            background: #059669;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #047857;
-            transform: translateY(-1px);
-        }
-
-        .btn-danger {
-            background: #dc2626;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #b91c1c;
-        }
-
-        /* Renk seçici */
-        .color-picker-group {
+        /* Renk Seçimi */
+        .renk-grid {
             display: flex;
-            align-items: center;
-            gap: 6px;
             flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
         }
 
-        .color-pill {
-            padding: 5px 12px 5px 8px;
+        .renk-btn {
+            padding: 7px 14px 7px 10px;
             border-radius: 20px;
             border: 2px solid #e5e7eb;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             background: #fafafa;
             transition: all 0.15s;
         }
 
-        .color-pill:hover {
+        .renk-btn:hover {
             transform: scale(1.04);
         }
 
-        .color-pill.active {
+        .renk-btn.secili {
             border-color: #1a1a2e;
             box-shadow: 0 0 0 2px white, 0 0 0 4px #1a1a2e;
         }
 
-        .color-pill .dot {
+        .renk-btn .nokta {
             width: 16px;
             height: 16px;
             border-radius: 50%;
@@ -163,54 +118,41 @@
             flex-shrink: 0;
         }
 
-        /* KARTLAR */
-        .cards-grid {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .card-wrapper {
+        /* KART */
+        .kart {
             background: white;
             border-radius: 18px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.07);
             overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
-            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
         }
 
-        .card-wrapper:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-        }
-
-        .card-inner {
-            padding: 28px 20px 20px;
+        .kart-ic {
+            padding: 32px 24px 22px;
             text-align: center;
         }
 
-        .card-apple-icon {
-            width: 24px;
-            height: 30px;
-            margin: 0 auto 10px;
+        .ikon {
+            width: 26px;
+            height: 32px;
+            margin: 0 auto 12px;
             position: relative;
         }
 
-        .card-apple-icon::before {
+        .ikon::before {
             content: '';
             position: absolute;
             top: 0;
             left: 50%;
             transform: translateX(-50%);
             width: 20px;
-            height: 24px;
+            height: 25px;
             border: 2.5px solid #1a1a2e;
             border-radius: 5px;
         }
 
-        .card-apple-icon::after {
+        .ikon::after {
             content: '';
             position: absolute;
             bottom: 0;
@@ -222,102 +164,103 @@
             border-radius: 2px;
         }
 
-        .card-model-label {
+        .kart-model-baslik {
             font-size: 12px;
             font-weight: 600;
             color: #6b7280;
             text-transform: uppercase;
-            letter-spacing: 1.2px;
-            margin-bottom: 1px;
+            letter-spacing: 1.5px;
+            margin-bottom: 2px;
         }
 
-        .card-model-name {
-            font-size: 18px;
+        .kart-model-adi {
+            font-size: 20px;
             font-weight: 800;
             color: #1a1a2e;
-            margin: 3px 0 8px;
+            margin: 4px 0 10px;
         }
 
-        .card-color-row {
+        .kart-renk-satir {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            margin: 6px 0 4px;
+            gap: 10px;
+            margin: 8px 0 6px;
         }
 
-        .card-color-dot {
+        .kart-renk-nokta {
             display: inline-block;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             border: 2px solid #e5e7eb;
             box-shadow: inset 0 0 4px rgba(0,0,0,0.05);
         }
 
-        .card-color-text {
-            font-size: 15px;
+        .kart-renk-yazi {
+            font-size: 16px;
             font-weight: 600;
             color: #4b5563;
         }
 
-        .card-number {
-            font-size: 38px;
+        .kart-numara {
+            font-size: 44px;
             font-weight: 900;
             color: #1a1a2e;
-            margin-top: 4px;
-            letter-spacing: 2px;
-            line-height: 1.1;
+            margin-top: 6px;
+            letter-spacing: 3px;
+            line-height: 1;
         }
 
-        .card-footer {
+        .kart-alt {
             border-top: 1px solid #e5e7eb;
-            padding: 8px 20px;
+            padding: 10px 24px;
             text-align: center;
             font-size: 10px;
             color: #9ca3af;
             background: #f9fafb;
-            letter-spacing: 0.8px;
+            letter-spacing: 1px;
         }
 
-        .card-actions {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            display: flex;
-            gap: 4px;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .card-wrapper:hover .card-actions {
-            opacity: 1;
-        }
-
-        .card-action-btn {
-            width: 30px;
-            height: 30px;
+        /* Buton */
+        .btn-kaydet {
+            width: 100%;
+            padding: 15px;
             border: none;
-            border-radius: 8px;
-            background: rgba(0,0,0,0.55);
-            color: white;
-            font-size: 14px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.15s;
+            background: #1a1a2e;
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
         }
 
-        .card-action-btn:hover {
-            background: rgba(0,0,0,0.8);
+        .btn-kaydet:hover {
+            background: #2d2d4a;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(26,26,46,0.3);
         }
 
-        .card-action-btn.red:hover {
-            background: #dc2626;
+        .btn-kaydet:active {
+            transform: scale(0.97);
         }
 
-        /* Toast mesaj */
+        .ipucu {
+            text-align: center;
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 10px;
+        }
+
+        /* Toast */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -335,80 +278,73 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.25);
         }
 
-        .toast.show {
+        .toast.goster {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
-        }
-
-        .bottom-info {
-            max-width: 1000px;
-            margin: 30px auto 0;
-            text-align: center;
-            font-size: 13px;
-            color: #9ca3af;
-        }
-
-        @media (max-width: 700px) {
-            .controls-bar { flex-direction: column; align-items: stretch; }
-            .controls-bar .sep { display: none; }
-            .cards-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>📱 iPhone Lens Kartı Oluşturucu</h1>
-        <p>Modelleri aşağıya yaz, renk ve numara seç, her kartı tek tek resim olarak kaydet</p>
-    </div>
-
-    <!-- Kontrol Paneli -->
-    <div class="controls-bar" id="controls-bar">
-        <label>Model Adı:</label>
-        <input type="text" id="model-input" placeholder="iPhone modelini yaz" value="iPhone 16" style="flex:1; min-width:140px;">
-
-        <span class="sep">|</span>
-
-        <label>Renk:</label>
-        <div class="color-picker-group" id="color-picker">
-            <div class="color-pill active" data-color="Siyah" data-hex="#2d2d2d">
-                <span class="dot" style="background:#2d2d2d"></span> Siyah
-            </div>
-            <div class="color-pill" data-color="Beyaz" data-hex="#f5f5f0">
-                <span class="dot" style="background:#f5f5f0"></span> Beyaz
-            </div>
-            <div class="color-pill" data-color="Pembe" data-hex="#f4a4b8">
-                <span class="dot" style="background:#f4a4b8"></span> Pembe
-            </div>
-            <div class="color-pill" data-color="Deniz Mavisi" data-hex="#7ec8c1">
-                <span class="dot" style="background:#7ec8c1"></span> Deniz Mavisi
-            </div>
-            <div class="color-pill" data-color="Laciverttaş" data-hex="#4a5c8a">
-                <span class="dot" style="background:#4a5c8a"></span> Laciverttaş
-            </div>
+    <div class="container">
+        <div class="baslik">
+            <h1>📱 iPhone Lens Kartı</h1>
+            <p>Model adını yaz, rengini seç, numarayı gir ve kaydet</p>
         </div>
 
-        <span class="sep">|</span>
+        <!-- Kontroller -->
+        <div class="panel">
+            <label>Model Adı</label>
+            <input type="text" id="model-input" placeholder="Örn: iPhone 16 128GB" value="iPhone 16 128GB">
 
-        <label>Numara:</label>
-        <input type="text" id="number-input" placeholder="001" value="001" style="width:80px;">
+            <label>Renk Seç</label>
+            <div class="renk-grid" id="renk-grid">
+                <div class="renk-btn secili" data-renk="Siyah" data-hex="#2d2d2d">
+                    <span class="nokta" style="background:#2d2d2d"></span> Siyah
+                </div>
+                <div class="renk-btn" data-renk="Beyaz" data-hex="#f5f5f0">
+                    <span class="nokta" style="background:#f5f5f0"></span> Beyaz
+                </div>
+                <div class="renk-btn" data-renk="Pembe" data-hex="#f4a4b8">
+                    <span class="nokta" style="background:#f4a4b8"></span> Pembe
+                </div>
+                <div class="renk-btn" data-renk="Deniz Mavisi" data-hex="#7ec8c1">
+                    <span class="nokta" style="background:#7ec8c1"></span> Deniz Mavisi
+                </div>
+                <div class="renk-btn" data-renk="Laciverttaş" data-hex="#4a5c8a">
+                    <span class="nokta" style="background:#4a5c8a"></span> Laciverttaş
+                </div>
+            </div>
 
-        <button class="btn btn-success" id="add-btn">+ Kart Ekle</button>
-        <button class="btn btn-danger" id="clear-btn">Temizle</button>
-    </div>
+            <label>Numara</label>
+            <input type="text" id="number-input" placeholder="Örn: 001" value="001">
+        </div>
 
-    <!-- Kartlar -->
-    <div class="cards-grid" id="cards-grid"></div>
+        <!-- Canlı Kart -->
+        <div class="kart" id="kart">
+            <div class="kart-ic">
+                <div class="ikon"></div>
+                <div class="kart-model-baslik" id="kart-baslik">iPhone 16 128GB</div>
+                <div class="kart-model-adi" id="kart-model">iPhone 16 128GB</div>
+                <div class="kart-renk-satir">
+                    <span class="kart-renk-nokta" id="kart-renk-nokta" style="background:#2d2d2d"></span>
+                    <span class="kart-renk-yazi" id="kart-renk-yazi">Siyah</span>
+                </div>
+                <div class="kart-numara" id="kart-numara">001</div>
+            </div>
+            <div class="kart-alt">✦ APPLE LENS KARTI ✦</div>
+        </div>
 
-    <div class="bottom-info">
-        💡 Her kartın üzerine gelince sağ üstte <strong>📷 (resim kaydet)</strong> ve <strong>🗑 (sil)</strong> butonları çıkar
+        <!-- Kaydet Butonu -->
+        <button class="btn-kaydet" id="kaydet-btn">📷 Resim Olarak Kaydet</button>
+        <p class="ipucu">Butona tıkla, PNG resim bilgisayarına insin 💕</p>
     </div>
 
     <div class="toast" id="toast"></div>
 
     <script>
-        // ========== Renk Tanımları ==========
-        const COLORS = {
+        // ========== Renkler ==========
+        const RENKLER = {
             'Siyah':        '#2d2d2d',
             'Beyaz':        '#f5f5f0',
             'Pembe':        '#f4a4b8',
@@ -419,190 +355,86 @@
         // ========== DOM ==========
         const modelInput = document.getElementById('model-input');
         const numberInput = document.getElementById('number-input');
-        const colorPills = document.querySelectorAll('.color-pill');
-        const addBtn = document.getElementById('add-btn');
-        const clearBtn = document.getElementById('clear-btn');
-        const grid = document.getElementById('cards-grid');
+        const renkBtnlari = document.querySelectorAll('.renk-btn');
+        const kartBaslik = document.getElementById('kart-baslik');
+        const kartModel = document.getElementById('kart-model');
+        const kartRenkNokta = document.getElementById('kart-renk-nokta');
+        const kartRenkYazi = document.getElementById('kart-renk-yazi');
+        const kartNumara = document.getElementById('kart-numara');
+        const kaydetBtn = document.getElementById('kaydet-btn');
+        const kart = document.getElementById('kart');
         const toast = document.getElementById('toast');
 
-        let selectedColor = 'Siyah';
-        let selectedHex = '#2d2d2d';
+        let seciliRenk = 'Siyah';
+        let seciliHex = '#2d2d2d';
 
         // ========== Toast ==========
-        function showToast(msg, duration) {
+        function toastGoster(msg, sure) {
             toast.textContent = msg;
-            toast.classList.add('show');
-            clearTimeout(toast._timer);
-            toast._timer = setTimeout(() => toast.classList.remove('show'), duration || 1800);
+            toast.classList.add('goster');
+            clearTimeout(toast._zaman);
+            toast._zaman = setTimeout(() => toast.classList.remove('goster'), sure || 1800);
         }
 
         // ========== Renk Seçimi ==========
-        colorPills.forEach(pill => {
-            pill.addEventListener('click', function() {
-                colorPills.forEach(p => p.classList.remove('active'));
-                this.classList.add('active');
-                selectedColor = this.dataset.color;
-                selectedHex = this.dataset.hex;
+        renkBtnlari.forEach(btn => {
+            btn.addEventListener('click', function() {
+                renkBtnlari.forEach(b => b.classList.remove('secili'));
+                this.classList.add('secili');
+                seciliRenk = this.dataset.renk;
+                seciliHex = this.dataset.hex;
+                canliGuncelle();
             });
         });
 
-        // ========== Kart ID sayaç ==========
-        let cardIdCounter = 0;
-
-        // ========== Yeni Kart Ekle ==========
-        function addCard(modelName, colorName, colorHex, number) {
-            const id = ++cardIdCounter;
-
-            const wrapper = document.createElement('div');
-            wrapper.className = 'card-wrapper';
-            wrapper.dataset.id = id;
-
-            wrapper.innerHTML = `
-                <div class="card-actions">
-                    <button class="card-action-btn save-btn" title="Resim Olarak Kaydet">📷</button>
-                    <button class="card-action-btn red delete-btn" title="Kartı Sil">🗑</button>
-                </div>
-                <div class="card-inner">
-                    <div class="card-apple-icon"></div>
-                    <div class="card-model-label">${escapeHtml(modelName)}</div>
-                    <div class="card-model-name">${escapeHtml(modelName)}</div>
-                    <div class="card-color-row">
-                        <span class="card-color-dot" style="background:${colorHex}"></span>
-                        <span class="card-color-text">${escapeHtml(colorName)}</span>
-                    </div>
-                    <div class="card-number">${escapeHtml(number)}</div>
-                </div>
-                <div class="card-footer">✦ APPLE LENS KARTI ✦</div>
-            `;
-
-            // Sil butonu
-            wrapper.querySelector('.delete-btn').addEventListener('click', function(e) {
-                e.stopPropagation();
-                wrapper.remove();
-                showToast('🗑 Kart silindi');
-            });
-
-            // Kaydet butonu
-            wrapper.querySelector('.save-btn').addEventListener('click', function(e) {
-                e.stopPropagation();
-                saveCardAsImage(wrapper);
-            });
-
-            // Kartın kendine tıklayınca da kaydet (alternatif)
-            // wrapper.addEventListener('click', function() {
-            //     saveCardAsImage(wrapper);
-            // });
-
-            grid.appendChild(wrapper);
-
-            // Animasyon için hafif scroll
-            setTimeout(() => {
-                wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 50);
-
-            return id;
+        // ========== Canlı Güncelle ==========
+        function canliGuncelle() {
+            const model = modelInput.value.trim() || 'iPhone';
+            const num = numberInput.value.trim() || '---';
+            kartBaslik.textContent = model;
+            kartModel.textContent = model;
+            kartRenkYazi.textContent = seciliRenk;
+            kartRenkNokta.style.background = seciliHex;
+            kartNumara.textContent = num;
         }
 
-        // ========== HTML Escape ==========
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
+        modelInput.addEventListener('input', canliGuncelle);
+        numberInput.addEventListener('input', canliGuncelle);
 
-        // ========== Kartı Resim Olarak Kaydet (html2canvas) ==========
-        function saveCardAsImage(wrapper) {
-            const modelName = wrapper.querySelector('.card-model-label').textContent.trim();
-            const colorName = wrapper.querySelector('.card-color-text').textContent.trim();
-            const number = wrapper.querySelector('.card-number').textContent.trim();
+        // ========== Resim Kaydet ==========
+        kaydetBtn.addEventListener('click', function() {
+            const model = modelInput.value.trim().replace(/[^a-zA-Z0-9ÇçĞğİıÖöŞşÜü\- ]/g, '').replace(/\s+/g, '_') || 'iPhone';
+            const renk = seciliRenk;
+            const num = numberInput.value.trim() || '000';
+            const dosyaAdi = model + '_' + renk + '_' + num + '.png';
 
-            // Dosya adı
-            const safeModel = modelName.replace(/[^a-zA-Z0-9ÇçĞğİıÖöŞşÜü\- ]/g, '').replace(/\s+/g, '_') || 'iPhone';
-            const fileName = `${safeModel}_${colorName}_${number}.png`;
-
-            // Kaydet butonunu gizle (geçici)
-            const actions = wrapper.querySelector('.card-actions');
-            actions.style.display = 'none';
-
-            // html2canvas ile çek
-            html2canvas(wrapper, {
+            // html2canvas ile kartı çek
+            html2canvas(kart, {
                 scale: 2.5,
                 backgroundColor: '#ffffff',
                 useCORS: true,
-                logging: false,
-                width: wrapper.offsetWidth,
-                height: wrapper.offsetHeight
-            }).then(canvas => {
-                // Butonu geri getir
-                actions.style.display = 'flex';
-
-                // İndir
+                logging: false
+            }).then(function(canvas) {
                 const link = document.createElement('a');
-                link.download = fileName;
+                link.download = dosyaAdi;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
-
-                showToast('✅ ' + fileName + ' indirildi!');
-            }).catch(err => {
-                actions.style.display = 'flex';
-                console.error('html2canvas hatası:', err);
-                showToast('❌ Hata oluştu, tekrar dene', 2500);
+                toastGoster('✅ ' + dosyaAdi + ' indirildi!');
+            }).catch(function(err) {
+                console.error('Hata:', err);
+                toastGoster('❌ Hata oldu, tekrar dene', 2500);
             });
-        }
-
-        // ========== "Kart Ekle" Butonu ==========
-        addBtn.addEventListener('click', function() {
-            const model = modelInput.value.trim();
-            const number = numberInput.value.trim();
-
-            if (!model) {
-                showToast('⚠ Lütfen model adı yaz', 2000);
-                modelInput.focus();
-                return;
-            }
-            if (!number) {
-                showToast('⚠ Lütfen numara yaz', 2000);
-                numberInput.focus();
-                return;
-            }
-
-            addCard(model, selectedColor, selectedHex, number);
-            showToast('✅ Kart eklendi!');
         });
 
-        // ========== Enter tuşu ile ekle ==========
+        // ========== Enter ile numara alanından kaydet ==========
         numberInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
-                addBtn.click();
-            }
-        });
-        modelInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                numberInput.focus();
+                kaydetBtn.click();
             }
         });
 
-        // ========== Tümünü Temizle ==========
-        clearBtn.addEventListener('click', function() {
-            if (grid.children.length === 0) {
-                showToast('Zaten hiç kart yok');
-                return;
-            }
-            if (confirm('Tüm kartları silmek istediğine emin misin?')) {
-                grid.innerHTML = '';
-                showToast('🗑 Tüm kartlar silindi');
-            }
-        });
-
-        // ========== İlk örnek kartlar ==========
-        // Başlangıçta birkaç örnek ekleyelim
-        document.addEventListener('DOMContentLoaded', function() {
-            // Kullanıcı hemen kendi modellerini eklesin diye örnek bırakmıyorum
-            // İstersen aşağıdaki satırları aktif edebilirsin
-            // addCard('iPhone 16 128GB', 'Siyah', '#2d2d2d', '001');
-            // addCard('iPhone 16 Plus 256GB', 'Deniz Mavisi', '#7ec8c1', '002');
-            // addCard('iPhone 16e 128GB', 'Beyaz', '#f5f5f0', '003');
-        });
+        // ========== Başlangıç ==========
+        canliGuncelle();
     </script>
 
 </body>
