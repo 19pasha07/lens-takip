@@ -2,488 +2,751 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>iPhone Renk Paleti 🎨</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone 16 Serisi - Lens Kartı Oluşturucu</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #ececec;
-            padding: 16px;
+            background: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
+
+        .container {
+            background: white;
+            border-radius: 24px;
+            padding: 36px;
+            max-width: 520px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
         h1 {
-            text-align: center;
             font-size: 22px;
-            color: #1d1d1f;
+            font-weight: 700;
+            color: #1a1a2e;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 11px 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: border-color 0.2s;
+            outline: none;
+            background: #fafafa;
+        }
+
+        input:focus, select:focus {
+            border-color: #3b82f6;
+            background: white;
+        }
+
+        /* Model Seçici */
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .model-btn {
+            padding: 12px 8px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            background: #fafafa;
+            cursor: pointer;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            transition: all 0.2s;
+        }
+
+        .model-btn:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .model-btn.active {
+            border-color: #1a1a2e;
+            background: #1a1a2e;
+            color: white;
+        }
+
+        .model-btn small {
+            display: block;
+            font-size: 10px;
+            font-weight: 400;
+            opacity: 0.6;
+            margin-top: 2px;
+        }
+
+        /* Renk Grid */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .color-option {
+            padding: 10px 4px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.15s;
+            background: #fafafa;
+        }
+
+        .color-option:hover {
+            transform: scale(1.04);
+        }
+
+        .color-option.selected {
+            border-color: #1a1a2e;
+            box-shadow: 0 0 0 2px white, 0 0 0 4px #1a1a2e;
+        }
+
+        .color-option.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .color-dot {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.08);
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+
+        /* Kart Ön İzleme */
+        .preview-area {
+            margin-top: 20px;
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            border: 2px dashed #d1d5db;
+            text-align: center;
+        }
+
+        .preview-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #9ca3af;
             margin-bottom: 12px;
         }
 
-        /* ===== FOTOĞRAF ÇIKTISI ===== */
-        #outputArea {
-            display: none;
+        #card-preview {
             width: 100%;
-            max-width: 500px;
-            margin: 0 auto 20px;
-            background: white;
+            max-width: 380px;
+            margin: 0 auto;
             border-radius: 18px;
-            padding: 20px 16px 18px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        #outputArea .note {
-            font-size: 12px;
-            color: #86868b;
-            margin-bottom: 14px;
-        }
-        #outputInner {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
-        }
-        #outputInner .kart {
-            background: #f5f5f7;
-            border-radius: 14px;
-            padding: 8px;
-            width: 100%;
-            max-width: 360px;
-            border: 1px solid #e8e8ed;
-        }
-        #outputInner .kart img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            display: block;
-            cursor: pointer;
-        }
-        #outputInner .kart .etiket {
-            font-size: 11px;
-            color: #555;
-            margin-top: 4px;
-            font-weight: 500;
-        }
-        .btn-temizle {
-            margin-top: 4px;
-            background: #ff3b30;
-            color: white;
-            padding: 7px 18px;
-            border: none;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .btn-temizle:hover { background: #d63031; }
-
-        .top-bar {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 14px;
-        }
-        .btn {
-            padding: 10px 22px;
-            border: none;
-            border-radius: 11px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-foto { background: #34c759; color: white; }
-        .btn-foto:hover { background: #28a745; }
-        .btn-select { background: #0071e3; color: white; padding: 10px 14px; font-size: 13px; }
-        .btn-select:hover { background: #0077ed; }
-        .btn-clear { background: #6c757d; color: white; padding: 10px 14px; font-size: 13px; }
-        .btn-clear:hover { background: #5a6268; }
-
-        .stats {
-            text-align: center;
-            color: #86868b;
-            font-size: 12px;
-            margin-bottom: 14px;
-        }
-
-        .container { max-width: 900px; margin: 0 auto; }
-
-        .model-group {
             background: white;
-            border-radius: 14px;
-            padding: 14px;
-            margin-bottom: 14px;
-            box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
-        .model-group h2 {
-            font-size: 15px;
-            color: #1d1d1f;
+
+        .card-content {
+            padding: 30px 24px 24px;
+            position: relative;
+        }
+
+        /* Apple logosu benzeri ikon */
+        .apple-icon {
+            width: 28px;
+            height: 34px;
+            margin: 0 auto 12px;
+            position: relative;
+        }
+
+        .apple-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 22px;
+            height: 26px;
+            border: 3px solid #1a1a2e;
+            border-radius: 6px;
+        }
+
+        .apple-icon::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 3px;
+            background: #1a1a2e;
+            border-radius: 2px;
+        }
+
+        .card-model-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
             margin-bottom: 2px;
         }
-        .model-group .sub {
-            font-size: 10px;
-            color: #86868b;
-            margin-bottom: 8px;
+
+        .card-model {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin: 4px 0 10px;
+            letter-spacing: 0.3px;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 7px;
-        }
-
-        .card {
-            border-radius: 9px;
-            overflow: hidden;
-            border: 2px solid #e8e8ed;
-            cursor: pointer;
-            background: white;
-            transition: 0.1s;
-        }
-        .card.selected { border-color: #0071e3; box-shadow: 0 0 0 1px #0071e3; background: #f0f7ff; }
-        .card:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-
-        .renk-kutusu {
-            height: 48px;
+        .card-color-row {
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 10px;
+            margin: 8px 0 6px;
         }
-        .renk-kutusu .tik {
-            width: 20px; height: 20px;
+
+        .card-color-badge {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.9);
+            border: 2px solid #e5e7eb;
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.05);
+        }
+
+        .card-color-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .card-number {
+            font-size: 42px;
+            font-weight: 900;
+            color: #1a1a2e;
+            margin-top: 6px;
+            letter-spacing: 3px;
+            line-height: 1;
+        }
+
+        .card-footer {
+            border-top: 1px solid #e5e7eb;
+            padding: 10px 24px;
+            text-align: center;
+            font-size: 10px;
+            color: #9ca3af;
+            background: #f9fafb;
+            letter-spacing: 1px;
+        }
+
+        /* Buton */
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
-            color: #0071e3;
-            font-weight: bold;
-            opacity: 0;
+            gap: 8px;
+            user-select: none;
+            -webkit-user-select: none;
         }
-        .card.selected .renk-kutusu .tik { opacity: 1; }
 
-        .info { padding: 6px 7px 8px; }
-        .info .name { font-size: 11px; font-weight: 600; color: #1d1d1f; margin-bottom: 4px; }
-        .info .adet {
-            width: 100%;
-            padding: 4px 5px;
-            border: 1px solid #d2d2d7;
-            border-radius: 6px;
-            font-size: 12px;
-            outline: none;
+        .btn-save {
+            background: #1a1a2e;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #2d2d4a;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(26, 26, 46, 0.3);
+        }
+
+        .btn-save:active {
+            transform: scale(0.97);
+        }
+
+        .btn-save.pressed {
+            background: #059669;
+            box-shadow: 0 6px 16px rgba(5, 150, 105, 0.4);
+        }
+
+        .hint {
             text-align: center;
-            background: #fafafa;
-            font-weight: 500;
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 10px;
         }
-        .info .adet:focus { border-color: #0071e3; background: white; }
-        .info .adet::placeholder { font-weight: 400; font-size: 10px; color: #bbb; }
 
+        .hint strong {
+            color: #6b7280;
+        }
+
+        /* Toast */
         .toast {
             position: fixed;
-            bottom: 20px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%) translateY(80px);
-            background: #1d1d1f;
+            background: #1f2937;
             color: white;
-            padding: 10px 22px;
-            border-radius: 10px;
-            font-size: 13px;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-size: 14px;
             opacity: 0;
-            transition: 0.35s;
+            transition: all 0.4s ease;
             pointer-events: none;
             z-index: 999;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
         }
-        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-        @media (max-width: 600px) {
-            .grid { grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); }
-            h1 { font-size: 18px; }
-            .btn { padding: 8px 14px; font-size: 12px; }
-            .btn-foto { padding: 8px 18px; }
-            #outputInner .kart { max-width: 300px; }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 20px 16px; }
+            .model-grid { grid-template-columns: repeat(3, 1fr); }
+            .model-btn { font-size: 12px; padding: 10px 4px; }
+            .color-grid { grid-template-columns: repeat(4, 1fr); }
+            .color-option { font-size: 11px; padding: 8px 2px; }
+            .card-model { font-size: 17px; }
+            .card-number { font-size: 32px; }
         }
     </style>
 </head>
 <body>
 
-<h1>iPhone Renk Paleti 🎨</h1>
+    <div class="container">
+        <h1>📱 iPhone Lens Kartı</h1>
+        <p class="subtitle">Model seç, rengini belirle, numarayı yaz ve resim olarak kaydet</p>
 
-<div id="outputArea">
-    <div class="note">👇 Resme basılı tut → "Fotoğraflara Kaydet"</div>
-    <div id="outputInner"></div>
-    <button class="btn-temizle" onclick="ciktiTemizle()">Temizle</button>
-</div>
+        <!-- Model Seçimi -->
+        <div class="form-group">
+            <label>Model Seç</label>
+            <div class="model-grid" id="model-grid">
+                <div class="model-btn active" data-model="iPhone 16">
+                    iPhone 16
+                    <small>6.1"</small>
+                </div>
+                <div class="model-btn" data-model="iPhone 16 Plus">
+                    iPhone 16 Plus
+                    <small>6.7"</small>
+                </div>
+                <div class="model-btn" data-model="iPhone 16e">
+                    iPhone 16e
+                    <small>6.1"</small>
+                </div>
+            </div>
+        </div>
 
-<div class="top-bar">
-    <button class="btn btn-foto" onclick="fotografOlustur()">📸 Fotoğraf Oluştur</button>
-    <button class="btn btn-select" onclick="tumunuSec()">Tümünü Seç</button>
-    <button class="btn btn-clear" onclick="temizleSecim()">Temizle</button>
-</div>
+        <!-- Model Adı (özel yazılı) -->
+        <div class="form-group">
+            <label>Model Adı (İstediğin Gibi Yaz)</label>
+            <input type="text" id="model-input" placeholder="Örn: iPhone 16 128GB" value="iPhone 16">
+        </div>
 
-<div class="stats" id="stats">Seçili: 0 renk</div>
+        <!-- Renk Seçimi -->
+        <div class="form-group">
+            <label>Renk Seç</label>
+            <div class="color-grid" id="color-grid">
+                <!-- iPhone 16 / 16 Plus renkleri (5 renk) -->
+                <div class="color-option selected" data-color="Siyah" data-hex="#2d2d2d">
+                    <span class="color-dot" style="background:#2d2d2d"></span> Siyah
+                </div>
+                <div class="color-option" data-color="Beyaz" data-hex="#f5f5f0">
+                    <span class="color-dot" style="background:#f5f5f0"></span> Beyaz
+                </div>
+                <div class="color-option" data-color="Pembe" data-hex="#f4a4b8">
+                    <span class="color-dot" style="background:#f4a4b8"></span> Pembe
+                </div>
+                <div class="color-option" data-color="Deniz Mavisi" data-hex="#7ec8c1">
+                    <span class="color-dot" style="background:#7ec8c1"></span> Deniz Mavisi
+                </div>
+                <div class="color-option" data-color="Laciverttaş" data-hex="#4a5c8a">
+                    <span class="color-dot" style="background:#4a5c8a"></span> Laciverttaş
+                </div>
+            </div>
+        </div>
 
-<div class="container" id="app"></div>
+        <!-- Numara -->
+        <div class="form-group">
+            <label>Numara (Stok Kodu / Fiyat / Adet)</label>
+            <input type="text" id="number-input" placeholder="Örn: 001" value="001">
+        </div>
 
-<div class="toast" id="toast"></div>
+        <!-- Ön İzleme -->
+        <div class="preview-area">
+            <div class="preview-title">🔍 ÖN İZLEME</div>
+            <div id="card-preview">
+                <div class="card-content" id="card-content">
+                    <div class="apple-icon"></div>
+                    <div class="card-model-name" id="preview-model-name">iPhone 16</div>
+                    <div class="card-model" id="preview-model">iPhone 16</div>
+                    <div class="card-color-row">
+                        <span class="card-color-badge" id="preview-color-dot" style="background:#2d2d2d"></span>
+                        <span class="card-color-name" id="preview-color-name">Siyah</span>
+                    </div>
+                    <div class="card-number" id="preview-number">001</div>
+                </div>
+                <div class="card-footer">✦ APPLE LENS KARTI ✦</div>
+            </div>
+        </div>
 
-<script>
-const colorData = [
-    { model: "iPhone 11", colors: [
-        { tr: "Mor", en: "Purple", hex: "#C9B8E0" }, { tr: "Sarı", en: "Yellow", hex: "#F7E87A" }, { tr: "Yeşil", en: "Green", hex: "#A8D8C9" }, { tr: "Siyah", en: "Black", hex: "#2E2E2E" }, { tr: "Beyaz", en: "White", hex: "#F0EFED" }, { tr: "Kırmızı", en: "Product Red", hex: "#D32F2F" }
-    ] },
-    { model: "iPhone 11 Pro / 11 Pro Max", colors: [
-        { tr: "Gece Yarısı Yeşili", en: "Midnight Green", hex: "#4A5D5A" }, { tr: "Uzay Grisi", en: "Space Gray", hex: "#3A3A3C" }, { tr: "Gümüş", en: "Silver", hex: "#E3E2DC" }, { tr: "Altın", en: "Gold", hex: "#F4D7B3" }
-    ] },
-    { model: "iPhone 12 mini / 12", colors: [
-        { tr: "Siyah", en: "Black", hex: "#2E2E2E" }, { tr: "Beyaz", en: "White", hex: "#F0EFED" }, { tr: "Kırmızı", en: "Product Red", hex: "#D32F2F" }, { tr: "Yeşil", en: "Green", hex: "#A8D8C9" }, { tr: "Mavi", en: "Blue", hex: "#5A8BB8" }, { tr: "Mor", en: "Purple", hex: "#C9B8E0" }
-    ] },
-    { model: "iPhone 12 Pro / 12 Pro Max", colors: [
-        { tr: "Pasifik Mavisi", en: "Pacific Blue", hex: "#3B5E7D" }, { tr: "Grafit", en: "Graphite", hex: "#4B4B4F" }, { tr: "Altın", en: "Gold", hex: "#F4D7B3" }, { tr: "Gümüş", en: "Silver", hex: "#E3E2DC" }
-    ] },
-    { model: "iPhone 13 mini / 13", colors: [
-        { tr: "Yıldız Işığı", en: "Starlight", hex: "#EDE8DF" }, { tr: "Gece Yarısı", en: "Midnight", hex: "#232B32" }, { tr: "Mavi", en: "Blue", hex: "#3976A8" }, { tr: "Pembe", en: "Pink", hex: "#F5B7B1" }, { tr: "Kırmızı", en: "Product Red", hex: "#D32F2F" }, { tr: "Yeşil", en: "Green", hex: "#86B89A" }
-    ] },
-    { model: "iPhone 13 Pro / 13 Pro Max", colors: [
-        { tr: "Sierra Mavisi", en: "Sierra Blue", hex: "#7A9EB3" }, { tr: "Alp Yeşili", en: "Alpine Green", hex: "#576D62" }, { tr: "Altın", en: "Gold", hex: "#F4D7B3" }, { tr: "Grafit", en: "Graphite", hex: "#4B4B4F" }, { tr: "Gümüş", en: "Silver", hex: "#E3E2DC" }
-    ] },
-    { model: "iPhone 14 / 14 Plus", colors: [
-        { tr: "Gece Yarısı", en: "Midnight", hex: "#232B32" }, { tr: "Yıldız Işığı", en: "Starlight", hex: "#EDE8DF" }, { tr: "Mavi", en: "Blue", hex: "#4A7CA8" }, { tr: "Mor", en: "Purple", hex: "#A98AC7" }, { tr: "Sarı", en: "Yellow", hex: "#F2D06B" }, { tr: "Kırmızı", en: "Product Red", hex: "#D32F2F" }
-    ] },
-    { model: "iPhone 14 Pro / 14 Pro Max", colors: [
-        { tr: "Derin Mor", en: "Deep Purple", hex: "#6B5B8A" }, { tr: "Uzay Siyahı", en: "Space Black", hex: "#2C2C2E" }, { tr: "Gümüş", en: "Silver", hex: "#E3E2DC" }, { tr: "Altın", en: "Gold", hex: "#F4D7B3" }
-    ] },
-    { model: "iPhone 15 / 15 Plus", colors: [
-        { tr: "Pembe", en: "Pink", hex: "#F5B7B1" }, { tr: "Sarı", en: "Yellow", hex: "#F2D06B" }, { tr: "Yeşil", en: "Green", hex: "#86B89A" }, { tr: "Mavi", en: "Blue", hex: "#5A8BB8" }, { tr: "Siyah", en: "Black", hex: "#2E2E2E" }
-    ] },
-    { model: "iPhone 15 Pro / 15 Pro Max", colors: [
-        { tr: "Doğal Titanyum", en: "Natural Titanium", hex: "#C4BCB0" }, { tr: "Mavi Titanyum", en: "Blue Titanium", hex: "#5A7087" }, { tr: "Beyaz Titanyum", en: "White Titanium", hex: "#EAE7E0" }, { tr: "Siyah Titanyum", en: "Black Titanium", hex: "#3A3A3C" }
-    ] },
-    { model: "iPhone 16 / 16 Plus / 16e", colors: [
-        { tr: "Ultramarin", en: "Ultramarine", hex: "#2C4F8A" }, { tr: "Deniz Yeşili", en: "Teal", hex: "#4A9A8A" }, { tr: "Pembe", en: "Pink", hex: "#F5A0A0" }, { tr: "Beyaz", en: "White", hex: "#F0EFED" }, { tr: "Siyah", en: "Black", hex: "#2E2E2E" }
-    ] },
-    { model: "iPhone 16 Pro / 16 Pro Max", colors: [
-        { tr: "Çöl Titanyumu", en: "Desert Titanium", hex: "#C8A87C" }, { tr: "Doğal Titanyum", en: "Natural Titanium", hex: "#C4BCB0" }, { tr: "Beyaz Titanyum", en: "White Titanium", hex: "#EAE7E0" }, { tr: "Siyah Titanyum", en: "Black Titanium", hex: "#3A3A3C" }
-    ] },
-    { model: "iPhone 17", colors: [
-        { tr: "Lavanta", en: "Lavender", hex: "#C9B8E0" }, { tr: "Ada Çayı", en: "Sage", hex: "#9AAD8A" }, { tr: "Sis Mavisi", en: "Mist Blue", hex: "#A8C4D8" }, { tr: "Beyaz", en: "White", hex: "#F0EFED" }, { tr: "Siyah", en: "Black", hex: "#2E2E2E" }
-    ] },
-    { model: "iPhone 17 Air", colors: [
-        { tr: "Gök Mavisi", en: "Sky Blue", hex: "#7DB4D6" }, { tr: "Açık Altın", en: "Light Gold", hex: "#E8D5B0" }, { tr: "Pamuk Beyazı", en: "Cloud White", hex: "#F5F3EF" }, { tr: "Uzay Siyahı", en: "Space Black", hex: "#2C2C2E" }
-    ] },
-    { model: "iPhone 17 Pro / 17 Pro Max", colors: [
-        { tr: "Kozmik Turuncu", en: "Cosmic Orange", hex: "#D4794A" }, { tr: "Derin Mavi", en: "Deep Blue", hex: "#2C4F7A" }, { tr: "Gümüş", en: "Silver", hex: "#E3E2DC" }
-    ] }
-];
+        <!-- Buton -->
+        <div class="btn-group">
+            <button class="btn btn-save" id="save-btn">
+                💾 Resim Olarak Kaydet
+            </button>
+        </div>
+        <p class="hint">
+            💡 <strong>Basılı tut</strong> veya <strong>tıkla</strong> → PNG resim olarak kaydedilir
+        </p>
+    </div>
 
-let seciliRenkler = new Map();
+    <div class="toast" id="toast">✅ Kart hazır!</div>
 
-function render() {
-    const app = document.getElementById('app');
-    app.innerHTML = '';
-    colorData.forEach((g, mi) => {
-        const div = document.createElement('div');
-        div.className = 'model-group';
-        const h2 = document.createElement('h2');
-        h2.textContent = g.model;
-        div.appendChild(h2);
-        const sub = document.createElement('div');
-        sub.className = 'sub';
-        sub.textContent = g.colors.length + ' renk';
-        div.appendChild(sub);
-        const grid = document.createElement('div');
-        grid.className = 'grid';
-        g.colors.forEach((c, ci) => {
-            const key = mi + '-' + ci;
-            const card = document.createElement('div');
-            card.className = 'card' + (seciliRenkler.has(key) ? ' selected' : '');
-            const sw = document.createElement('div');
-            sw.className = 'renk-kutusu';
-            sw.style.background = c.hex;
-            const acik = ['#F0EFED','#EDE8DF','#F5F3EF','#EAE7E0','#E3E2DC','#F5B7B1','#F4D7B3','#E8D5B0','#F2D06B','#F7E87A','#C4BCB0','#F5A0A0'];
-            if (acik.includes(c.hex)) sw.style.borderBottom = '1px solid #d2d2d7';
-            const chk = document.createElement('div');
-            chk.className = 'tik';
-            chk.textContent = '✓';
-            sw.appendChild(chk);
-            card.appendChild(sw);
-            const info = document.createElement('div');
-            info.className = 'info';
-            const nm = document.createElement('div');
-            nm.className = 'name';
-            nm.textContent = c.tr;
-            info.appendChild(nm);
-            const adetInput = document.createElement('input');
-            adetInput.type = 'number';
-            adetInput.className = 'adet';
-            adetInput.placeholder = 'adet';
-            adetInput.min = '0';
-            adetInput.value = seciliRenkler.has(key) ? seciliRenkler.get(key) : '';
-            adetInput.dataset.key = key;
-            adetInput.addEventListener('click', e => e.stopPropagation());
-            adetInput.addEventListener('input', function() {
-                const val = this.value.trim();
-                if (val && parseInt(val) > 0) {
-                    seciliRenkler.set(key, parseInt(val));
-                    card.classList.add('selected');
-                } else {
-                    seciliRenkler.delete(key);
-                    card.classList.remove('selected');
-                }
-                guncelleStats();
+    <script>
+        // ========== DOM ==========
+        const modelBtns = document.querySelectorAll('.model-btn');
+        const modelInput = document.getElementById('model-input');
+        const numberInput = document.getElementById('number-input');
+        const colorOptions = document.querySelectorAll('.color-option');
+        const previewModelName = document.getElementById('preview-model-name');
+        const previewModel = document.getElementById('preview-model');
+        const previewColorName = document.getElementById('preview-color-name');
+        const previewColorDot = document.getElementById('preview-color-dot');
+        const previewNumber = document.getElementById('preview-number');
+        const saveBtn = document.getElementById('save-btn');
+        const toast = document.getElementById('toast');
+        const cardPreview = document.getElementById('card-preview');
+
+        let selectedModel = 'iPhone 16';
+        let selectedColor = 'Siyah';
+        let selectedHex = '#2d2d2d';
+
+        // ========== iPhone 16 Modelleri ve Renkleri ==========
+        const modelColors = {
+            'iPhone 16':     ['Siyah', 'Beyaz', 'Pembe', 'Deniz Mavisi', 'Laciverttaş'],
+            'iPhone 16 Plus':['Siyah', 'Beyaz', 'Pembe', 'Deniz Mavisi', 'Laciverttaş'],
+            'iPhone 16e':    ['Siyah', 'Beyaz']
+        };
+
+        const colorHex = {
+            'Siyah':        '#2d2d2d',
+            'Beyaz':        '#f5f5f0',
+            'Pembe':        '#f4a4b8',
+            'Deniz Mavisi': '#7ec8c1',
+            'Laciverttaş':  '#4a5c8a'
+        };
+
+        // ========== Model Seçimi ==========
+        modelBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                modelBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                selectedModel = this.dataset.model;
+                modelInput.value = selectedModel;
+                updateColorOptions();
+                updatePreview();
             });
-            info.appendChild(adetInput);
-            card.appendChild(info);
-            card.addEventListener('click', function() { adetInput.focus(); });
-            grid.appendChild(card);
         });
-        div.appendChild(grid);
-        app.appendChild(div);
-    });
-    guncelleStats();
-}
 
-function guncelleStats() {
-    document.getElementById('stats').textContent = 'Seçili: ' + seciliRenkler.size + ' renk';
-}
+        // ========== Renk Seçeneklerini Güncelle ==========
+        function updateColorOptions() {
+            const availableColors = modelColors[selectedModel] || [];
+            
+            colorOptions.forEach(opt => {
+                const colorName = opt.dataset.color;
+                if (availableColors.includes(colorName)) {
+                    opt.classList.remove('disabled');
+                    opt.style.pointerEvents = 'auto';
+                    opt.style.opacity = '1';
+                } else {
+                    opt.classList.add('disabled');
+                    opt.style.pointerEvents = 'none';
+                    opt.style.opacity = '0.3';
+                }
+            });
 
-function tumunuSec() {
-    document.querySelectorAll('.card').forEach(c => {
-        const inp = c.querySelector('.adet');
-        const key = inp.dataset.key;
-        if (!seciliRenkler.has(key)) {
-            seciliRenkler.set(key, 1);
-            inp.value = 1;
-            c.classList.add('selected');
+            // Seçili renk bu modelde yoksa ilk geçerli renge ayarla
+            if (!availableColors.includes(selectedColor)) {
+                const firstColor = availableColors[0];
+                colorOptions.forEach(opt => {
+                    if (opt.dataset.color === firstColor) {
+                        opt.classList.add('selected');
+                        selectedColor = firstColor;
+                        selectedHex = colorHex[firstColor];
+                    } else {
+                        opt.classList.remove('selected');
+                    }
+                });
+            }
         }
-    });
-    guncelleStats();
-}
 
-function temizleSecim() {
-    document.querySelectorAll('.card').forEach(c => {
-        const inp = c.querySelector('.adet');
-        const key = inp.dataset.key;
-        seciliRenkler.delete(key);
-        inp.value = '';
-        c.classList.remove('selected');
-    });
-    guncelleStats();
-}
+        // ========== Renk Seçimi ==========
+        colorOptions.forEach(opt => {
+            opt.addEventListener('click', function() {
+                if (this.classList.contains('disabled')) return;
+                colorOptions.forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedColor = this.dataset.color;
+                selectedHex = this.dataset.hex;
+                updatePreview();
+            });
+        });
 
-function toast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg; t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2200);
-}
+        // ========== Canlı Ön İzleme ==========
+        function updatePreview() {
+            const model = modelInput.value.trim() || selectedModel;
+            const num = numberInput.value.trim() || '---';
+            previewModelName.textContent = selectedModel;
+            previewModel.textContent = model;
+            previewColorName.textContent = selectedColor;
+            previewColorDot.style.background = selectedHex;
+            previewNumber.textContent = num;
+        }
 
-function fotografOlustur() {
-    if (seciliRenkler.size === 0) { toast('Adet yaz!'); return; }
+        modelInput.addEventListener('input', updatePreview);
+        numberInput.addEventListener('input', updatePreview);
 
-    const output = document.getElementById('outputInner');
-    output.innerHTML = '';
-    document.getElementById('outputArea').style.display = 'block';
+        // ========== Toast ==========
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
 
-    seciliRenkler.forEach((adet, key) => {
-        const [mi, ci] = key.split('-').map(Number);
-        const g = colorData[mi];
-        const c = g.colors[ci];
+        // ========== Resim Olarak Kaydet (Canvas ile) ==========
+        function saveAsImage() {
+            const model = modelInput.value.trim().replace(/[^a-zA-Z0-9ÇçĞğİıÖöŞşÜü\- ]/g, '').replace(/\s+/g, '_') || 'iPhone';
+            const color = selectedColor;
+            const num = numberInput.value.trim() || '000';
+            const fileName = `${model}_${color}_${num}.png`;
 
-        // Küçük resim - 300x200
-        const canvas = document.createElement('canvas');
-        canvas.width = 300;
-        canvas.height = 200;
-        const ctx = canvas.getContext('2d');
+            // Kartı kopyala
+            const clone = cardPreview.cloneNode(true);
+            
+            // Inline stiller
+            const styleText = `
+                * { margin:0; padding:0; box-sizing:border-box; }
+                body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+                .card-wrap {
+                    width: 380px;
+                    background: white;
+                    border-radius: 18px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+                }
+                .card-content {
+                    padding: 30px 24px 24px;
+                    text-align: center;
+                    background: white;
+                }
+                .apple-icon {
+                    width: 28px; height: 34px; margin: 0 auto 12px; position: relative;
+                }
+                .apple-icon::before {
+                    content: '';
+                    position: absolute; top: 0; left: 50%;
+                    transform: translateX(-50%);
+                    width: 22px; height: 26px;
+                    border: 3px solid #1a1a2e; border-radius: 6px;
+                }
+                .apple-icon::after {
+                    content: '';
+                    position: absolute; bottom: 0; left: 50%;
+                    transform: translateX(-50%);
+                    width: 14px; height: 3px; background: #1a1a2e; border-radius: 2px;
+                }
+                .card-model-name {
+                    font-size: 13px; font-weight: 600; color: #6b7280;
+                    text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 2px;
+                }
+                .card-model {
+                    font-size: 20px; font-weight: 800; color: #1a1a2e;
+                    margin: 4px 0 10px; letter-spacing: 0.3px;
+                }
+                .card-color-row {
+                    display: flex; align-items: center; justify-content: center;
+                    gap: 10px; margin: 8px 0 6px;
+                }
+                .card-color-badge {
+                    display: inline-block; width: 20px; height: 20px;
+                    border-radius: 50%; border: 2px solid #e5e7eb;
+                    box-shadow: inset 0 0 6px rgba(0,0,0,0.05);
+                }
+                .card-color-name {
+                    font-size: 16px; font-weight: 600; color: #4b5563;
+                }
+                .card-number {
+                    font-size: 42px; font-weight: 900; color: #1a1a2e;
+                    margin-top: 6px; letter-spacing: 3px; line-height: 1;
+                }
+                .card-footer {
+                    border-top: 1px solid #e5e7eb; padding: 10px 24px;
+                    text-align: center; font-size: 10px; color: #9ca3af;
+                    background: #f9fafb; letter-spacing: 1px;
+                }
+            `;
 
-        // Düz renk zemin
-        ctx.fillStyle = c.hex;
-        ctx.fillRect(0, 0, 300, 200);
+            const styleEl = document.createElement('style');
+            styleEl.textContent = styleText;
 
-        // Hafif üst çizgi
-        ctx.fillStyle = 'rgba(0,0,0,0.05)';
-        ctx.fillRect(0, 0, 300, 2);
+            const wrap = document.createElement('div');
+            wrap.className = 'card-wrap';
+            wrap.appendChild(clone);
 
-        // Model
-        ctx.textAlign = 'center';
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 15px -apple-system, BlinkMacSystemFont, sans-serif';
-        ctx.shadowColor = 'rgba(0,0,0,0.2)';
-        ctx.shadowBlur = 3;
-        ctx.fillText(g.model, 150, 58);
-        ctx.shadowColor = 'transparent';
-        ctx.shadowBlur = 0;
+            const container = document.createElement('div');
+            container.appendChild(styleEl);
+            container.appendChild(wrap);
 
-        // Renk (Türkçe) - büyük
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 30px -apple-system, BlinkMacSystemFont, sans-serif';
-        ctx.shadowColor = 'rgba(0,0,0,0.2)';
-        ctx.shadowBlur = 5;
-        ctx.fillText(c.tr, 150, 118);
-        ctx.shadowColor = 'transparent';
-        ctx.shadowBlur = 0;
+            const svgData = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="380" height="310">
+                    <foreignObject width="380" height="310">
+                        <div xmlns="http://www.w3.org/1999/xhtml">
+                            ${container.innerHTML}
+                        </div>
+                    </foreignObject>
+                </svg>
+            `;
 
-        // İngilizce
-        ctx.fillStyle = 'rgba(255,255,255,0.5)';
-        ctx.font = '10px -apple-system, BlinkMacSystemFont, sans-serif';
-        ctx.fillText(c.en, 150, 138);
+            const canvas = document.createElement('canvas');
+            canvas.width = 380;
+            canvas.height = 310;
+            const ctx = canvas.getContext('2d');
 
-        // Adet - sol üst
-        ctx.fillStyle = 'rgba(0,0,0,0.2)';
-        yuvarlak(ctx, 10, 10, 50, 26, 7);
-        ctx.fill();
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(adet + ' adet', 35, 27);
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, 380, 310);
 
-        const kart = document.createElement('div');
-        kart.className = 'kart';
-        const img = document.createElement('img');
-        img.src = canvas.toDataURL('image/png');
-        img.alt = g.model + ' - ' + c.tr;
-        kart.appendChild(img);
-        const lbl = document.createElement('div');
-        lbl.className = 'etiket';
-        lbl.textContent = g.model + ' — ' + c.tr + ' (' + adet + ' adet)';
-        kart.appendChild(lbl);
-        output.appendChild(kart);
-    });
+            const img = new Image();
+            const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
 
-    // Sayfayı tamamen temizle - sadece çıktı kalsın
-    document.querySelector('.container').style.display = 'none';
-    document.querySelector('.top-bar').style.display = 'none';
-    document.querySelector('.stats').style.display = 'none';
+            img.onload = function() {
+                ctx.drawImage(img, 0, 0, 380, 310);
+                URL.revokeObjectURL(url);
 
-    document.getElementById('outputArea').scrollIntoView({ behavior: 'smooth' });
-    toast(seciliRenkler.size + ' fotoğraf oluşturuldu!');
-}
+                const link = document.createElement('a');
+                link.download = fileName;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
 
-function ciktiTemizle() {
-    document.getElementById('outputInner').innerHTML = '';
-    document.getElementById('outputArea').style.display = 'none';
+                showToast('✅ ' + fileName + ' indirildi!');
+            };
 
-    // Sayfayı geri getir
-    document.querySelector('.container').style.display = '';
-    document.querySelector('.top-bar').style.display = '';
-    document.querySelector('.stats').style.display = '';
-}
+            img.onerror = function() {
+                showToast('❌ Görsel oluşturulamadı, tekrar dene');
+            };
 
-function yuvarlak(ctx, x, y, w, h, r) {
-    r = Math.min(r, w/2, h/2);
-    ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.lineTo(x + w - r, y);
-    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-    ctx.lineTo(x + w, y + h - r);
-    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-    ctx.lineTo(x + r, y + h);
-    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-    ctx.lineTo(x, y + r);
-    ctx.quadraticCurveTo(x, y, x + r, y);
-    ctx.closePath();
-}
+            img.src = url;
+        }
 
-render();
-</script>
+        // ========== Tıkla / Basılı Tut ==========
+        let pressTimer = null;
+
+        saveBtn.addEventListener('click', function(e) {
+            saveAsImage();
+        });
+
+        saveBtn.addEventListener('mousedown', function() {
+            pressTimer = setTimeout(() => {
+                saveBtn.classList.add('pressed');
+                saveAsImage();
+                showToast('💾 Basılı tutarak kaydediliyor...');
+            }, 500);
+        });
+
+        saveBtn.addEventListener('mouseup', function() {
+            if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+            saveBtn.classList.remove('pressed');
+        });
+
+        saveBtn.addEventListener('mouseleave', function() {
+            if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+            saveBtn.classList.remove('pressed');
+        });
+
+        // Touch desteği
+        saveBtn.addEventListener('touchstart', function(e) {
+            pressTimer = setTimeout(() => {
+                saveBtn.classList.add('pressed');
+                saveAsImage();
+                showToast('💾 Basılı tutarak kaydediliyor...');
+            }, 500);
+        }, { passive: true });
+
+        saveBtn.addEventListener('touchend', function() {
+            if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+            saveBtn.classList.remove('pressed');
+        });
+
+        saveBtn.addEventListener('touchcancel', function() {
+            if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+            saveBtn.classList.remove('pressed');
+        });
+
+        // ========== Başlangıç ==========
+        modelInput.value = 'iPhone 16';
+        updateColorOptions();
+        updatePreview();
+    </script>
 
 </body>
 </html>
