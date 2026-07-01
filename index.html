@@ -18,7 +18,6 @@
             margin-bottom: 12px;
         }
 
-        /* ===== FOTOĞRAF ÇIKTISI EN ÜSTTE ===== */
         #outputArea {
             display: none;
             max-width: 430px;
@@ -97,16 +96,6 @@
         .btn-clear { background: #6c757d; color: white; padding: 10px 14px; font-size: 13px; }
         .btn-clear:hover { background: #5a6268; }
 
-        #searchInput {
-            padding: 9px 12px;
-            border: 2px solid #d2d2d7;
-            border-radius: 10px;
-            font-size: 13px;
-            outline: none;
-            width: 180px;
-        }
-        #searchInput:focus { border-color: #0071e3; }
-
         .stats {
             text-align: center;
             color: #86868b;
@@ -151,13 +140,13 @@
         .card.selected { border-color: #0071e3; box-shadow: 0 0 0 1px #0071e3; background: #f0f7ff; }
         .card:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
 
-        .swatch {
+        .renk-kutusu {
             height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .swatch .check {
+        .renk-kutusu .tik {
             width: 20px; height: 20px;
             border-radius: 50%;
             background: rgba(255,255,255,0.9);
@@ -169,7 +158,7 @@
             font-weight: bold;
             opacity: 0;
         }
-        .card.selected .swatch .check { opacity: 1; }
+        .card.selected .renk-kutusu .tik { opacity: 1; }
 
         .info { padding: 6px 7px 8px; }
         .info .name { font-size: 11px; font-weight: 600; color: #1d1d1f; margin-bottom: 4px; }
@@ -209,7 +198,6 @@
             h1 { font-size: 18px; }
             .btn { padding: 8px 14px; font-size: 12px; }
             .btn-foto { padding: 8px 18px; }
-            #searchInput { width: 150px; font-size: 12px; }
         }
     </style>
 </head>
@@ -217,7 +205,6 @@
 
 <h1>📱 iPhone Renk Paleti</h1>
 
-<!-- FOTOĞRAF ÇIKTISI EN ÜSTTE -->
 <div id="outputArea">
     <div class="note">👇 Resme basılı tut → "Fotoğraflara Kaydet"</div>
     <div id="outputInner"></div>
@@ -228,7 +215,6 @@
     <button class="btn btn-foto" onclick="fotografOlustur()">📸 Fotoğraf Oluştur</button>
     <button class="btn btn-select" onclick="tumunuSec()">Tümünü Seç</button>
     <button class="btn btn-clear" onclick="temizleSecim()">Temizle</button>
-    <input type="text" id="searchInput" placeholder="🔍 Ara..." oninput="filtrele()">
 </div>
 
 <div class="stats" id="stats">Seçili: 0 renk</div>
@@ -308,12 +294,12 @@ function render() {
             const card = document.createElement('div');
             card.className = 'card' + (seciliRenkler.has(key) ? ' selected' : '');
             const sw = document.createElement('div');
-            sw.className = 'swatch';
+            sw.className = 'renk-kutusu';
             sw.style.background = c.hex;
             const acik = ['#F0EFED','#EDE8DF','#F5F3EF','#EAE7E0','#E3E2DC','#F5B7B1','#F4D7B3','#E8D5B0','#F2D06B','#F7E87A','#C4BCB0','#F5A0A0'];
             if (acik.includes(c.hex)) sw.style.borderBottom = '1px solid #d2d2d7';
             const chk = document.createElement('div');
-            chk.className = 'check';
+            chk.className = 'tik';
             chk.textContent = '✓';
             sw.appendChild(chk);
             card.appendChild(sw);
@@ -381,13 +367,6 @@ function temizleSecim() {
     guncelleStats();
 }
 
-function filtrele() {
-    const q = document.getElementById('searchInput').value.toLowerCase();
-    document.querySelectorAll('.model-group').forEach(g => {
-        g.style.display = g.textContent.toLowerCase().includes(q) ? '' : 'none';
-    });
-}
-
 function toast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg; t.classList.add('show');
@@ -408,77 +387,49 @@ function fotografOlustur() {
 
         const canvas = document.createElement('canvas');
         canvas.width = 400;
-        canvas.height = 400;
+        canvas.height = 300;
         const ctx = canvas.getContext('2d');
 
-        // Arkaplan
+        // Sadece düz zemin - telefon yok
         ctx.fillStyle = c.hex;
-        ctx.fillRect(0, 0, 400, 400);
-        ctx.fillStyle = 'rgba(0,0,0,0.03)';
+        ctx.fillRect(0, 0, 400, 300);
+
+        // Hafif üst gölge
+        ctx.fillStyle = 'rgba(0,0,0,0.04)';
         ctx.fillRect(0, 0, 400, 2);
 
-        const cx = 200, cy = 185;
-        const fw = 130, fh = 230;
-        const r = 18;
-
-        // Telefon
-        ctx.shadowColor = 'rgba(0,0,0,0.15)';
-        ctx.shadowBlur = 14;
-        ctx.shadowOffsetY = 4;
-        ctx.fillStyle = '#1a1a1a';
-        yuvarlak(ctx, cx - fw/2, cy - fh/2, fw, fh, r);
-        ctx.fill();
-
-        ctx.shadowColor = 'transparent';
-        ctx.shadowBlur = 0;
-        ctx.shadowOffsetY = 0;
-        ctx.fillStyle = c.hex;
-        yuvarlak(ctx, cx - fw/2 + 5, cy - fh/2 + 5, fw - 10, fh - 10, r - 2);
-        ctx.fill();
-
-        // Dynamic Island
-        ctx.fillStyle = '#1d1d1f';
-        yuvarlak(ctx, cx - 32, cy - fh/2 + 8, 64, 12, 6);
-        ctx.fill();
-
-        // Model
+        // Model adı (orta üst)
         ctx.textAlign = 'center';
         ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.font = 'bold 22px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.shadowColor = 'rgba(0,0,0,0.2)';
-        ctx.shadowBlur = 3;
-        ctx.fillText(g.model, cx, cy + fh/2 + 42);
+        ctx.shadowBlur = 4;
+        ctx.fillText(g.model, 200, 90);
         ctx.shadowColor = 'transparent';
         ctx.shadowBlur = 0;
 
-        // Renk
+        // Renk (Türkçe) - büyük
         ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 18px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.font = 'bold 42px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.shadowColor = 'rgba(0,0,0,0.2)';
-        ctx.shadowBlur = 4;
-        ctx.fillText(c.tr, cx, cy + fh/2 + 68);
+        ctx.shadowBlur = 6;
+        ctx.fillText(c.tr, 200, 175);
         ctx.shadowColor = 'transparent';
         ctx.shadowBlur = 0;
 
         // İngilizce
         ctx.fillStyle = 'rgba(255,255,255,0.5)';
-        ctx.font = '10px -apple-system, BlinkMacSystemFont, sans-serif';
-        ctx.fillText(c.en, cx, cy + fh/2 + 84);
+        ctx.font = '14px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.fillText(c.en, 200, 205);
 
-        // Adet
-        ctx.fillStyle = 'rgba(0,0,0,0.25)';
-        yuvarlak(ctx, 14, 14, 48, 28, 8);
+        // Adet - sol üst
+        ctx.fillStyle = 'rgba(0,0,0,0.2)';
+        yuvarlak(ctx, 14, 14, 60, 32, 8);
         ctx.fill();
         ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.font = 'bold 16px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(adet + ' adet', 38, 33);
-
-        // Watermark
-        ctx.fillStyle = 'rgba(255,255,255,0.08)';
-        ctx.font = '9px -apple-system, BlinkMacSystemFont, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('iPhone Renk Paleti', 200, 393);
+        ctx.fillText(adet + ' adet', 44, 35);
 
         const kart = document.createElement('div');
         kart.className = 'foto-card';
