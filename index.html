@@ -11,8 +11,8 @@
             --apple-bg: #f5f5f7;
             --card-bg: #ffffff;
             --text-dark: #1d1d1f;
-            --text-muted: #86868b;
-            --border-color: #e5e5ea;
+            --text-muted: #1d1d1f; /* Yazının daha net ve belli olması için koyulaştırıldı */
+            --border-color: #000000; /* İstediğin siyah çizgi rengi */
         }
 
         body {
@@ -27,7 +27,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Fotoğrafı çekilecek premium tasarım kartı */
+        /* Fotoğrafı çekilecek ana kart */
         #stok-karti {
             background: var(--card-bg);
             border-radius: 24px;
@@ -57,12 +57,13 @@
             gap: 8px;
         }
 
+        /* Her telefon model grubunun etrafına eklenen belirgin siyah çizgi */
         .model-grup {
             margin-bottom: 24px;
             background: #fafafa;
             border-radius: 16px;
             padding: 16px;
-            border: 1px solid rgba(0, 0, 0, 0.03);
+            border: 2px solid var(--border-color); /* Kalınlığı artırılmış belirgin siyah çizgi */
         }
 
         .model-adi {
@@ -82,7 +83,7 @@
             background: #ffffff;
             padding: 8px 12px;
             border-radius: 10px;
-            border: 1px solid rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.08);
             box-shadow: 0 1px 3px rgba(0,0,0,0.01);
         }
 
@@ -95,15 +96,15 @@
             align-items: center;
         }
 
-        /* Yuvarlak ve modern premium renk ikonları */
+        /* Yuvarlak premium renk ikonları */
         .renk-kutusu {
             width: 18px;
             height: 18px;
             border-radius: 50%;
             margin-right: 12px;
-            border: 1px solid rgba(0,0,0,0.12);
+            border: 1px solid rgba(0,0,0,0.18);
             display: inline-block;
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
         }
 
         .renk-adi {
@@ -132,18 +133,19 @@
             box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
         }
 
-        /* Fotoğrafta net olarak gözükecek açıklama satırı */
+        /* Çok daha net, kalın ve emojili kamera lens açıklama yazısı */
         .urun-aciklama-notu {
             text-align: center;
-            font-size: 12px;
-            color: var(--text-muted);
+            font-size: 14px; /* Yazı boyutu büyütüldü */
+            color: #000000; /* Tam net siyah yapıldı */
             margin-top: 20px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 14px;
-            font-weight: 500;
+            border-top: 2px solid #000000; /* Üst çizgi kalınlaştırıldı */
+            padding-top: 16px;
+            font-weight: 700; /* Kalın yapıldı */
+            letter-spacing: 0.3px;
         }
 
-        /* Buton Tasarımı */
+        /* Buton Alanı */
         .buton-container {
             margin-top: 25px;
             width: 100%;
@@ -189,7 +191,7 @@
 
         .bilgi-metni {
             font-size: 13px;
-            color: var(--text-muted);
+            color: #6e6e73;
             font-weight: 500;
         }
     </style>
@@ -334,7 +336,7 @@
         </div>
 
         <div id="kamera-lens-notu" class="urun-aciklama-notu" style="display: none;">
-            🔍 Kamera Lens Stok Durumu Listesidir.
+            ✨📸 KAMERA LENS STOK DURUMU LİSTESİDİR 📸✨
         </div>
 
     </div>
@@ -391,7 +393,7 @@
                 }
             });
 
-            // Apple tarzı temiz pürüzsüz resmi oluştur
+            // Resmi oluştur
             html2canvas(kart, {
                 scale: 2,
                 backgroundColor: "#ffffff",
