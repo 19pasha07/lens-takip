@@ -2,591 +2,331 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Lens Kartı</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamera Lens Stok Takip</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f0f2f5;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            margin: 0;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .container {
-            max-width: 400px;
+        /* Fotoğrafı çekilecek ana alan */
+        #stok-karti {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 25px;
             width: 100%;
-            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-sizing: border-box;
         }
 
-        .baslik {
-            margin-bottom: 20px;
-        }
-
-        .baslik h1 {
+        h1 {
             font-size: 24px;
-            font-weight: 700;
-            color: #1a1a2e;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #000;
+            border-bottom: 2px solid #f5f5f7;
+            padding-bottom: 15px;
         }
 
-        .baslik p {
-            color: #6b7280;
-            font-size: 13px;
-            margin-top: 4px;
+        .model-grup {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #f5f5f7;
+            padding-bottom: 15px;
         }
 
-        /* Panel */
-        .panel {
-            background: white;
-            border-radius: 18px;
-            padding: 20px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-            margin-bottom: 20px;
+        .model-grup:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
         }
 
-        .panel label {
-            display: block;
-            font-size: 12px;
+        .model-adi {
+            font-size: 16px;
             font-weight: 600;
-            color: #374151;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 10px;
-            text-align: left;
+            color: #0071e3;
+            margin-bottom: 12px;
         }
 
-        /* Renk Grid */
-        .renk-grid {
+        .renk-satiri {
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-        }
-
-        .renk-btn {
-            padding: 8px 14px 8px 10px;
-            border-radius: 20px;
-            border: 2px solid #e5e7eb;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 6px;
-            background: #fafafa;
-            transition: all 0.12s;
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
+            margin-bottom: 8px;
         }
 
-        .renk-btn:active {
-            transform: scale(0.95);
-        }
-
-        .renk-btn.secili {
-            border-color: #1a1a2e;
-            box-shadow: 0 0 0 2px white, 0 0 0 4px #1a1a2e;
-            background: #f0f0f5;
-        }
-
-        .renk-btn .nokta {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            border: 1px solid rgba(0,0,0,0.08);
-            flex-shrink: 0;
-        }
-
-        /* Adet Listesi */
-        select {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            font-size: 20px;
-            font-weight: 700;
-            outline: none;
-            background: #fafafa;
-            text-align: center;
-            text-align-last: center;
-            appearance: none;
-            -webkit-appearance: none;
-            cursor: pointer;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 14px center;
-            background-size: 20px;
-        }
-
-        select:focus {
-            border-color: #3b82f6;
-            background-color: white;
-        }
-
-        /* KART */
-        #kart {
-            background: white;
-            border-radius: 18px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
-            overflow: hidden;
-            margin-bottom: 20px;
-            width: 100%;
-        }
-
-        .kart-ic {
-            padding: 45px 24px 32px;
-            text-align: center;
-        }
-
-        .kart-ikon {
-            width: 30px;
-            height: 36px;
-            margin: 0 auto 16px;
-            position: relative;
-        }
-
-        .kart-ikon::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 24px;
-            height: 28px;
-            border: 2.5px solid #1a1a2e;
-            border-radius: 6px;
-        }
-
-        .kart-ikon::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 14px;
-            height: 2.5px;
-            background: #1a1a2e;
-            border-radius: 2px;
-        }
-
-        .kart-renk-satir {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin: 4px 0 8px;
-        }
-
-        .kart-renk-nokta {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            border: 2px solid #e5e7eb;
-            box-shadow: inset 0 0 4px rgba(0,0,0,0.05);
-        }
-
-        .kart-renk-yazi {
-            font-size: 20px;
-            font-weight: 600;
-            color: #4b5563;
-        }
-
-        .kart-adet {
-            font-size: 64px;
-            font-weight: 900;
-            color: #1a1a2e;
-            margin-top: 10px;
-            letter-spacing: 4px;
-            line-height: 1;
-        }
-
-        .kart-alt {
-            border-top: 1px solid #e5e7eb;
-            padding: 10px 24px;
-            text-align: center;
-            font-size: 10px;
-            color: #9ca3af;
-            background: #f9fafb;
-            letter-spacing: 1px;
-        }
-
-        /* Buton */
-        .btn {
-            width: 100%;
-            padding: 18px;
-            border: none;
-            border-radius: 16px;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            background: #1a1a2e;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.15s;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-        .btn:active {
-            transform: scale(0.96);
-        }
-
-        .ipucu {
-            text-align: center;
-            font-size: 13px;
-            color: #9ca3af;
-            margin-top: 12px;
-            line-height: 1.5;
-        }
-
-        .ipucu strong {
-            color: #6b7280;
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(80px);
-            background: #1f2937;
-            color: white;
-            padding: 14px 28px;
-            border-radius: 16px;
+        .renk-adi {
             font-size: 14px;
-            opacity: 0;
-            transition: all 0.4s ease;
-            pointer-events: none;
-            z-index: 9999;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+            color: #515154;
         }
 
-        .toast.goster {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+        .stok-input {
+            width: 60px;
+            padding: 5px 8px;
+            border: 1px solid #d2d2d7;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .stok-input:focus {
+            border-color: #0071e3;
+        }
+
+        /* Buton Alanı */
+        .buton-container {
+            margin-top: 25px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .kaydet-btn {
+            background-color: #0071e3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .kaydet-btn:hover {
+            background-color: #005bb5;
+        }
+
+        /* Oluşan görselin önizleme alanı */
+        #onizleme-alani {
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        #onizleme-alani img {
+            width: 100%;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            margin-top: 10px;
+        }
+
+        .bilgi-metni {
+            font-size: 13px;
+            color: #6e6e73;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="baslik">
-            <h1>📷 Lens Kartı</h1>
-            <p>Rengi seç, adedi listeden seç, basılı tut → kaydet</p>
+    <div id="stok-karti">
+        <h1>Kamera Lens Stok Listesi</h1>
+
+        <div class="model-grup">
+            <div class="model-adi">iPhone 11</div>
+            <div class="renk-satiri"><span class="renk-adi">Siyah</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Beyaz</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Yeşil</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Sarı</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Mor</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">(PRODUCT)RED Kırmızı</span><input type="number" class="stok-input" placeholder="0"></div>
         </div>
 
-        <div class="panel">
-            <label>Renk Seç</label>
-            <div class="renk-grid" id="renk-grid">
-                <div class="renk-btn secili" data-renk="Siyah" data-hex="#1a1a2e">
-                    <span class="nokta" style="background:#1a1a2e"></span> Siyah
-                </div>
-                <div class="renk-btn" data-renk="Beyaz" data-hex="#f5f5f0">
-                    <span class="nokta" style="background:#f5f5f0"></span> Beyaz
-                </div>
-                <div class="renk-btn" data-renk="Gümüş" data-hex="#c0c0c0">
-                    <span class="nokta" style="background:#c0c0c0"></span> Gümüş
-                </div>
-                <div class="renk-btn" data-renk="Gri" data-hex="#808080">
-                    <span class="nokta" style="background:#808080"></span> Gri
-                </div>
-                <div class="renk-btn" data-renk="Bej" data-hex="#e8dcc8">
-                    <span class="nokta" style="background:#e8dcc8"></span> Bej
-                </div>
-                <div class="renk-btn" data-renk="Kırmızı" data-hex="#dc2626">
-                    <span class="nokta" style="background:#dc2626"></span> Kırmızı
-                </div>
-                <div class="renk-btn" data-renk="Yeşil" data-hex="#16a34a">
-                    <span class="nokta" style="background:#16a34a"></span> Yeşil
-                </div>
-                <div class="renk-btn" data-renk="Mavi" data-hex="#2563eb">
-                    <span class="nokta" style="background:#2563eb"></span> Mavi
-                </div>
-            </div>
+        <div class="model-grup">
+            <div class="model-adi">iPhone 11 Pro / 11 Pro Max</div>
+            <div class="renk-satiri"><span class="renk-adi">Uzay Grisi</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Gümüş</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Gece Yeşili</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adiAltın">Altın</span><input type="number" class="stok-input" placeholder="0"></div>
         </div>
 
-        <div class="panel">
-            <label>Adet</label>
-            <select id="adet-select">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20">20</option>
-                <option value="25">25</option>
-                <option value="30">30</option>
-                <option value="35">35</option>
-                <option value="40">40</option>
-                <option value="45">45</option>
-                <option value="50">50</option>
-            </select>
+        <div class="model-grup">
+            <div class="model-adi">iPhone 12 mini / 12</div>
+            <div class="renk-satiri"><span class="renk-adi">Siyah</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Beyaz</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Mavi</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Yeşil</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Mor</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">(PRODUCT)RED Kırmızı</span><input type="number" class="stok-input" placeholder="0"></div>
         </div>
 
-        <!-- KART -->
-        <div id="kart">
-            <div class="kart-ic">
-                <div class="kart-ikon"></div>
-                <div class="kart-renk-satir">
-                    <span class="kart-renk-nokta" id="kart-renk-nokta" style="background:#1a1a2e"></span>
-                    <span class="kart-renk-yazi" id="kart-renk-yazi">Siyah</span>
-                </div>
-                <div class="kart-adet" id="kart-adet">1</div>
-            </div>
-            <div class="kart-alt">✦ LENS KARTI ✦</div>
+        <div class="model-grup">
+            <div class="model-adi">iPhone 12 Pro / 12 Pro Max</div>
+            <div class="renk-satiri"><span class="renk-adi">Pasifik Mavisi</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Grafi</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Gümüş</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Altın</span><input type="number" class="stok-input" placeholder="0"></div>
         </div>
 
-        <button class="btn" id="kaydet-btn">📷 Basılı Tut → Fotoğraflara Kaydet</button>
-        <p class="ipucu">
-            💡 Butona <strong>basılı tut</strong>, telefonda "Fotoğraflara Kaydet" çıksın
-        </p>
+        <div class="model-grup">
+            <div class="model-adi">iPhone 13 mini / 13</div>
+            <div class="renk-satiri"><span class="renk-adi">Gece Yarısı</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Yıldız Işığı</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Mavi</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Pembe</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Yeşil</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">(PRODUCT)RED Kırmızı</span><input type="number" class="stok-input" placeholder="0"></div>
+        </div>
+
+        <div class="model-grup">
+            <div class="model-adi">iPhone 13 Pro / 13 Pro Max</div>
+            <div class="renk-satiri"><span class="renk-adi">Sierra Mavisi</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Ladin Yeşili</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Grafi</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Gümüş</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Altın</span><input type="number" class="stok-input" placeholder="0"></div>
+        </div>
+
+        <div class="model-grup">
+            <div class="model-adi">iPhone 14 / 14 Plus</div>
+            <div class="renk-satiri"><span class="renk-adi">Gece Yarısı</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Yıldız Işığı</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Mavi</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Mor</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Sarı</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">(PRODUCT)RED Kırmızı</span><input type="number" class="stok-input" placeholder="0"></div>
+        </div>
+
+        <div class="model-grup">
+            <div class="model-adi">iPhone 14 Pro / 14 Pro Max</div>
+            <div class="renk-satiri"><span class="renk-adi">Derin Mor</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Uzay Siyahı</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Gümüş</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Altın</span><input type="number" class="stok-input" placeholder="0"></div>
+        </div>
+
+        <div class="model-grup">
+            <div class="model-adi">iPhone 15 / 15 Plus</div>
+            <div class="renk-satiri"><span class="renk-adi">Siyah</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Mavi</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Yeşil</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Sarı</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Pembe</span><input type="number" class="stok-input" placeholder="0"></div>
+        </div>
+
+        <div class="model-grup">
+            <div class="model-adi">iPhone 15 Pro / 15 Pro Max</div>
+            <div class="renk-satiri"><span class="renk-adi">Doğal Titanyum</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Mavi Titanyum</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Beyaz Titanyum</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Siyah Titanyum</span><input type="number" class="stok-input" placeholder="0"></div>
+        </div>
+
+        <div class="model-grup">
+            <div class="model-adi">iPhone 16 / 16 Plus</div>
+            <div class="renk-satiri"><span class="renk-adi">Siyah</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Beyaz</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Çivit Mavisi</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Deniz Yeşili</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Pembe</span><input type="number" class="stok-input" placeholder="0"></div>
+        </div>
+
+        <div class="model-grup">
+            <div class="model-adi">iPhone 16e</div>
+            <div class="renk-satiri"><span class="renk-adi">Siyah</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Beyaz</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Açık Doğa Yeşili</span><input type="number" class="stok-input" placeholder="0"></div>
+        </div>
+
+        <div class="model-grup">
+            <div class="model-adi">iPhone 16 Pro / 16 Pro Max</div>
+            <div class="renk-satiri"><span class="renk-adi">Çöl Titanyum</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Doğal Titanyum</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Beyaz Titanyum</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Siyah Titanyum</span><input type="number" class="stok-input" placeholder="0"></div>
+        </div>
+
+        <div class="model-grup">
+            <div class="model-adi">iPhone 17</div>
+            <div class="renk-satiri"><span class="renk-adi">Siyah</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Gümüş</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Doğal Alüminyum</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Renk Seçenekleri 2</span><input type="number" class="stok-input" placeholder="0"></div>
+        </div>
+
+        <div class="model-grup">
+            <div class="model-adi">iPhone 17 Air</div>
+            <div class="renk-satiri"><span class="renk-adi">Gümüş</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Grafi</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Açık Titanyum</span><input type="number" class="stok-input" placeholder="0"></div>
+        </div>
+
+        <div class="model-grup">
+            <div class="model-adi">iPhone 17 Pro / 17 Pro Max</div>
+            <div class="renk-satiri"><span class="renk-adi">Koyu Titanyum</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Doğal Titanyum</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Beyaz Titanyum</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Yeşil Titanyum</span><input type="number" class="stok-input" placeholder="0"></div>
+        </div>
+
     </div>
 
-    <div class="toast" id="toast"></div>
+    <div class="buton-container">
+        <button class="kaydet-btn" onclick="fotografUret()">Fotoğraf Olarak Hazırla</button>
+    </div>
+
+    <div id="onizleme-alani">
+        <span class="bilgi-metni">👇 Fotoğraf hazır! Aşağıdaki görsele basılı tutarak galeriye kaydedebilirsin:</span>
+        <div id="gorsel-yeri"></div>
+    </div>
 
     <script>
-        // ========== Renkler ==========
-        const RENKLER = {
-            'Siyah':    '#1a1a2e',
-            'Beyaz':    '#f5f5f0',
-            'Gümüş':    '#c0c0c0',
-            'Gri':      '#808080',
-            'Bej':      '#e8dcc8',
-            'Kırmızı':  '#dc2626',
-            'Yeşil':    '#16a34a',
-            'Mavi':     '#2563eb'
-        };
+        function fotografUret() {
+            const kart = document.getElementById('stok-karti');
+            const onizlemeAlani = document.getElementById('onizleme-alani');
+            const gorselYeri = document.getElementById('gorsel-yeri');
 
-        // ========== DOM ==========
-        const renkBtnlari = document.querySelectorAll('.renk-btn');
-        const adetSelect = document.getElementById('adet-select');
-        const kartRenkNokta = document.getElementById('kart-renk-nokta');
-        const kartRenkYazi = document.getElementById('kart-renk-yazi');
-        const kartAdet = document.getElementById('kart-adet');
-        const kaydetBtn = document.getElementById('kaydet-btn');
-        const kart = document.getElementById('kart');
-        const toast = document.getElementById('toast');
+            // Önceki üretilen resmi temizle
+            gorselYeri.innerHTML = "";
 
-        let seciliRenk = 'Siyah';
-        let seciliHex = '#1a1a2e';
-
-        // ========== Toast ==========
-        function toastGoster(msg, sure) {
-            toast.textContent = msg;
-            toast.classList.add('goster');
-            clearTimeout(toast._zaman);
-            toast._zaman = setTimeout(() => toast.classList.remove('goster'), sure || 1800);
-        }
-
-        // ========== Renk Seçimi ==========
-        renkBtnlari.forEach(btn => {
-            btn.addEventListener('click', function() {
-                renkBtnlari.forEach(b => b.classList.remove('secili'));
-                this.classList.add('secili');
-                seciliRenk = this.dataset.renk;
-                seciliHex = this.dataset.hex;
-                canliGuncelle();
+            // Form alanlarındaki rakamları görselleştirirken input kutusu yerine düz yazı gibi göstermek için geçici düzenleme yapıyoruz
+            const inputs = document.querySelectorAll('.stok-input');
+            inputs.forEach(input => {
+                let span = document.createElement('span');
+                span.className = 'gecici-deger';
+                span.innerText = input.value ? input.value : "0";
+                span.style.fontWeight = "bold";
+                span.style.fontSize = "15px";
+                span.style.color = input.value && input.value !== "0" ? "#0071e3" : "#d2d2d7";
+                input.style.display = 'none';
+                input.parentNode.appendChild(span);
             });
-        });
 
-        // ========== Adet değişince ==========
-        adetSelect.addEventListener('change', canliGuncelle);
+            // html2canvas ile elementi resme dönüştür
+            html2canvas(kart, {
+                scale: 2, // Kaliteyi artırmak için
+                backgroundColor: "#ffffff",
+                useCORS: true
+            }).then(canvas => {
+                let img = document.createElement('img');
+                img.src = canvas.toDataURL('image/png');
+                gorselYeri.appendChild(img);
+                onizlemeAlani.style.display = 'block';
 
-        // ========== Canlı Güncelle ==========
-        function canliGuncelle() {
-            kartRenkYazi.textContent = seciliRenk;
-            kartRenkNokta.style.background = seciliHex;
-            kartAdet.textContent = adetSelect.value;
-        }
+                // Eski inputları geri görünür yap, geçici spanları sil
+                inputs.forEach(input => {
+                    input.style.display = 'inline-block';
+                });
+                const geciciler = document.querySelectorAll('.gecici-deger');
+                geciciler.forEach(g => g.remove());
 
-        // ========== Canvas ile Kart Çiz ==========
-        function kartToImage() {
-            return new Promise(function(resolve, reject) {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                
-                const w = 380;
-                const h = 250;
-                canvas.width = w;
-                canvas.height = h;
-
-                // Yuvarlak köşeler için roundRect
-                if (!CanvasRenderingContext2D.prototype.roundRect) {
-                    CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
-                        if (r > w/2) r = w/2;
-                        if (r > h/2) r = h/2;
-                        this.moveTo(x + r, y);
-                        this.quadraticCurveTo(x + w, y, x + w, y + r);
-                        this.lineTo(x + w, y + h - r);
-                        this.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-                        this.lineTo(x + r, y + h);
-                        this.quadraticCurveTo(x, y + h, x, y + h - r);
-                        this.lineTo(x, y + r);
-                        this.quadraticCurveTo(x, y, x + r, y);
-                        this.closePath();
-                        return this;
-                    };
-                }
-
-                // Temiz arka plan
-                ctx.fillStyle = '#ffffff';
-                ctx.beginPath();
-                ctx.roundRect(0, 0, w, h, 18);
-                ctx.fill();
-                ctx.clip();
-
-                // İkon (kamera lens temsili)
-                const icY = 38;
-                ctx.strokeStyle = '#1a1a2e';
-                ctx.lineWidth = 2.5;
-                ctx.beginPath();
-                ctx.roundRect(w/2 - 12, icY, 24, 28, 5);
-                ctx.stroke();
-                ctx.fillRect(w/2 - 7, icY + 28, 14, 2.5);
-
-                // Renk noktası
-                ctx.beginPath();
-                ctx.arc(w/2 - 18, icY + 62, 12, 0, Math.PI * 2);
-                ctx.fillStyle = seciliHex;
-                ctx.fill();
-                ctx.strokeStyle = '#e5e7eb';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                // Renk yazısı
-                ctx.fillStyle = '#4b5563';
-                ctx.font = '600 20px -apple-system, BlinkMacSystemFont, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(seciliRenk, w/2 + 10, icY + 62);
-
-                // Adet
-                ctx.fillStyle = '#1a1a2e';
-                ctx.font = '900 64px -apple-system, BlinkMacSystemFont, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(adetSelect.value, w/2, icY + 150);
-
-                // Alt çizgi
-                ctx.fillStyle = '#e5e7eb';
-                ctx.fillRect(20, 210, w - 40, 1);
-
-                // Alt yazı
-                ctx.fillStyle = '#9ca3af';
-                ctx.font = '500 10px -apple-system, BlinkMacSystemFont, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText('✦ LENS KARTI ✦', w/2, 230);
-
-                resolve(canvas);
+                // Sayfayı otomatik olarak resmin olduğu yere kaydır
+                onizlemeAlani.scrollIntoView({ behavior: 'smooth' });
             });
         }
-
-        // ========== Kaydetme İşlemi ==========
-        function kaydetmeYap() {
-            const renk = seciliRenk;
-            const adet = adetSelect.value;
-
-            kartToImage().then(function(canvas) {
-                canvas.toBlob(function(blob) {
-                    const url = URL.createObjectURL(blob);
-                    
-                    // Telefonda basılı tutunca "Fotoğraflara Kaydet" çıkması için
-                    // Önce link ile dene
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = renk + '_' + adet + '.png';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-
-                    // iOS'ta yeni sekmede aç - basılı tutunca fotoğraflara kaydet çıkar
-                    setTimeout(function() {
-                        window.open(url, '_blank');
-                    }, 200);
-
-                    setTimeout(function() {
-                        URL.revokeObjectURL(url);
-                    }, 15000);
-
-                    toastGoster('✅ ' + renk + ' ' + adet + ' adet');
-                }, 'image/png');
-            }).catch(function(err) {
-                console.error('Hata:', err);
-                toastGoster('❌ Hata oldu tekrar dene', 2500);
-            });
-        }
-
-        // ========== Basılı Tut / Tıkla ==========
-        let basiliZaman = null;
-        let basiliCalisti = false;
-
-        kaydetBtn.addEventListener('click', function() {
-            if (!basiliCalisti) {
-                kaydetmeYap();
-            }
-            basiliCalisti = false;
-        });
-
-        // Touch
-        kaydetBtn.addEventListener('touchstart', function() {
-            basiliCalisti = false;
-            basiliZaman = setTimeout(function() {
-                basiliCalisti = true;
-                kaydetmeYap();
-                toastGoster('📷 Fotoğraflara kaydediliyor...');
-            }, 400);
-        }, { passive: true });
-
-        kaydetBtn.addEventListener('touchend', function() {
-            if (basiliZaman) { clearTimeout(basiliZaman); basiliZaman = null; }
-        });
-        kaydetBtn.addEventListener('touchcancel', function() {
-            if (basiliZaman) { clearTimeout(basiliZaman); basiliZaman = null; }
-        });
-
-        // Mouse
-        kaydetBtn.addEventListener('mousedown', function() {
-            basiliCalisti = false;
-            basiliZaman = setTimeout(function() {
-                basiliCalisti = true;
-                kaydetmeYap();
-                toastGoster('📷 Fotoğraflara kaydediliyor...');
-            }, 400);
-        });
-        kaydetBtn.addEventListener('mouseup', function() {
-            if (basiliZaman) { clearTimeout(basiliZaman); basiliZaman = null; }
-        });
-        kaydetBtn.addEventListener('mouseleave', function() {
-            if (basiliZaman) { clearTimeout(basiliZaman); basiliZaman = null; }
-        });
-
-        // ========== Başlangıç ==========
-        canliGuncelle();
     </script>
 
 </body>
