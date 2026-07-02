@@ -11,8 +11,7 @@
             --apple-bg: #f5f5f7;
             --card-bg: #ffffff;
             --text-dark: #1d1d1f;
-            --text-muted: #1d1d1f; /* Yazının daha net ve belli olması için koyulaştırıldı */
-            --border-color: #000000; /* İstediğin siyah çizgi rengi */
+            --border-color: #000000;
         }
 
         body {
@@ -41,29 +40,30 @@
 
         .baslik-alani {
             text-align: center;
-            margin-bottom: 28px;
-            padding-bottom: 10px;
+            margin-bottom: 24px;
+            padding-bottom: 5px;
         }
 
+        /* Kırmızı alan: Yazı tipi boyutu isteğin üzerine küçültüldü */
         h1 {
-            font-size: 24px;
+            font-size: 18px; 
             font-weight: 700;
             margin: 0;
             color: #000000;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
 
-        /* Her telefon model grubunun etrafına eklenen belirgin siyah çizgi */
+        /* Her telefon model grubunun etrafındaki belirgin siyah çizgi */
         .model-grup {
             margin-bottom: 24px;
             background: #fafafa;
             border-radius: 16px;
             padding: 16px;
-            border: 2px solid var(--border-color); /* Kalınlığı artırılmış belirgin siyah çizgi */
+            border: 2px solid var(--border-color);
         }
 
         .model-adi {
@@ -133,16 +133,28 @@
             box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
         }
 
-        /* Çok daha net, kalın ve emojili kamera lens açıklama yazısı */
+        /* Yeşil alan: İstediğin gibi güncellenen alt bilgi ve tarih alanı */
         .urun-aciklama-notu {
             text-align: center;
-            font-size: 14px; /* Yazı boyutu büyütüldü */
-            color: #000000; /* Tam net siyah yapıldı */
+            color: #000000;
             margin-top: 20px;
-            border-top: 2px solid #000000; /* Üst çizgi kalınlaştırıldı */
+            border-top: 2px solid #000000;
             padding-top: 16px;
-            font-weight: 700; /* Kalın yapıldı */
-            letter-spacing: 0.3px;
+        }
+
+        .lens-metni {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .tarih-metni {
+            font-size: 13px;
+            font-weight: 600;
+            color: #555555;
+            display: block;
         }
 
         /* Buton Alanı */
@@ -336,7 +348,8 @@
         </div>
 
         <div id="kamera-lens-notu" class="urun-aciklama-notu" style="display: none;">
-            ✨📸 KAMERA LENS STOK DURUMU LİSTESİDİR 📸✨
+            <span class="lens-metni">✨KAMERA LENS✨</span>
+            <span id="tarih-alan" class="tarih-metni"></span>
         </div>
 
     </div>
@@ -351,14 +364,26 @@
     </div>
 
     <script>
+        function htmlEscape(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
         function fotografUret() {
             const kart = document.getElementById('stok-karti');
             const onizlemeAlani = document.getElementById('onizleme-alani');
             const gorselYeri = document.getElementById('gorsel-yeri');
             const lensNotu = document.getElementById('kamera-lens-notu');
+            const tarihAlan = document.getElementById('tarih-alan');
 
             gorselYeri.innerHTML = "";
             
+            // Canlı otomatik tarih ekleme (Gün.Ay.Yıl formatında)
+            const bugun = new Date();
+            const gun = String(bugun.getDate()).padStart(2, '0');
+            const ay = String(bugun.getMonth() + 1).padStart(2, '0');
+            const yil = bugun.getFullYear();
+            tarihAlan.innerText = `Tarih: ${gun}.${ay}.${yil}`;
+
             // Kamera lens bilgisini resim alanı için görünür yap
             lensNotu.style.display = 'block';
 
