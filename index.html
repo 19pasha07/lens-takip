@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kamera Lens Stok Takip</title>
+    <title>Paşa Kılıf Dünyası Stok</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body {
@@ -29,12 +29,13 @@
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 22px;
             text-align: center;
             margin-bottom: 25px;
             color: #000;
             border-bottom: 2px solid #f5f5f7;
             padding-bottom: 15px;
+            letter-spacing: 0.5px;
         }
 
         .model-grup {
@@ -133,7 +134,7 @@
 <body>
 
     <div id="stok-karti">
-        <h1>Kamera Lens Stok Listesi</h1>
+        <h1>📱 PAŞA KILIF DÜNYASI 📱</h1>
 
         <div class="model-grup">
             <div class="model-adi">iPhone 11</div>
@@ -150,7 +151,7 @@
             <div class="renk-satiri"><span class="renk-adi">Uzay Grisi</span><input type="number" class="stok-input" placeholder="0"></div>
             <div class="renk-satiri"><span class="renk-adi">Gümüş</span><input type="number" class="stok-input" placeholder="0"></div>
             <div class="renk-satiri"><span class="renk-adi">Gece Yeşili</span><input type="number" class="stok-input" placeholder="0"></div>
-            <div class="renk-satiri"><span class="renk-adiAltın">Altın</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Altın</span><input type="number" class="stok-input" placeholder="0"></div>
         </div>
 
         <div class="model-grup">
@@ -166,7 +167,7 @@
         <div class="model-grup">
             <div class="model-adi">iPhone 12 Pro / 12 Pro Max</div>
             <div class="renk-satiri"><span class="renk-adi">Pasifik Mavisi</span><input type="number" class="stok-input" placeholder="0"></div>
-            <div class="renk-satiri"><span class="renk-adi">Grafi</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Grafit</span><input type="number" class="stok-input" placeholder="0"></div>
             <div class="renk-satiri"><span class="renk-adi">Gümüş</span><input type="number" class="stok-input" placeholder="0"></div>
             <div class="renk-satiri"><span class="renk-adi">Altın</span><input type="number" class="stok-input" placeholder="0"></div>
         </div>
@@ -185,7 +186,7 @@
             <div class="model-adi">iPhone 13 Pro / 13 Pro Max</div>
             <div class="renk-satiri"><span class="renk-adi">Sierra Mavisi</span><input type="number" class="stok-input" placeholder="0"></div>
             <div class="renk-satiri"><span class="renk-adi">Ladin Yeşili</span><input type="number" class="stok-input" placeholder="0"></div>
-            <div class="renk-satiri"><span class="renk-adi">Grafi</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Grafit</span><input type="number" class="stok-input" placeholder="0"></div>
             <div class="renk-satiri"><span class="renk-adi">Gümüş</span><input type="number" class="stok-input" placeholder="0"></div>
             <div class="renk-satiri"><span class="renk-adi">Altın</span><input type="number" class="stok-input" placeholder="0"></div>
         </div>
@@ -254,13 +255,12 @@
             <div class="renk-satiri"><span class="renk-adi">Siyah</span><input type="number" class="stok-input" placeholder="0"></div>
             <div class="renk-satiri"><span class="renk-adi">Gümüş</span><input type="number" class="stok-input" placeholder="0"></div>
             <div class="renk-satiri"><span class="renk-adi">Doğal Alüminyum</span><input type="number" class="stok-input" placeholder="0"></div>
-            <div class="renk-satiri"><span class="renk-adi">Renk Seçenekleri 2</span><input type="number" class="stok-input" placeholder="0"></div>
         </div>
 
         <div class="model-grup">
             <div class="model-adi">iPhone 17 Air</div>
             <div class="renk-satiri"><span class="renk-adi">Gümüş</span><input type="number" class="stok-input" placeholder="0"></div>
-            <div class="renk-satiri"><span class="renk-adi">Grafi</span><input type="number" class="stok-input" placeholder="0"></div>
+            <div class="renk-satiri"><span class="renk-adi">Grafit</span><input type="number" class="stok-input" placeholder="0"></div>
             <div class="renk-satiri"><span class="renk-adi">Açık Titanyum</span><input type="number" class="stok-input" placeholder="0"></div>
         </div>
 
@@ -289,25 +289,42 @@
             const onizlemeAlani = document.getElementById('onizleme-alani');
             const gorselYeri = document.getElementById('gorsel-yeri');
 
-            // Önceki üretilen resmi temizle
             gorselYeri.innerHTML = "";
 
-            // Form alanlarındaki rakamları görselleştirirken input kutusu yerine düz yazı gibi göstermek için geçici düzenleme yapıyoruz
-            const inputs = document.querySelectorAll('.stok-input');
-            inputs.forEach(input => {
-                let span = document.createElement('span');
-                span.className = 'gecici-deger';
-                span.innerText = input.value ? input.value : "0";
-                span.style.fontWeight = "bold";
-                span.style.fontSize = "15px";
-                span.style.color = input.value && input.value !== "0" ? "#0071e3" : "#d2d2d7";
-                input.style.display = 'none';
-                input.parentNode.appendChild(span);
+            const satirlar = document.querySelectorAll('.renk-satiri');
+            const gruplar = document.querySelectorAll('.model-grup');
+            
+            // Adet girilmeyen satırları geçici olarak gizle ve girilenleri metne çevir
+            satirlar.forEach(satir => {
+                const input = satir.querySelector('.stok-input');
+                const deger = input.value.trim();
+                
+                if (!deger || deger === "0") {
+                    satir.style.display = 'none'; // Boş veya 0 ise gizle
+                } else {
+                    let span = document.createElement('span');
+                    span.className = 'gecici-deger';
+                    span.innerText = deger;
+                    span.style.fontWeight = "bold";
+                    span.style.fontSize = "15px";
+                    span.style.color = "#0071e3";
+                    input.style.display = 'none';
+                    satir.appendChild(span);
+                }
             });
 
-            // html2canvas ile elementi resme dönüştür
+            // İçinde hiç dolu satır kalmayan model gruplarını tamamen gizle
+            gruplar.forEach(grup => {
+                const gorunurSatirlar = grup.querySelectorAll('.renk-satiri[style*="display: none"]');
+                const toplamSatir = grup.querySelectorAll('.renk-satiri');
+                if (gorunurSatirlar.length === toplamSatir.length) {
+                    grup.style.display = 'none';
+                }
+            });
+
+            // Resmi üret
             html2canvas(kart, {
-                scale: 2, // Kaliteyi artırmak için
+                scale: 2,
                 backgroundColor: "#ffffff",
                 useCORS: true
             }).then(canvas => {
@@ -316,14 +333,18 @@
                 gorselYeri.appendChild(img);
                 onizlemeAlani.style.display = 'block';
 
-                // Eski inputları geri görünür yap, geçici spanları sil
-                inputs.forEach(input => {
+                // Her şeyi eski haline geri getir (kullanıcı düzenlemeye devam edebilsin)
+                satirlar.forEach(satir => {
+                    satir.style.display = 'flex';
+                    const input = satir.querySelector('.stok-input');
                     input.style.display = 'inline-block';
+                });
+                gruplar.forEach(grup => {
+                    grup.style.display = 'block';
                 });
                 const geciciler = document.querySelectorAll('.gecici-deger');
                 geciciler.forEach(g => g.remove());
 
-                // Sayfayı otomatik olarak resmin olduğu yere kaydır
                 onizlemeAlani.scrollIntoView({ behavior: 'smooth' });
             });
         }
