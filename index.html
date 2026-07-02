@@ -2,33 +2,33 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone Lens Kartı</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Lens Kartı</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #f0f2f5;
-            padding: 30px 20px;
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
         .container {
-            max-width: 440px;
+            max-width: 420px;
             width: 100%;
+            text-align: center;
         }
 
         .baslik {
-            text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .baslik h1 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
             color: #1a1a2e;
         }
@@ -39,104 +39,149 @@
             margin-top: 4px;
         }
 
-        /* Kontrol Paneli */
-        .panel {
+        /* Renk Seçimi */
+        .renk-alani {
             background: white;
             border-radius: 16px;
-            padding: 20px;
+            padding: 18px;
             box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            margin-bottom: 24px;
+            margin-bottom: 16px;
         }
 
-        .panel label {
+        .renk-alani label {
             display: block;
             font-size: 12px;
             font-weight: 600;
             color: #374151;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 5px;
-            margin-top: 14px;
+            margin-bottom: 10px;
         }
 
-        .panel label:first-child {
-            margin-top: 0;
-        }
-
-        .panel input {
-            width: 100%;
-            padding: 11px 14px;
-            border: 2px solid #e5e7eb;
-            border-radius: 10px;
-            font-size: 15px;
-            outline: none;
-            background: #fafafa;
-            transition: border-color 0.2s;
-        }
-
-        .panel input:focus {
-            border-color: #3b82f6;
-            background: white;
-        }
-
-        /* Renk Seçimi */
         .renk-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 4px;
+            justify-content: center;
+            gap: 8px;
         }
 
         .renk-btn {
-            padding: 7px 14px 7px 10px;
+            padding: 8px 16px 8px 12px;
             border-radius: 20px;
             border: 2px solid #e5e7eb;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 500;
             display: flex;
             align-items: center;
             gap: 6px;
             background: #fafafa;
             transition: all 0.15s;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .renk-btn:hover {
-            transform: scale(1.04);
+        .renk-btn:active {
+            transform: scale(0.95);
         }
 
         .renk-btn.secili {
             border-color: #1a1a2e;
             box-shadow: 0 0 0 2px white, 0 0 0 4px #1a1a2e;
+            background: #f0f0f5;
         }
 
         .renk-btn .nokta {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             border: 1px solid rgba(0,0,0,0.08);
             flex-shrink: 0;
         }
 
-        /* KART */
-        .kart {
+        /* Adet Girişi */
+        .adet-alani {
             background: white;
-            border-radius: 18px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
-            overflow: hidden;
-            width: 100%;
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
             margin-bottom: 20px;
         }
 
+        .adet-alani label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .adet-inputlar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .adet-inputlar input {
+            width: 100px;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            outline: none;
+            background: #fafafa;
+        }
+
+        .adet-inputlar input:focus {
+            border-color: #3b82f6;
+            background: white;
+        }
+
+        .adet-btn {
+            width: 48px;
+            height: 48px;
+            border: none;
+            border-radius: 12px;
+            font-size: 22px;
+            font-weight: 700;
+            cursor: pointer;
+            background: #e5e7eb;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .adet-btn:active {
+            transform: scale(0.9);
+            background: #d1d5db;
+        }
+
+        /* KART */
+        #kart {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
         .kart-ic {
-            padding: 32px 24px 22px;
+            padding: 40px 24px 30px;
             text-align: center;
         }
 
         .ikon {
-            width: 26px;
-            height: 32px;
-            margin: 0 auto 12px;
+            width: 28px;
+            height: 34px;
+            margin: 0 auto 14px;
             position: relative;
         }
 
@@ -146,8 +191,8 @@
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 20px;
-            height: 25px;
+            width: 22px;
+            height: 27px;
             border: 2.5px solid #1a1a2e;
             border-radius: 5px;
         }
@@ -158,26 +203,10 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 12px;
+            width: 13px;
             height: 2.5px;
             background: #1a1a2e;
             border-radius: 2px;
-        }
-
-        .kart-model-baslik {
-            font-size: 12px;
-            font-weight: 600;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 2px;
-        }
-
-        .kart-model-adi {
-            font-size: 20px;
-            font-weight: 800;
-            color: #1a1a2e;
-            margin: 4px 0 10px;
         }
 
         .kart-renk-satir {
@@ -185,30 +214,30 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin: 8px 0 6px;
+            margin: 6px 0;
         }
 
         .kart-renk-nokta {
             display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
             border: 2px solid #e5e7eb;
             box-shadow: inset 0 0 4px rgba(0,0,0,0.05);
         }
 
         .kart-renk-yazi {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             color: #4b5563;
         }
 
-        .kart-numara {
-            font-size: 44px;
+        .kart-adet {
+            font-size: 56px;
             font-weight: 900;
             color: #1a1a2e;
-            margin-top: 6px;
-            letter-spacing: 3px;
+            margin-top: 8px;
+            letter-spacing: 4px;
             line-height: 1;
         }
 
@@ -225,11 +254,11 @@
         /* Buton */
         .btn-kaydet {
             width: 100%;
-            padding: 15px;
+            padding: 18px;
             border: none;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 700;
             cursor: pointer;
             background: #1a1a2e;
             color: white;
@@ -238,26 +267,26 @@
             justify-content: center;
             gap: 8px;
             transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
             user-select: none;
             -webkit-user-select: none;
-            touch-action: manipulation;
-        }
-
-        .btn-kaydet:hover {
-            background: #2d2d4a;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(26,26,46,0.3);
         }
 
         .btn-kaydet:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
         }
 
         .ipucu {
             text-align: center;
-            font-size: 12px;
+            font-size: 13px;
             color: #9ca3af;
-            margin-top: 10px;
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
+        .ipucu strong {
+            color: #6b7280;
         }
 
         /* Toast */
@@ -268,14 +297,15 @@
             transform: translateX(-50%) translateY(80px);
             background: #1f2937;
             color: white;
-            padding: 12px 24px;
-            border-radius: 14px;
+            padding: 14px 28px;
+            border-radius: 16px;
             font-size: 14px;
             opacity: 0;
             transition: all 0.4s ease;
             pointer-events: none;
             z-index: 9999;
             box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+            white-space: nowrap;
         }
 
         .toast.goster {
@@ -288,15 +318,12 @@
 
     <div class="container">
         <div class="baslik">
-            <h1>📱 iPhone Lens Kartı</h1>
-            <p>Model adını yaz, rengini seç, numarayı gir ve kaydet</p>
+            <h1>📱 Lens Kartı</h1>
+            <p>Rengi seç, adedi yaz, basılı tut → fotoğraflara kaydet</p>
         </div>
 
-        <!-- Kontroller -->
-        <div class="panel">
-            <label>Model Adı</label>
-            <input type="text" id="model-input" placeholder="Örn: iPhone 16 128GB" value="iPhone 16 128GB">
-
+        <!-- Renk Seçimi -->
+        <div class="renk-alani">
             <label>Renk Seç</label>
             <div class="renk-grid" id="renk-grid">
                 <div class="renk-btn secili" data-renk="Siyah" data-hex="#2d2d2d">
@@ -315,29 +342,37 @@
                     <span class="nokta" style="background:#4a5c8a"></span> Laciverttaş
                 </div>
             </div>
-
-            <label>Numara</label>
-            <input type="text" id="number-input" placeholder="Örn: 001" value="001">
         </div>
 
-        <!-- Canlı Kart -->
-        <div class="kart" id="kart">
+        <!-- Adet -->
+        <div class="adet-alani">
+            <label>Adet</label>
+            <div class="adet-inputlar">
+                <button class="adet-btn" id="eksi-btn">−</button>
+                <input type="number" id="adet-input" value="1" min="1" max="999">
+                <button class="adet-btn" id="arti-btn">+</button>
+            </div>
+        </div>
+
+        <!-- KART -->
+        <div id="kart">
             <div class="kart-ic">
                 <div class="ikon"></div>
-                <div class="kart-model-baslik" id="kart-baslik">iPhone 16 128GB</div>
-                <div class="kart-model-adi" id="kart-model">iPhone 16 128GB</div>
                 <div class="kart-renk-satir">
                     <span class="kart-renk-nokta" id="kart-renk-nokta" style="background:#2d2d2d"></span>
                     <span class="kart-renk-yazi" id="kart-renk-yazi">Siyah</span>
                 </div>
-                <div class="kart-numara" id="kart-numara">001</div>
+                <div class="kart-adet" id="kart-adet">1</div>
             </div>
-            <div class="kart-alt">✦ APPLE LENS KARTI ✦</div>
+            <div class="kart-alt">✦ LENS KARTI ✦</div>
         </div>
 
-        <!-- Kaydet Butonu -->
-        <button class="btn-kaydet" id="kaydet-btn">📷 Resim Olarak Kaydet</button>
-        <p class="ipucu">Butona tıkla, PNG resim bilgisayarına insin 💕</p>
+        <!-- Buton -->
+        <button class="btn-kaydet" id="kaydet-btn">📷 Fotoğraflara Kaydet</button>
+        <p class="ipucu">
+            💡 Butona <strong>basılı tut</strong> → "Fotoğraflara Kaydet" çıksın<br>
+            <span style="font-size:12px;">Telefonda basılı tutunca resmi kaydetme seçeneği gelir</span>
+        </p>
     </div>
 
     <div class="toast" id="toast"></div>
@@ -353,14 +388,13 @@
         };
 
         // ========== DOM ==========
-        const modelInput = document.getElementById('model-input');
-        const numberInput = document.getElementById('number-input');
         const renkBtnlari = document.querySelectorAll('.renk-btn');
-        const kartBaslik = document.getElementById('kart-baslik');
-        const kartModel = document.getElementById('kart-model');
+        const adetInput = document.getElementById('adet-input');
+        const eksiBtn = document.getElementById('eksi-btn');
+        const artiBtn = document.getElementById('arti-btn');
         const kartRenkNokta = document.getElementById('kart-renk-nokta');
         const kartRenkYazi = document.getElementById('kart-renk-yazi');
-        const kartNumara = document.getElementById('kart-numara');
+        const kartAdet = document.getElementById('kart-adet');
         const kaydetBtn = document.getElementById('kaydet-btn');
         const kart = document.getElementById('kart');
         const toast = document.getElementById('toast');
@@ -387,51 +421,219 @@
             });
         });
 
-        // ========== Canlı Güncelle ==========
-        function canliGuncelle() {
-            const model = modelInput.value.trim() || 'iPhone';
-            const num = numberInput.value.trim() || '---';
-            kartBaslik.textContent = model;
-            kartModel.textContent = model;
-            kartRenkYazi.textContent = seciliRenk;
-            kartRenkNokta.style.background = seciliHex;
-            kartNumara.textContent = num;
+        // ========== Adet ==========
+        function adetGuncelle() {
+            let val = parseInt(adetInput.value) || 1;
+            if (val < 1) val = 1;
+            if (val > 999) val = 999;
+            adetInput.value = val;
+            canliGuncelle();
         }
 
-        modelInput.addEventListener('input', canliGuncelle);
-        numberInput.addEventListener('input', canliGuncelle);
+        adetInput.addEventListener('input', adetGuncelle);
 
-        // ========== Resim Kaydet ==========
-        kaydetBtn.addEventListener('click', function() {
-            const model = modelInput.value.trim().replace(/[^a-zA-Z0-9ÇçĞğİıÖöŞşÜü\- ]/g, '').replace(/\s+/g, '_') || 'iPhone';
-            const renk = seciliRenk;
-            const num = numberInput.value.trim() || '000';
-            const dosyaAdi = model + '_' + renk + '_' + num + '.png';
-
-            // html2canvas ile kartı çek
-            html2canvas(kart, {
-                scale: 2.5,
-                backgroundColor: '#ffffff',
-                useCORS: true,
-                logging: false
-            }).then(function(canvas) {
-                const link = document.createElement('a');
-                link.download = dosyaAdi;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                toastGoster('✅ ' + dosyaAdi + ' indirildi!');
-            }).catch(function(err) {
-                console.error('Hata:', err);
-                toastGoster('❌ Hata oldu, tekrar dene', 2500);
-            });
+        eksiBtn.addEventListener('click', function() {
+            let val = parseInt(adetInput.value) || 1;
+            if (val > 1) val--;
+            adetInput.value = val;
+            canliGuncelle();
         });
 
-        // ========== Enter ile numara alanından kaydet ==========
-        numberInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                kaydetBtn.click();
+        artiBtn.addEventListener('click', function() {
+            let val = parseInt(adetInput.value) || 1;
+            if (val < 999) val++;
+            adetInput.value = val;
+            canliGuncelle();
+        });
+
+        // ========== Canlı Güncelle ==========
+        function canliGuncelle() {
+            const adet = adetInput.value || '1';
+            kartRenkYazi.textContent = seciliRenk;
+            kartRenkNokta.style.background = seciliHex;
+            kartAdet.textContent = adet;
+        }
+
+        // ========== Resmi Göster / Kaydet ==========
+        // html2canvas kullanmadan direkt görsel oluşturma
+        function kartToImage() {
+            return new Promise(function(resolve, reject) {
+                // Canvas oluştur
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // Kart boyutları
+                const genislik = 380;
+                const yukseklik = 250;
+                canvas.width = genislik;
+                canvas.height = yukseklik;
+
+                // Arka plan
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, genislik, yukseklik);
+
+                // Yuvarlak köşe kes
+                ctx.beginPath();
+                ctx.roundRect(0, 0, genislik, yukseklik, 18);
+                ctx.clip();
+
+                // Kart içi
+                const icY = 30;
+                
+                // İkon (basit elma şekli)
+                ctx.fillStyle = '#1a1a2e';
+                ctx.beginPath();
+                ctx.roundRect(genislik/2 - 11, icY, 22, 27, 5);
+                ctx.fill();
+                ctx.fillRect(genislik/2 - 6.5, icY + 27, 13, 3);
+                
+                // Renk noktası
+                ctx.beginPath();
+                ctx.arc(genislik/2 - 16, icY + 62, 11, 0, Math.PI * 2);
+                ctx.fillStyle = seciliHex;
+                ctx.fill();
+                ctx.strokeStyle = '#e5e7eb';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Renk yazısı
+                ctx.fillStyle = '#4b5563';
+                ctx.font = '600 18px -apple-system, BlinkMacSystemFont, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(seciliRenk, genislik/2 + 8, icY + 62);
+
+                // Adet
+                ctx.fillStyle = '#1a1a2e';
+                ctx.font = '900 56px -apple-system, BlinkMacSystemFont, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(adetInput.value || '1', genislik/2, icY + 140);
+
+                // Alt çizgi
+                ctx.fillStyle = '#e5e7eb';
+                ctx.fillRect(20, 205, genislik - 40, 1);
+
+                // Alt yazı
+                ctx.fillStyle = '#9ca3af';
+                ctx.font = '500 10px -apple-system, BlinkMacSystemFont, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('✦ LENS KARTI ✦', genislik/2, 226);
+
+                resolve(canvas);
+            });
+        }
+
+        // roundRect polyfill (eski tarayıcılar için)
+        if (!CanvasRenderingContext2D.prototype.roundRect) {
+            CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+                if (r > w/2) r = w/2;
+                if (r > h/2) r = h/2;
+                this.moveTo(x + r, y);
+                this.arcTo(x + w, y, x + w, y + h, r);
+                this.arcTo(x + w, y + h, x, y + h, r);
+                this.arcTo(x, y + h, x, y, r);
+                this.arcTo(x, y, x + w, y, r);
+                return this;
+            };
+        }
+
+        // ========== Buton - Basılı Tut / Tıkla ==========
+        let basiliZaman = null;
+        let basiliCalisti = false;
+
+        kaydetBtn.addEventListener('click', function(e) {
+            // Kısa tıklamada da kaydet
+            if (!basiliCalisti) {
+                kaydetmeYap();
+            }
+            basiliCalisti = false;
+        });
+
+        // Touch için basılı tut
+        kaydetBtn.addEventListener('touchstart', function(e) {
+            basiliCalisti = false;
+            basiliZaman = setTimeout(function() {
+                basiliCalisti = true;
+                kaydetmeYap();
+                toastGoster('📷 Fotoğraflara kaydediliyor...');
+            }, 400);
+        }, { passive: true });
+
+        kaydetBtn.addEventListener('touchend', function(e) {
+            if (basiliZaman) {
+                clearTimeout(basiliZaman);
+                basiliZaman = null;
             }
         });
+
+        kaydetBtn.addEventListener('touchcancel', function(e) {
+            if (basiliZaman) {
+                clearTimeout(basiliZaman);
+                basiliZaman = null;
+            }
+        });
+
+        // Mouse için basılı tut
+        kaydetBtn.addEventListener('mousedown', function(e) {
+            basiliCalisti = false;
+            basiliZaman = setTimeout(function() {
+                basiliCalisti = true;
+                kaydetmeYap();
+                toastGoster('📷 Fotoğraflara kaydediliyor...');
+            }, 400);
+        });
+
+        kaydetBtn.addEventListener('mouseup', function(e) {
+            if (basiliZaman) {
+                clearTimeout(basiliZaman);
+                basiliZaman = null;
+            }
+        });
+
+        kaydetBtn.addEventListener('mouseleave', function(e) {
+            if (basiliZaman) {
+                clearTimeout(basiliZaman);
+                basiliZaman = null;
+            }
+        });
+
+        // ========== Kaydetme İşlemi ==========
+        function kaydetmeYap() {
+            const renk = seciliRenk;
+            const adet = adetInput.value || '1';
+            const dosyaAdi = renk + '_' + adet + '.png';
+
+            kartToImage().then(function(canvas) {
+                // Telefonda fotoğraflara kaydetmek için blob oluştur
+                canvas.toBlob(function(blob) {
+                    // Önce link ile dene (Safari/Chrome)
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = dosyaAdi;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    // iOS Safari için ayrıca yeni pencerede aç
+                    // (telefonda basılı tutunca "Fotoğraflara Kaydet" çıkar)
+                    setTimeout(function() {
+                        window.open(url, '_blank');
+                    }, 300);
+
+                    setTimeout(function() {
+                        URL.revokeObjectURL(url);
+                    }, 10000);
+
+                    toastGoster('✅ ' + renk + ' ' + adet + ' adet');
+                }, 'image/png');
+            }).catch(function(err) {
+                console.error('Hata:', err);
+                toastGoster('❌ Hata oldu tekrar dene', 2500);
+            });
+        }
 
         // ========== Başlangıç ==========
         canliGuncelle();
