@@ -34,7 +34,7 @@
             align-items: center;
         }
 
-        /* Fotoğrafı çekilecek ana kart (Orijinal şık boyutu ve dikey düzeni) */
+        /* Ana Kart (En dış alan - Kenarları Siyah) */
         #stok-karti {
             background: var(--card-bg);
             border-radius: 24px;
@@ -43,7 +43,7 @@
             max-width: 480px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             box-sizing: border-box;
-            border: 2px solid #000000; /* İstediğin gibi en dış ana kartın kenarlarına siyah çizgi eklendi */
+            border: 3px solid #000000; /* Ana kartın dış siyah kenarlığı */
         }
 
         .baslik-alani {
@@ -64,13 +64,13 @@
             gap: 6px;
         }
 
-        /* Net siyah çizgili model grubu alanı */
+        /* Model grupları (İç kutular - Kenarları Siyah) */
         .model-grup {
             margin-bottom: 24px;
             background: #fafafa;
             border-radius: 16px;
             padding: 16px;
-            border: 2px solid #000000; /* Grupların etrafındaki siyah kenarlık çizgisi korundu */
+            border: 2px solid #000000; /* Grupların etrafındaki siyah çizgi */
         }
 
         .model-adi {
@@ -220,7 +220,6 @@
             margin-bottom: 15px;
         }
 
-        /* Görsel Boyutu Küçük Tutuldu (Çok devasa olmaması için) */
         #gorsel-yeri img {
             width: 100%;
             max-width: 360px; 
