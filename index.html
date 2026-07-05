@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAŞA KILIF DÜNYASI</title>
+    <title>PAŞA STOK MERKEZİ</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
@@ -25,13 +25,52 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Düzenleme Ekranı Kontrolleri */
         .düzenleme-alani {
             width: 100%;
             max-width: 480px;
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+
+        /* En Üst Mod Seçim Butonları */
+        .mod-secici {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 480px;
+            margin-bottom: 20px;
+        }
+
+        .mod-btn {
+            flex: 1;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 14px;
+            border: 2px solid #000000;
+            background-color: #ffffff;
+            color: #1d1d1f;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mod-btn.aktif {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        /* Ana Kart Marka/Bölüm Başlıkları (Çıktıda şık durması için) */
+        .ana-bolum-baslik {
+            font-size: 16px;
+            font-weight: 800;
+            color: #000000;
+            text-transform: uppercase;
+            margin: 25px 0 12px 0;
+            padding-bottom: 6px;
+            border-bottom: 2px dashed #000000;
+            letter-spacing: 0.5px;
+            display: block;
         }
 
         /* Ana Kart (En dış alan - Kenarları Siyah) */
@@ -43,12 +82,12 @@
             max-width: 480px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             box-sizing: border-box;
-            border: 3px solid #000000; /* Ana kartın dış siyah kenarlığı */
+            border: 3px solid #000000;
         }
 
         .baslik-alani {
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             padding-bottom: 5px;
         }
 
@@ -58,27 +97,23 @@
             margin: 0;
             color: #000000;
             letter-spacing: -0.3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
         }
 
         /* Model grupları (İç kutular - Kenarları Siyah) */
         .model-grup {
-            margin-bottom: 24px;
+            margin-bottom: 16px;
             background: #fafafa;
-            border-radius: 16px;
-            padding: 16px;
-            border: 2px solid #000000; /* Grupların etrafındaki siyah çizgi */
+            border-radius: 14px;
+            padding: 14px;
+            border: 2px solid #000000;
         }
 
         .model-adi {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
             color: var(--apple-blue);
-            margin-bottom: 14px;
-            padding-left: 4px;
+            margin-bottom: 10px;
+            padding-left: 2px;
             letter-spacing: -0.2px;
         }
 
@@ -86,12 +121,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             background: #ffffff;
             padding: 8px 12px;
             border-radius: 10px;
             border: 1px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.01);
         }
 
         .renk-satiri:last-child {
@@ -103,7 +137,6 @@
             align-items: center;
         }
 
-        /* Yuvarlak premium renk ikonları */
         .renk-kutusu {
             width: 18px;
             height: 18px;
@@ -114,8 +147,14 @@
             box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
         }
 
+        .cam-emoji {
+            font-size: 15px;
+            margin-right: 10px;
+            display: inline-block;
+        }
+
         .renk-adi {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             color: #333336;
         }
@@ -131,13 +170,11 @@
             color: var(--text-dark);
             background-color: #fbfbfd;
             outline: none;
-            transition: all 0.2s ease;
         }
 
         .stok-input:focus {
             border-color: var(--apple-blue);
             background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
         }
 
         /* Alt bilgi ve tarih alanı */
@@ -190,7 +227,7 @@
             background-color: #005bb5;
         }
 
-        /* Sonuç ekranı (Bembeyaz sayfa düzeni) */
+        /* Sonuç ekranı */
         #sonuc-ekrani {
             position: fixed;
             top: 0;
@@ -242,137 +279,283 @@
 <body>
 
     <div class="düzenleme-alani" id="panel-ekrani">
+        
+        <div class="mod-secici">
+            <button id="btn-lens" class="mod-btn aktif" onclick="modDegistir('lens')">✨ Kamera Lens ✨</button>
+            <button id="btn-koruyucu" class="mod-btn" onclick="modDegistir('koruyucu')">🫆 Ekran Koruyucu 🫆</button>
+        </div>
+
         <div id="stok-karti">
             <div class="baslik-alani">
                 <h1>📱 PAŞA KILIF DÜNYASI 📱</h1>
             </div>
 
-            <div class="model-grup">
-                <div class="model-adi">iPhone 11</div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #262523;"></span><span class="renk-adi">Siyah</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f0ece4;"></span><span class="renk-adi">Beyaz</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #aee1cd;"></span><span class="renk-adi">Yeşil</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ffe681;"></span><span class="renk-adi">Sarı</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #d1cdda;"></span><span class="renk-adi">Mor</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ba0c2f;"></span><span class="renk-adi">(PRODUCT)RED</span></div><input type="number" class="stok-input" placeholder="0"></div>
+            <div id="mod-lens-alani">
+                <div class="model-grup">
+                    <div class="model-adi">iPhone 11</div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #262523;"></span><span class="renk-adi">Siyah</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f0ece4;"></span><span class="renk-adi">Beyaz</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #aee1cd;"></span><span class="renk-adi">Yeşil</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ffe681;"></span><span class="renk-adi">Sarı</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #d1cdda;"></span><span class="renk-adi">Mor</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ba0c2f;"></span><span class="renk-adi">(PRODUCT)RED</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                </div>
+
+                <div class="model-grup">
+                    <div class="model-adi">iPhone 11 Pro / 11 Pro Max</div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #4e4d4a;"></span><span class="renk-adi">Uzay Grisi</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ebebe3;"></span><span class="renk-adi">Gümüş</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #434d46;"></span><span class="renk-adi">Gece Yeşili</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #fadcb9;"></span><span class="renk-adi">Altın</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                </div>
+
+                <div class="model-grup">
+                    <div class="model-adi">iPhone 12 mini / 12</div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #242528;"></span><span class="renk-adi">Siyah</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #fbfbfd;"></span><span class="renk-adi">Beyaz</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #203b56;"></span><span class="renk-adi">Mavi</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #bfdac2;"></span><span class="renk-adi">Yeşil</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #cbd3e9;"></span><span class="renk-adi">Mor</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ba0c2f;"></span><span class="renk-adi">(PRODUCT)RED</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                </div>
+
+                <div class="model-grup">
+                    <div class="model-adi">iPhone 12 Pro / 12 Pro Max</div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #2c444e;"></span><span class="renk-adi">Pasifik Mavisi</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #3b3a36;"></span><span class="renk-adi">Grafit</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f2f3ef;"></span><span class="renk-adi">Gümüş</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #e5d0b1;"></span><span class="renk-adi">Altın</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                </div>
+
+                <div class="model-grup">
+                    <div class="model-adi">iPhone 13 mini / 13</div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #1d242c;"></span><span class="renk-adi">Gece Yarısı</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f7f3ec;"></span><span class="renk-adi">Yıldız Işığı</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #276787;"></span><span class="renk-adi">Mavi</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #fae0e4;"></span><span class="renk-adi">Pembe</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #3b4f3f;"></span><span class="renk-adi">Yeşil</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ba0c2f;"></span><span class="renk-adi">(PRODUCT)RED</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                </div>
+
+                <div class="model-grup">
+                    <div class="model-adi">iPhone 13 Pro / 13 Pro Max</div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #9cb3ca;"></span><span class="renk-adi">Sierra Mavisi</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #2f3c31;"></span><span class="renk-adi">Köknar Yeşili</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #4b4a45;"></span><span class="renk-adi">Grafit</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f1f2ed;"></span><span class="renk-adi">Gümüş</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #fae5c8;"></span><span class="renk-adi">Altın</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                </div>
+
+                <div class="model-grup">
+                    <div class="model-adi">iPhone 14 / 14 Plus</div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #1d242c;"></span><span class="renk-adi">Gece Yarısı</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f7f3ec;"></span><span class="renk-adi">Yıldız Işığı</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #a0b4c7;"></span><span class="renk-adi">Mavi</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #e8d8e8;"></span><span class="renk-adi">Mor</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #fef0ad;"></span><span class="renk-adi">Sarı</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ba0c2f;"></span><span class="renk-adi">(PRODUCT)RED</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                </div>
+
+                <div class="model-grup">
+                    <div class="model-adi">iPhone 14 Pro / 14 Pro Max</div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #4e4652;"></span><span class="renk-adi">Derin Mor</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #242325;"></span><span class="renk-adi">Uzay Siyahı</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f5f4f0;"></span><span class="renk-adi">Gümüş</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f4e3c7;"></span><span class="renk-adi">Altın</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                </div>
+
+                <div class="model-grup">
+                    <div class="model-adi">iPhone 15 / 15 Plus</div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #232426;"></span><span class="renk-adi">Siyah</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #cbdce4;"></span><span class="renk-adi">Mavi</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ccdcd3;"></span><span class="renk-adi">Yeşil</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #eaddbe;"></span><span class="renk-adi">Sarı</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f3cfd4;"></span><span class="renk-adi">Pembe</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                </div>
+
+                <div class="model-grup">
+                    <div class="model-adi">iPhone 15 Pro / 15 Pro Max</div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #b8b3a7;"></span><span class="renk-adi">Natürel Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #2c3a4a;"></span><span class="renk-adi">Mavi Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #e1e2e4;"></span><span class="renk-adi">Beyaz Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #242526;"></span><span class="renk-adi">Siyah Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                </div>
+
+                <div class="model-grup">
+                    <div class="model-adi">iPhone 16 / 16 Plus</div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #2c3033;"></span><span class="renk-adi">Siyah</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f2f4f5;"></span><span class="renk-adi">Beyaz</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #2f698a;"></span><span class="renk-adi">Çivit Mavisi</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #387a6c;"></span><span class="renk-adi">Deniz Yeşili</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #d94e76;"></span><span class="renk-adi">Pembe</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #a3c1ad;"></span><span class="renk-adi">Açık Doğa Yeşili</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                </div>
+
+                <div class="model-grup">
+                    <div class="model-adi">iPhone 16 Pro / 16 Pro Max</div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #bc9e82;"></span><span class="renk-adi">Çöl Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #929396;"></span><span class="renk-adi">Doğal Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #e3e4e6;"></span><span class="renk-adi">Beyaz Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #3b3c3e;"></span><span class="renk-adi">Siyah Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                </div>
+
+                <div class="model-grup">
+                    <div class="model-adi">iPhone 17</div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #1a1a1a;"></span><span class="renk-adi">Siyah</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f5f5f7;"></span><span class="renk-adi">Beyaz</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #a4c2db;"></span><span class="renk-adi">Sis Mavisi</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #9caf9c;"></span><span class="renk-adi">Adaçayı Yeşili</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #e3cae3;"></span><span class="renk-adi">Lavanta</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                </div>
+
+                <div class="model-grup">
+                    <div class="model-adi">iPhone 17 Pro / 17 Pro Max</div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ff6600;"></span><span class="renk-adi">Kozmik Turuncu</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #003366;"></span><span class="renk-adi">Derin Mavi</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                    <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #e3e4e6;"></span><span class="renk-adi">Gümüş</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                </div>
             </div>
 
-            <div class="model-grup">
-                <div class="model-adi">iPhone 11 Pro / 11 Pro Max</div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #4e4d4a;"></span><span class="renk-adi">Uzay Grisi</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ebebe3;"></span><span class="renk-adi">Gümüş</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #434d46;"></span><span class="renk-adi">Gece Yeşili</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #fadcb9;"></span><span class="renk-adi">Altın</span></div><input type="number" class="stok-input" placeholder="0"></div>
-            </div>
 
-            <div class="model-grup">
-                <div class="model-adi">iPhone 12 mini / 12</div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #242528;"></span><span class="renk-adi">Siyah</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #fbfbfd;"></span><span class="renk-adi">Beyaz</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #203b56;"></span><span class="renk-adi">Mavi</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #bfdac2;"></span><span class="renk-adi">Yeşil</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #cbd3e9;"></span><span class="renk-adi">Mor</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ba0c2f;"></span><span class="renk-adi">(PRODUCT)RED</span></div><input type="number" class="stok-input" placeholder="0"></div>
-            </div>
+            <div id="mod-koruyucu-alani" style="display: none;">
+                
+                <div class="marka-sekmesi" data-marka="iPhone">
+                    <span class="ana-bolum-baslik">🍎 IPHONE MODELLERİ</span>
+                    
+                    <script>
+                        const iphones = [
+                            "11", "11 Pro", "11 Pro Max", "12 mini", "12", "12 Pro", "12 Pro Max",
+                            "13 mini", "13", "13 Pro", "13 Pro Max", "14", "14 Plus", "14 Pro", "14 Pro Max",
+                            "15", "15 Plus", "15 Pro", "15 Pro Max", "16", "16 Plus", "16 Pro", "16 Pro Max",
+                            "17", "17 Pro", "17 Pro Max"
+                        ];
+                        iphones.forEach(m => {
+                            document.write(`
+                                <div class="model-grup">
+                                    <div class="model-adi">iPhone ${m}</div>
+                                    <div class="renk-satiri"><div class="sol-alan"><span class="cam-emoji">☀️</span><span class="renk-adi">Full Şeffaf Cam</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                                    <div class="renk-satiri"><div class="sol-alan"><span class="cam-emoji">🥷</span><span class="renk-adi">Full Hayalet Cam</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                                </div>
+                            `);
+                        });
+                    </script>
+                </div>
 
-            <div class="model-grup">
-                <div class="model-adi">iPhone 12 Pro / 12 Pro Max</div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #2c444e;"></span><span class="renk-adi">Pasifik Mavisi</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #3b3a36;"></span><span class="renk-adi">Grafit</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f2f3ef;"></span><span class="renk-adi">Gümüş</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #e5d0b1;"></span><span class="renk-adi">Altın</span></div><input type="number" class="stok-input" placeholder="0"></div>
-            </div>
+                <div class="marka-sekmesi" data-marka="Samsung S Serisi">
+                    <span class="ana-bolum-baslik">🤖 SAMSUNG S SERİSİ</span>
+                    <script>
+                        const samsungS = [
+                            "S21 FE", "S22", "S22 Ultra", "S23", "S23+", "S23 Ultra", "S23 FE",
+                            "S24", "S24+", "S24 Ultra", "S24 FE", "S25", "S25+", "S25 Ultra", "S25 FE",
+                            "S26", "S26+", "S26 Ultra"
+                        ];
+                        samsungS.forEach(m => {
+                            document.write(`
+                                <div class="model-grup">
+                                    <div class="model-adi">Samsung ${m}</div>
+                                    <div class="renk-satiri"><div class="sol-alan"><span class="cam-emoji">☀️</span><span class="renk-adi">Full Şeffaf Cam</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                                    <div class="renk-satiri"><div class="sol-alan"><span class="cam-emoji">🥷</span><span class="renk-adi">Full Hayalet Cam</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                                </div>
+                            `);
+                        });
+                    </script>
+                </div>
 
-            <div class="model-grup">
-                <div class="model-adi">iPhone 13 mini / 13</div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #1d242c;"></span><span class="renk-adi">Gece Yarısı</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f7f3ec;"></span><span class="renk-adi">Yıldız Işığı</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #276787;"></span><span class="renk-adi">Mavi</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #fae0e4;"></span><span class="renk-adi">Pembe</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #3b4f3f;"></span><span class="renk-adi">Yeşil</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ba0c2f;"></span><span class="renk-adi">(PRODUCT)RED</span></div><input type="number" class="stok-input" placeholder="0"></div>
-            </div>
+                <div class="marka-sekmesi" data-marka="Samsung A Serisi">
+                    <span class="ana-bolum-baslik">🤖 SAMSUNG A SERİSİ</span>
+                    <script>
+                        const samsungA = [
+                            "A50", "A70", "A21s", "A31", "A51", "A71", "A12", "A22", "A32", "A52", "A72",
+                            "A13", "A23", "A33", "A53", "A73", "A04s", "A14", "A24", "A34", "A54", "A05",
+                            "A05s", "A15", "A25", "A35", "A55", "A06", "A16", "A26", "A36", "A56", "A07",
+                            "A17", "A27", "A37", "A57"
+                        ];
+                        samsungA.forEach(m => {
+                            document.write(`
+                                <div class="model-grup">
+                                    <div class="model-adi">Samsung ${m}</div>
+                                    <div class="renk-satiri"><div class="sol-alan"><span class="cam-emoji">☀️</span><span class="renk-adi">Full Şeffaf Cam</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                                    <div class="renk-satiri"><div class="sol-alan"><span class="cam-emoji">🥷</span><span class="renk-adi">Full Hayalet Cam</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                                </div>
+                            `);
+                        });
+                    </script>
+                </div>
 
-            <div class="model-grup">
-                <div class="model-adi">iPhone 13 Pro / 13 Pro Max</div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #9cb3ca;"></span><span class="renk-adi">Sierra Mavisi</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #2f3c31;"></span><span class="renk-adi">Köknar Yeşili</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #4b4a45;"></span><span class="renk-adi">Grafit</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f1f2ed;"></span><span class="renk-adi">Gümüş</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #fae5c8;"></span><span class="renk-adi">Altın</span></div><input type="number" class="stok-input" placeholder="0"></div>
-            </div>
+                <div class="marka-sekmesi" data-marka="Xiaomi T Serisi">
+                    <span class="ana-bolum-baslik">📱 XIAOMI T SERİSİ</span>
+                    <script>
+                        const xiaomiT = ["12T", "13T", "14T", "15T"];
+                        xiaomiT.forEach(m => {
+                            document.write(`
+                                <div class="model-grup">
+                                    <div class="model-adi">Xiaomi ${m}</div>
+                                    <div class="renk-satiri"><div class="sol-alan"><span class="cam-emoji">☀️</span><span class="renk-adi">Full Şeffaf Cam</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                                    <div class="renk-satiri"><div class="sol-alan"><span class="cam-emoji">🥷</span><span class="renk-adi">Full Hayalet Cam</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                                </div>
+                            `);
+                        });
+                    </script>
+                </div>
 
-            <div class="model-grup">
-                <div class="model-adi">iPhone 14 / 14 Plus</div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #1d242c;"></span><span class="renk-adi">Gece Yarısı</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f7f3ec;"></span><span class="renk-adi">Yıldız Işığı</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #a0b4c7;"></span><span class="renk-adi">Mavi</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #e8d8e8;"></span><span class="renk-adi">Mor</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #fef0ad;"></span><span class="renk-adi">Sarı</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ba0c2f;"></span><span class="renk-adi">(PRODUCT)RED</span></div><input type="number" class="stok-input" placeholder="0"></div>
-            </div>
+                <div class="marka-sekmesi" data-marka="Redmi Note Serisi">
+                    <span class="ana-bolum-baslik">📱 XIAOMI REDMI NOTE SERİSİ</span>
+                    <script>
+                        const redmiNote = [
+                            "Redmi Note 8", "Redmi Note 8 Pro", "Redmi Note 9", "Redmi Note 9 Pro",
+                            "Redmi Note 10", "Redmi Note 10 Pro", "Redmi Note 11", "Redmi Note 11 Pro",
+                            "Redmi Note 12", "Redmi Note 12 Pro", "Redmi Note 13", "Redmi Note 13 Pro",
+                            "Redmi Note 13 Pro Plus", "Redmi Note 14", "Redmi Note 14 Pro", "Redmi Note 14 Pro Plus",
+                            "Redmi Note 15", "Redmi Note 15 Pro", "Redmi Note 15 Pro Plus"
+                        ];
+                        redmiNote.forEach(m => {
+                            document.write(`
+                                <div class="model-grup">
+                                    <div class="model-adi">${m}</div>
+                                    <div class="renk-satiri"><div class="sol-alan"><span class="cam-emoji">☀️</span><span class="renk-adi">Full Şeffaf Cam</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                                    <div class="renk-satiri"><div class="sol-alan"><span class="cam-emoji">🥷</span><span class="renk-adi">Full Hayalet Cam</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                                </div>
+                            `);
+                        });
+                    </script>
+                </div>
 
-            <div class="model-grup">
-                <div class="model-adi">iPhone 14 Pro / 14 Pro Max</div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #4e4652;"></span><span class="renk-adi">Derin Mor</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #242325;"></span><span class="renk-adi">Uzay Siyahı</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f5f4f0;"></span><span class="renk-adi">Gümüş</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f4e3c7;"></span><span class="renk-adi">Altın</span></div><input type="number" class="stok-input" placeholder="0"></div>
-            </div>
+                <div class="marka-sekmesi" data-marka="Redmi C Serisi">
+                    <span class="ana-bolum-baslik">📱 XIAOMI REDMI C SERİSİ</span>
+                    <script>
+                        const redmiC = ["Redmi 12C", "Redmi 13C", "Redmi 14C", "Redmi 15C"];
+                        redmiC.forEach(m => {
+                            document.write(`
+                                <div class="model-grup">
+                                    <div class="model-adi">${m}</div>
+                                    <div class="renk-satiri"><div class="sol-alan"><span class="cam-emoji">☀️</span><span class="renk-adi">Full Şeffaf Cam</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                                    <div class="renk-satiri"><div class="sol-alan"><span class="cam-emoji">🥷</span><span class="renk-adi">Full Hayalet Cam</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                                </div>
+                            `);
+                        });
+                    </script>
+                </div>
 
-            <div class="model-grup">
-                <div class="model-adi">iPhone 15 / 15 Plus</div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #232426;"></span><span class="renk-adi">Siyah</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #cbdce4;"></span><span class="renk-adi">Mavi</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ccdcd3;"></span><span class="renk-adi">Yeşil</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #eaddbe;"></span><span class="renk-adi">Sarı</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f3cfd4;"></span><span class="renk-adi">Pembe</span></div><input type="number" class="stok-input" placeholder="0"></div>
-            </div>
+                <div class="marka-sekmesi" data-marka="Redmi Ana Seri">
+                    <span class="ana-bolum-baslik">📱 XIAOMI REDMI ANA SERİSİ</span>
+                    <script>
+                        const redmiAna = ["Redmi 10 2022", "Redmi 10A", "Redmi 12", "Redmi 13", "Redmi 14", "Redmi 15"];
+                        redmiAna.forEach(m => {
+                            document.write(`
+                                <div class="model-grup">
+                                    <div class="model-adi">${m}</div>
+                                    <div class="renk-satiri"><div class="sol-alan"><span class="cam-emoji">☀️</span><span class="renk-adi">Full Şeffaf Cam</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                                    <div class="renk-satiri"><div class="sol-alan"><span class="cam-emoji">🥷</span><span class="renk-adi">Full Hayalet Cam</span></div><input type="number" class="stok-input" placeholder="0"></div>
+                                </div>
+                            `);
+                        });
+                    </script>
+                </div>
 
-            <div class="model-grup">
-                <div class="model-adi">iPhone 15 Pro / 15 Pro Max</div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #b8b3a7;"></span><span class="renk-adi">Natürel Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #2c3a4a;"></span><span class="renk-adi">Mavi Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #e1e2e4;"></span><span class="renk-adi">Beyaz Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #242526;"></span><span class="renk-adi">Siyah Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
-            </div>
-
-            <div class="model-grup">
-                <div class="model-adi">iPhone 16 / 16 Plus</div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #2c3033;"></span><span class="renk-adi">Siyah</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f2f4f5;"></span><span class="renk-adi">Beyaz</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #2f698a;"></span><span class="renk-adi">Çivit Mavisi</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #387a6c;"></span><span class="renk-adi">Deniz Yeşili</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #d94e76;"></span><span class="renk-adi">Pembe</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #a3c1ad;"></span><span class="renk-adi">Açık Doğa Yeşili</span></div><input type="number" class="stok-input" placeholder="0"></div>
-            </div>
-
-            <div class="model-grup">
-                <div class="model-adi">iPhone 16 Pro / 16 Pro Max</div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #bc9e82;"></span><span class="renk-adi">Çöl Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #929396;"></span><span class="renk-adi">Doğal Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #e3e4e6;"></span><span class="renk-adi">Beyaz Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #3b3c3e;"></span><span class="renk-adi">Siyah Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
-            </div>
-
-            <div class="model-grup">
-                <div class="model-adi">iPhone 17</div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #1a1a1a;"></span><span class="renk-adi">Siyah</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f5f5f7;"></span><span class="renk-adi">Beyaz</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #a4c2db;"></span><span class="renk-adi">Sis Mavisi</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #9caf9c;"></span><span class="renk-adi">Adaçayı Yeşili</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #e3cae3;"></span><span class="renk-adi">Lavanta</span></div><input type="number" class="stok-input" placeholder="0"></div>
-            </div>
-
-            <div class="model-grup">
-                <div class="model-adi">iPhone 17 Pro / 17 Pro Max</div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ff6600;"></span><span class="renk-adi">Kozmik Turuncu</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #003366;"></span><span class="renk-adi">Derin Mavi</span></div><input type="number" class="stok-input" placeholder="0"></div>
-                <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #e3e4e6;"></span><span class="renk-adi">Gümüş</span></div><input type="number" class="stok-input" placeholder="0"></div>
             </div>
 
             <div id="kamera-lens-notu" class="urun-aciklama-notu" style="display: none;">
-                <span class="lens-metni">✨KAMERA LENS✨</span>
+                <span id="mod-metni-alt" class="lens-metni">✨KAMERA LENS✨</span>
                 <span id="tarih-alan" class="tarih-metni"></span>
             </div>
 
@@ -390,28 +573,61 @@
     </div>
 
     <script>
+        let mevcutMod = 'lens';
+
+        function modDegistir(mod) {
+            mevcutMod = mod;
+            const btnLens = document.getElementById('btn-lens');
+            const btnKoruyucu = document.getElementById('btn-koruyucu');
+            const alanLens = document.getElementById('mod-lens-alani');
+            const alanKoruyucu = document.getElementById('mod-koruyucu-alani');
+
+            if (mod === 'lens') {
+                btnLens.classList.add('aktif');
+                btnKoruyucu.classList.remove('aktif');
+                alanLens.style.display = 'block';
+                alanKoruyucu.style.display = 'none';
+            } else {
+                btnLens.classList.remove('aktif');
+                btnKoruyucu.classList.add('aktif');
+                alanLens.style.display = 'none';
+                alanKoruyucu.style.display = 'block';
+            }
+        }
+
         function fotografUret() {
             const kart = document.getElementById('stok-karti');
             const panelEkrani = document.getElementById('panel-ekrani');
             const sonucEkrani = document.getElementById('sonuc-ekrani');
             const gorselYeri = document.getElementById('gorsel-yeri');
             const lensNotu = document.getElementById('kamera-lens-notu');
+            const modMetniAlt = document.getElementById('mod-metni-alt');
             const tarihAlan = document.getElementById('tarih-alan');
 
             gorselYeri.innerHTML = "";
             
-            // Tarih ekleme
+            // Tarih ve Alt Metin Güncelleme
             const bugun = new Date();
             const gun = String(bugun.getDate()).padStart(2, '0');
             const ay = String(bugun.getMonth() + 1).padStart(2, '0');
             const yil = bugun.getFullYear();
             tarihAlan.innerText = `Tarih: ${gun}.${ay}.${yil}`;
 
+            if (mevcutMod === 'lens') {
+                modMetniAlt.innerText = "✨ KAMERA LENS ✨";
+            } else {
+                modMetniAlt.innerText = "🫆 EKRAN KORUYUCU 🫆";
+            }
+
             lensNotu.style.display = 'block';
 
-            const satirlar = document.querySelectorAll('.renk-satiri');
-            const gruplar = document.querySelectorAll('.model-grup');
+            // Aktif olan modun alanındaki elementleri kontrol et
+            const aktifAlan = mevcutMod === 'lens' ? document.getElementById('mod-lens-alani') : document.getElementById('mod-koruyucu-alani');
+            const satirlar = aktifAlan.querySelectorAll('.renk-satiri');
+            const gruplar = aktifAlan.querySelectorAll('.model-grup');
+            const markalar = aktifAlan.querySelectorAll('.marka-sekmesi');
             
+            // Adet kontrol ve geçici text basma
             satirlar.forEach(satir => {
                 const input = satir.querySelector('.stok-input');
                 const deger = input.value.trim();
@@ -423,22 +639,33 @@
                     span.className = 'gecici-deger';
                     span.innerText = deger + " Adet";
                     span.style.fontWeight = "700";
-                    span.style.fontSize = "15px";
+                    span.style.fontSize = "14px";
                     span.style.color = "var(--apple-blue)";
                     input.style.display = 'none';
                     satir.appendChild(span);
                 }
             });
 
+            // Model kutusu kontrolü (İçi boşsa kapat)
             gruplar.forEach(grup => {
-                const gorunurSatirlar = grup.querySelectorAll('.renk-satiri[style*="display: none"]');
+                const gizliSatirlar = grup.querySelectorAll('.renk-satiri[style*="display: none"]');
                 const toplamSatir = grup.querySelectorAll('.renk-satiri');
-                if (gorunurSatirlar.length === toplamSatir.length) {
+                if (gizliSatirlar.length === toplamSatir.length) {
                     grup.style.display = 'none';
                 }
             });
 
-            // Resmi beyaz sayfaya aktar
+            // Marka bölümü kontrolü (Ekran koruyucu için marka komple boşsa kapat)
+            markalar.forEach(marka => {
+                const gizliGruplar = marka.querySelectorAll('.model-grup[style*="display: none"]');
+                const toplamGrup = marka.querySelectorAll('.model-grup');
+                const baslik = marka.querySelector('.ana-bolum-baslik');
+                if (gizliGruplar.length === toplamGrup.length) {
+                    baslik.style.display = 'none';
+                }
+            });
+
+            // Görseli Render Et
             html2canvas(kart, {
                 scale: 2,
                 backgroundColor: "#ffffff",
@@ -448,11 +675,10 @@
                 img.src = canvas.toDataURL('image/png');
                 gorselYeri.appendChild(img);
                 
-                // Formu tamamen kapatıp sadece seçilenlerin çıktığı bembeyaz sayfayı açar
                 panelEkrani.style.display = 'none';
                 sonucEkrani.style.display = 'flex';
 
-                // Arka plandaki formu sıfırlamadan eski görünümüne döndürür
+                // Eski Görünüme Geri Döndürme (Sıfırlamadan)
                 lensNotu.style.display = 'none';
                 satirlar.forEach(satir => {
                     satir.style.display = 'flex';
@@ -461,6 +687,10 @@
                 });
                 gruplar.forEach(grup => {
                     grup.style.display = 'block';
+                });
+                markalar.forEach(marka => {
+                    const baslik = marka.querySelector('.ana-bolum-baslik');
+                    if(baslik) baslik.style.display = 'block';
                 });
                 const geciciler = document.querySelectorAll('.gecici-deger');
                 geciciler.forEach(g => g.remove());
