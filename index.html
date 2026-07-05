@@ -120,7 +120,7 @@
             letter-spacing: -0.2px;
         }
 
-        /* İç Satırlar - Kenarlıkları İstediğin Gibi Siyah Yapıldı */
+        /* İç Satırlar */
         .renk-satiri {
             display: flex;
             justify-content: space-between;
@@ -129,7 +129,7 @@
             background: #ffffff;
             padding: 8px 12px;
             border-radius: 0px;
-            border: 1px solid #000000; /* Kenarlık rengi simsiyah yapıldı */
+            border: 1px solid #000000;
         }
 
         .renk-satiri:last-child {
@@ -209,7 +209,9 @@
             margin-top: 25px;
             width: 100%;
             max-width: 480px;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .kaydet-btn {
@@ -228,6 +230,24 @@
 
         .kaydet-btn:hover {
             background-color: #005bb5;
+        }
+
+        .temizle-btn {
+            background-color: #ff3b30;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 0px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(255, 59, 48, 0.15);
+        }
+
+        .temizle-btn:hover {
+            background-color: #d63328;
         }
 
         /* Sonuç ekranı */
@@ -595,6 +615,7 @@
 
         <div class="buton-container">
             <button class="kaydet-btn" onclick="fotografUret()">Fotoğraf Olarak Hazırla</button>
+            <button class="temizle-btn" onclick="stoklariTemizle()">🗑️ Tümünü Temizle</button>
         </div>
     </div>
 
@@ -625,6 +646,15 @@
                 btnKoruyucu.classList.add('aktif');
                 alanLens.style.display = 'none';
                 alanKoruyucu.style.display = 'block';
+            }
+        }
+
+        function stoklariTemizle() {
+            if (confirm("Girdiğiniz tüm stok adetlerini sıfırlamak istediğinize emin misiniz?")) {
+                const tumInputlar = document.querySelectorAll('.stok-input');
+                tumInputlar.forEach(input => {
+                    input.value = "";
+                });
             }
         }
 
