@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAŞA STOK MERKEZİ</title>
+    <!-- Görsel kaydetme kütüphanesi -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
@@ -33,10 +34,10 @@
             align-items: center;
         }
 
-        /* En Üst Mod Seçim Butonları */
+        /* En Üst Mod Seçim Butonları - Yazı boyutu küçültüldü ve kare yapıldı */
         .mod-secici {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             width: 100%;
             max-width: 480px;
             margin-bottom: 20px;
@@ -44,15 +45,17 @@
 
         .mod-btn {
             flex: 1;
-            padding: 14px;
-            font-size: 15px;
+            padding: 10px 4px;
+            font-size: 12px; /* Yazı boyutu küçültüldü */
             font-weight: 700;
-            border-radius: 14px;
+            border-radius: 0px; /* Tam kare yapıldı */
             border: 2px solid #000000;
             background-color: #ffffff;
             color: #1d1d1f;
             cursor: pointer;
             transition: all 0.2s ease;
+            white-space: nowrap; /* Yazının aşağı kayması engellendi */
+            text-align: center;
         }
 
         .mod-btn.aktif {
@@ -60,9 +63,9 @@
             color: #ffffff;
         }
 
-        /* Ana Kart Marka/Bölüm Başlıkları (Çıktıda şık durması için) */
+        /* Ana Kart Marka/Bölüm Başlıkları */
         .ana-bolum-baslik {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
             color: #000000;
             text-transform: uppercase;
@@ -73,11 +76,11 @@
             display: block;
         }
 
-        /* Ana Kart (En dış alan - Kenarları Siyah) */
+        /* Ana Kart (En dış alan - Köşeler KARE yapıldı) */
         #stok-karti {
             background: var(--card-bg);
-            border-radius: 24px;
-            padding: 30px;
+            border-radius: 0px; /* Tam kare yapıldı */
+            padding: 25px 20px;
             width: 100%;
             max-width: 480px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
@@ -92,18 +95,18 @@
         }
 
         h1 {
-            font-size: 18px; 
+            font-size: 17px; 
             font-weight: 700;
             margin: 0;
             color: #000000;
             letter-spacing: -0.3px;
         }
 
-        /* Model grupları (İç kutular - Kenarları Siyah) */
+        /* Model grupları (İç kutular - Köşeler KARE yapıldı) */
         .model-grup {
             margin-bottom: 16px;
             background: #fafafa;
-            border-radius: 14px;
+            border-radius: 0px; /* Tam kare yapıldı */
             padding: 14px;
             border: 2px solid #000000;
         }
@@ -124,7 +127,7 @@
             margin-bottom: 8px;
             background: #ffffff;
             padding: 8px 12px;
-            border-radius: 10px;
+            border-radius: 0px; /* İç satırlar kare yapıldı */
             border: 1px solid rgba(0, 0, 0, 0.08);
         }
 
@@ -140,7 +143,7 @@
         .renk-kutusu {
             width: 18px;
             height: 18px;
-            border-radius: 50%;
+            border-radius: 0px; /* Renk kutuları da kare yapıldı */
             margin-right: 12px;
             border: 1px solid rgba(0,0,0,0.18);
             display: inline-block;
@@ -163,7 +166,7 @@
             width: 55px;
             padding: 6px 4px;
             border: 1px solid #d2d2d7;
-            border-radius: 8px;
+            border-radius: 0px; /* Inputlar kare yapıldı */
             text-align: center;
             font-size: 14px;
             font-weight: 600;
@@ -216,7 +219,7 @@
             padding: 14px 24px;
             font-size: 16px;
             font-weight: 600;
-            border-radius: 14px;
+            border-radius: 0px; /* Büyük buton kare yapıldı */
             cursor: pointer;
             width: 100%;
             transition: all 0.2s ease;
@@ -252,7 +255,7 @@
             padding: 10px 20px;
             font-size: 14px;
             font-weight: 600;
-            border-radius: 10px;
+            border-radius: 0px; /* Geri dön butonu kare yapıldı */
             cursor: pointer;
             margin-bottom: 15px;
         }
@@ -260,7 +263,7 @@
         #gorsel-yeri img {
             width: 100%;
             max-width: 360px; 
-            border-radius: 24px;
+            border-radius: 0px; /* Çıktı görseli kare yapıldı */
             box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             border: 1px solid rgba(0,0,0,0.05);
             display: block;
@@ -280,6 +283,7 @@
 
     <div class="düzenleme-alani" id="panel-ekrani">
         
+        <!-- Üst Mod Seçimi -->
         <div class="mod-secici">
             <button id="btn-lens" class="mod-btn aktif" onclick="modDegistir('lens')">✨ Kamera Lens ✨</button>
             <button id="btn-koruyucu" class="mod-btn" onclick="modDegistir('koruyucu')">🫆 Ekran Koruyucu 🫆</button>
@@ -290,7 +294,11 @@
                 <h1>📱 PAŞA KILIF DÜNYASI 📱</h1>
             </div>
 
+            <!-- ========================================== -->
+            <!-- 1. MOD: KAMERA LENS BÖLÜMÜ                 -->
+            <!-- ========================================== -->
             <div id="mod-lens-alani">
+                <!-- iPhone 11 -->
                 <div class="model-grup">
                     <div class="model-adi">iPhone 11</div>
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #262523;"></span><span class="renk-adi">Siyah</span></div><input type="number" class="stok-input" placeholder="0"></div>
@@ -301,6 +309,7 @@
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ba0c2f;"></span><span class="renk-adi">(PRODUCT)RED</span></div><input type="number" class="stok-input" placeholder="0"></div>
                 </div>
 
+                <!-- iPhone 11 Pro / 11 Pro Max -->
                 <div class="model-grup">
                     <div class="model-adi">iPhone 11 Pro / 11 Pro Max</div>
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #4e4d4a;"></span><span class="renk-adi">Uzay Grisi</span></div><input type="number" class="stok-input" placeholder="0"></div>
@@ -309,6 +318,7 @@
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #fadcb9;"></span><span class="renk-adi">Altın</span></div><input type="number" class="stok-input" placeholder="0"></div>
                 </div>
 
+                <!-- iPhone 12 mini / 12 -->
                 <div class="model-grup">
                     <div class="model-adi">iPhone 12 mini / 12</div>
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #242528;"></span><span class="renk-adi">Siyah</span></div><input type="number" class="stok-input" placeholder="0"></div>
@@ -319,6 +329,7 @@
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ba0c2f;"></span><span class="renk-adi">(PRODUCT)RED</span></div><input type="number" class="stok-input" placeholder="0"></div>
                 </div>
 
+                <!-- iPhone 12 Pro / 12 Pro Max -->
                 <div class="model-grup">
                     <div class="model-adi">iPhone 12 Pro / 12 Pro Max</div>
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #2c444e;"></span><span class="renk-adi">Pasifik Mavisi</span></div><input type="number" class="stok-input" placeholder="0"></div>
@@ -327,6 +338,7 @@
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #e5d0b1;"></span><span class="renk-adi">Altın</span></div><input type="number" class="stok-input" placeholder="0"></div>
                 </div>
 
+                <!-- iPhone 13 mini / 13 -->
                 <div class="model-grup">
                     <div class="model-adi">iPhone 13 mini / 13</div>
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #1d242c;"></span><span class="renk-adi">Gece Yarısı</span></div><input type="number" class="stok-input" placeholder="0"></div>
@@ -337,6 +349,7 @@
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ba0c2f;"></span><span class="renk-adi">(PRODUCT)RED</span></div><input type="number" class="stok-input" placeholder="0"></div>
                 </div>
 
+                <!-- iPhone 13 Pro / 13 Pro Max -->
                 <div class="model-grup">
                     <div class="model-adi">iPhone 13 Pro / 13 Pro Max</div>
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #9cb3ca;"></span><span class="renk-adi">Sierra Mavisi</span></div><input type="number" class="stok-input" placeholder="0"></div>
@@ -346,6 +359,7 @@
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #fae5c8;"></span><span class="renk-adi">Altın</span></div><input type="number" class="stok-input" placeholder="0"></div>
                 </div>
 
+                <!-- iPhone 14 / 14 Plus -->
                 <div class="model-grup">
                     <div class="model-adi">iPhone 14 / 14 Plus</div>
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #1d242c;"></span><span class="renk-adi">Gece Yarısı</span></div><input type="number" class="stok-input" placeholder="0"></div>
@@ -356,6 +370,7 @@
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ba0c2f;"></span><span class="renk-adi">(PRODUCT)RED</span></div><input type="number" class="stok-input" placeholder="0"></div>
                 </div>
 
+                <!-- iPhone 14 Pro / 14 Pro Max -->
                 <div class="model-grup">
                     <div class="model-adi">iPhone 14 Pro / 14 Pro Max</div>
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #4e4652;"></span><span class="renk-adi">Derin Mor</span></div><input type="number" class="stok-input" placeholder="0"></div>
@@ -364,6 +379,7 @@
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f4e3c7;"></span><span class="renk-adi">Altın</span></div><input type="number" class="stok-input" placeholder="0"></div>
                 </div>
 
+                <!-- iPhone 15 / 15 Plus -->
                 <div class="model-grup">
                     <div class="model-adi">iPhone 15 / 15 Plus</div>
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #232426;"></span><span class="renk-adi">Siyah</span></div><input type="number" class="stok-input" placeholder="0"></div>
@@ -373,6 +389,7 @@
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #f3cfd4;"></span><span class="renk-adi">Pembe</span></div><input type="number" class="stok-input" placeholder="0"></div>
                 </div>
 
+                <!-- iPhone 15 Pro / 15 Pro Max -->
                 <div class="model-grup">
                     <div class="model-adi">iPhone 15 Pro / 15 Pro Max</div>
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #b8b3a7;"></span><span class="renk-adi">Natürel Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
@@ -381,6 +398,7 @@
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #242526;"></span><span class="renk-adi">Siyah Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
                 </div>
 
+                <!-- iPhone 16 / 16 Plus -->
                 <div class="model-grup">
                     <div class="model-adi">iPhone 16 / 16 Plus</div>
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #2c3033;"></span><span class="renk-adi">Siyah</span></div><input type="number" class="stok-input" placeholder="0"></div>
@@ -391,6 +409,7 @@
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #a3c1ad;"></span><span class="renk-adi">Açık Doğa Yeşili</span></div><input type="number" class="stok-input" placeholder="0"></div>
                 </div>
 
+                <!-- iPhone 16 Pro / 16 Pro Max -->
                 <div class="model-grup">
                     <div class="model-adi">iPhone 16 Pro / 16 Pro Max</div>
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #bc9e82;"></span><span class="renk-adi">Çöl Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
@@ -399,6 +418,7 @@
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #3b3c3e;"></span><span class="renk-adi">Siyah Titanyum</span></div><input type="number" class="stok-input" placeholder="0"></div>
                 </div>
 
+                <!-- iPhone 17 -->
                 <div class="model-grup">
                     <div class="model-adi">iPhone 17</div>
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #1a1a1a;"></span><span class="renk-adi">Siyah</span></div><input type="number" class="stok-input" placeholder="0"></div>
@@ -408,6 +428,7 @@
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #e3cae3;"></span><span class="renk-adi">Lavanta</span></div><input type="number" class="stok-input" placeholder="0"></div>
                 </div>
 
+                <!-- iPhone 17 Pro / 17 Pro Max -->
                 <div class="model-grup">
                     <div class="model-adi">iPhone 17 Pro / 17 Pro Max</div>
                     <div class="renk-satiri"><div class="sol-alan"><span class="renk-kutusu" style="background-color: #ff6600;"></span><span class="renk-adi">Kozmik Turuncu</span></div><input type="number" class="stok-input" placeholder="0"></div>
@@ -417,8 +438,12 @@
             </div>
 
 
+            <!-- ========================================== -->
+            <!-- 2. MOD: EKRAN KORUYUCU BÖLÜMÜ              -->
+            <!-- ========================================== -->
             <div id="mod-koruyucu-alani" style="display: none;">
                 
+                <!-- IPHONE KORUYUCULARI -->
                 <div class="marka-sekmesi" data-marka="iPhone">
                     <span class="ana-bolum-baslik">🍎 IPHONE MODELLERİ</span>
                     
@@ -441,6 +466,7 @@
                     </script>
                 </div>
 
+                <!-- SAMSUNG S SERİSİ -->
                 <div class="marka-sekmesi" data-marka="Samsung S Serisi">
                     <span class="ana-bolum-baslik">🤖 SAMSUNG S SERİSİ</span>
                     <script>
@@ -461,6 +487,7 @@
                     </script>
                 </div>
 
+                <!-- SAMSUNG A SERİSİ -->
                 <div class="marka-sekmesi" data-marka="Samsung A Serisi">
                     <span class="ana-bolum-baslik">🤖 SAMSUNG A SERİSİ</span>
                     <script>
@@ -482,6 +509,7 @@
                     </script>
                 </div>
 
+                <!-- XIAOMI T SERİSİ -->
                 <div class="marka-sekmesi" data-marka="Xiaomi T Serisi">
                     <span class="ana-bolum-baslik">📱 XIAOMI T SERİSİ</span>
                     <script>
@@ -498,6 +526,7 @@
                     </script>
                 </div>
 
+                <!-- XIAOMI REDMI NOTE SERİSİ -->
                 <div class="marka-sekmesi" data-marka="Redmi Note Serisi">
                     <span class="ana-bolum-baslik">📱 XIAOMI REDMI NOTE SERİSİ</span>
                     <script>
@@ -520,6 +549,7 @@
                     </script>
                 </div>
 
+                <!-- XIAOMI REDMI C SERİSİ -->
                 <div class="marka-sekmesi" data-marka="Redmi C Serisi">
                     <span class="ana-bolum-baslik">📱 XIAOMI REDMI C SERİSİ</span>
                     <script>
@@ -536,6 +566,7 @@
                     </script>
                 </div>
 
+                <!-- XIAOMI REDMI ANA SERİSİ -->
                 <div class="marka-sekmesi" data-marka="Redmi Ana Seri">
                     <span class="ana-bolum-baslik">📱 XIAOMI REDMI ANA SERİSİ</span>
                     <script>
@@ -554,6 +585,7 @@
 
             </div>
 
+            <!-- Alt bilgi alanı -->
             <div id="kamera-lens-notu" class="urun-aciklama-notu" style="display: none;">
                 <span id="mod-metni-alt" class="lens-metni">✨KAMERA LENS✨</span>
                 <span id="tarih-alan" class="tarih-metni"></span>
@@ -566,6 +598,7 @@
         </div>
     </div>
 
+    <!-- Sonuç Ekranı -->
     <div id="sonuc-ekrani">
         <button class="kapat-btn" onclick="kapatSonuc()">← Düzenlemeye Geri Dön</button>
         <div class="bilgi-metni">👇 Fotoğraf hazır! Aşağıdaki görsele basılı tutarak galeriye kaydedebilirsin:</div>
